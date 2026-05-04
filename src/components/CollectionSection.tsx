@@ -34,14 +34,14 @@ function ProductCard({ product, index }: { product: typeof products[0]; index: n
           src={product.image} 
           alt={product.name}
           className="w-full h-full object-contain p-8 group-hover:scale-110 transition-transform duration-700"
-          style={{ translateZ: 60 }}
+          style={{ transform: 'translateZ(60px)' }}
         />
         <div className="absolute inset-0 bg-accent/0 group-hover:bg-accent/5 transition-colors duration-500" />
         
         {/* Quick Add Overlay */}
         <div 
           className="absolute bottom-6 left-6 right-6 translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500"
-          style={{ translateZ: 80 }}
+          style={{ transform: 'translateZ(80px)' }}
         >
           <button className="w-full py-4 bg-white text-text rounded-full font-body text-[10px] tracking-[0.2em] uppercase shadow-xl hover:bg-text hover:text-white transition-colors">
             Quick Add — {product.price}
@@ -49,7 +49,7 @@ function ProductCard({ product, index }: { product: typeof products[0]; index: n
         </div>
       </div>
 
-      <div className="flex justify-between items-start" style={{ translateZ: 40 }}>
+      <div className="flex justify-between items-start" style={{ transform: 'translateZ(40px)' }}>
         <div>
           <p className="font-body text-[10px] tracking-[0.2em] uppercase text-text/40 mb-1">{product.category}</p>
           <h3 className="serif-title text-2xl text-text group-hover:text-accent transition-colors">{product.name}</h3>

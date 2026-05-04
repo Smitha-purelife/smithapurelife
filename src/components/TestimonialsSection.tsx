@@ -1,4 +1,4 @@
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, Variants } from 'framer-motion';
 import { useState, useEffect } from 'react';
 import { Star, ChevronLeft, ChevronRight } from 'lucide-react';
 
@@ -22,7 +22,7 @@ export default function TestimonialsSection() {
     return () => clearInterval(timer);
   }, []);
 
-  const variants = {
+  const variants: Variants = {
     enter: (direction: number) => ({
       rotateY: direction > 0 ? 90 : -90,
       opacity: 0,
@@ -81,8 +81,8 @@ export default function TestimonialsSection() {
                 {Array.from({ length: testimonials[current].rating }).map((_, i) => (
                   <motion.div
                     key={`${current}-${i}`}
-                    initial={{ translateZ: 50, opacity: 0 }}
-                    animate={{ translateZ: 0, opacity: 1 }}
+                    animate={{ opacity: 1, transform: 'translateZ(0px)' }}
+                    initial={{ opacity: 0, transform: 'translateZ(50px)' }}
                     transition={{ delay: 0.3 + i * 0.1 }}
                   >
                     <Star size={16} className="text-accent fill-accent" />
@@ -95,7 +95,7 @@ export default function TestimonialsSection() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 className="serif-title text-3xl md:text-5xl text-text leading-tight mb-12 italic text-center"
-                style={{ translateZ: 100 }}
+                style={{ transform: 'translateZ(100px)' }}
               >
                 "{testimonials[current].quote}"
               </motion.h3>
@@ -106,7 +106,7 @@ export default function TestimonialsSection() {
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.4 }}
                 className="text-center"
-                style={{ translateZ: 50 }}
+                style={{ transform: 'translateZ(50px)' }}
               >
                 <p className="font-body text-[11px] tracking-[0.3em] uppercase text-text font-bold">
                   {testimonials[current].author}

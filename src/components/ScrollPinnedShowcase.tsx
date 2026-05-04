@@ -119,7 +119,7 @@ export default function ScrollPinnedShowcase() {
                   initial={{ y: 100, opacity: 0 }}
                   animate={{ y: 0, opacity: 1 }}
                   exit={{ y: -100, opacity: 0 }}
-                  transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+                  transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] as const }}
                 >
                   <motion.span 
                     className="font-body text-[10px] tracking-[0.5em] uppercase text-[#052B08]/40 font-bold mb-4 block"
@@ -150,7 +150,7 @@ export default function ScrollPinnedShowcase() {
                       className="absolute inset-0 bg-[#0a4a0e]"
                       initial={{ scaleX: 0 }}
                       whileHover={{ scaleX: 1 }}
-                      transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                      transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] as const }}
                       style={{ originX: 0 }}
                     />
                   </button>
