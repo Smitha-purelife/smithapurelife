@@ -15,7 +15,6 @@ import Loader from './components/Loader';
 import SmoothScroll from './components/SmoothScroll';
 
 const sections = [
-  ProductShowcase,
   CollectionSection,
   StorySection,
   IngredientsSection,
