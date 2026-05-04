@@ -4,7 +4,7 @@ import { ArrowRight } from 'lucide-react';
 
 const products = [
   { name: 'Avosilky Bloom Conditioner', category: 'Hair Therapy', price: 'Starting from ₹146.00', image: '/products/avosilk_bloom.png' },
-  { name: 'Herbal Hair Wash Powder', category: 'Cleansing', price: 'Starting from ₹142.00', image: '/products/hair_wash_powder.png' },
+  { name: 'Herbal Hair Wash Powder', category: 'Cleansing', price: 'Starting from ₹142.00', image: '/products/hair_wash_powder_v2.png' },
   { name: 'Herbal Radiance Hair Oil', category: 'Growth Revival', price: 'Starting from ₹249.00', image: '/products/image copy 6.png' },
   { name: 'Silk Gloss Pro Repair Serum', category: 'Advanced Care', price: '₹399.00', image: '/products/skin_glow_pro_repair_hairserum.png' },
   { name: 'Follicra Regrowth Serum', category: 'Regrowth', price: '₹699.00', image: '/products/hexagen-image (1).png' },

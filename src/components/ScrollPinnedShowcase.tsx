@@ -24,7 +24,7 @@ const products = [
     title: "Herbal Hair Wash",
     subtitle: "Pure Therapy Powder",
     description: "Nature's therapy in a powder. A traditional blend of Amla and Hibiscus for a pure, herbal cleanse.",
-    image: "/products/hair_wash_powder.png",
+    image: "/products/hair_wash_powder_v2.png",
     accent: "#D4E2D4",
     bg: "#F0F7F0",
     benefits: ["Herbal Cleanse", "Scalp Health", "Traditional Blend"]
