@@ -1,40 +1,51 @@
-import { motion } from 'framer-motion';
+import { motion, useScroll, useTransform } from 'framer-motion';
+import { useRef } from 'react';
 
 export default function StorySection() {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start end", "end start"]
+  });
+
+  const imgY = useTransform(scrollYProgress, [0, 1], [-50, 50]);
+  const cardY = useTransform(scrollYProgress, [0, 1], [50, -50]);
+  const cardZ = useTransform(scrollYProgress, [0, 0.5, 1], [20, 100, 20]);
+  const cardRotate = useTransform(scrollYProgress, [0, 1], [-5, 5]);
+
   return (
-    <section id="story" className="section-padding bg-bg relative overflow-hidden">
+    <section id="story" ref={containerRef} className="section-padding bg-bg relative overflow-hidden" style={{ perspective: '1000px' }}>
       <div className="max-width">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
           {/* Image Side */}
-          <motion.div 
-            initial={{ opacity: 0, x: -50 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
-            className="relative"
-          >
-            <div className="aspect-[4/5] rounded-[40px] overflow-hidden bg-white/40">
+          <div className="relative" style={{ transformStyle: 'preserve-3d' }}>
+            <motion.div 
+              style={{ y: imgY, translateZ: -50 }}
+              className="aspect-[4/5] rounded-[40px] overflow-hidden bg-white/40 shadow-2xl"
+            >
               <img 
                 src="/products/image copy 5.png" 
                 alt="Natural Heritage"
-                className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-1000"
+                className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-1000 scale-110"
               />
-            </div>
+            </motion.div>
             
             {/* Floating Card */}
             <motion.div 
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.5 }}
-              className="absolute -bottom-10 -right-10 bg-white p-8 rounded-3xl shadow-xl max-w-[240px]"
+              style={{ 
+                y: cardY, 
+                z: cardZ,
+                rotateZ: cardRotate,
+                transformStyle: 'preserve-3d'
+              }}
+              className="absolute -bottom-10 -right-10 bg-white p-8 rounded-3xl shadow-[0_20px_50px_rgba(0,0,0,0.2)] max-w-[240px] z-20"
             >
               <p className="serif-title text-5xl text-accent mb-2">15+</p>
               <p className="font-body text-[10px] tracking-[0.2em] uppercase text-text/60">
                 Years of botanical research and heritage
               </p>
             </motion.div>
-          </motion.div>
+          </div>
 
           {/* Text Side */}
           <div className="max-w-xl">

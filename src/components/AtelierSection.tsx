@@ -1,4 +1,5 @@
-import { motion } from 'framer-motion';
+import { motion, useScroll, useTransform } from 'framer-motion';
+import { useRef } from 'react';
 
 const process = [
   { step: '01', title: 'Sourcing', description: 'We source the purest cold-pressed oils and organic botanicals from sustainable local farms.' },
@@ -8,11 +9,21 @@ const process = [
 ];
 
 export default function AtelierSection() {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start end", "end start"]
+  });
+
+  const rotate = useTransform(scrollYProgress, [0, 1], [0, 45]);
+  const y = useTransform(scrollYProgress, [0, 1], [50, -50]);
+  const badgeY = useTransform(scrollYProgress, [0, 1], [-100, 100]);
+
   return (
-    <section id="atelier" className="section-padding bg-bg">
+    <section id="atelier" ref={containerRef} className="section-padding bg-bg" style={{ perspective: '1200px' }}>
       <div className="max-width">
         <div className="grid lg:grid-cols-2 gap-24 items-center">
-          <div>
+          <div style={{ transformStyle: 'preserve-3d' }}>
             <motion.p 
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
@@ -54,30 +65,33 @@ export default function AtelierSection() {
           </div>
 
           <motion.div 
-            initial={{ opacity: 0, scale: 0.9 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
+            style={{ y, rotateY: rotate, transformStyle: 'preserve-3d' }}
             className="relative"
           >
-            <div className="aspect-square rounded-full border border-text/5 flex items-center justify-center p-12">
+            <div className="aspect-square rounded-full border border-text/5 flex items-center justify-center p-12 shadow-inner">
               <div className="absolute inset-0 border border-dashed border-text/10 rounded-full animate-[spin_60s_linear_infinite]" />
-              <div className="w-full h-full rounded-full overflow-hidden bg-white/40">
+              <div className="w-full h-full rounded-full overflow-hidden bg-white/40 shadow-2xl">
                 <img 
                   src="/products/image copy 5.png" 
                   alt="Craftsmanship"
-                  className="w-full h-full object-cover scale-110"
+                  className="w-full h-full object-cover scale-125"
                 />
               </div>
             </div>
             
             {/* Floating Badges */}
-            <div className="absolute top-10 right-0 bg-white/80 backdrop-blur-md p-4 rounded-2xl shadow-xl">
-              <p className="font-body text-[9px] tracking-[0.2em] uppercase text-text font-bold">Hand-crafted Batch</p>
-            </div>
-            <div className="absolute bottom-10 left-0 bg-white/80 backdrop-blur-md p-4 rounded-2xl shadow-xl">
-              <p className="font-body text-[9px] tracking-[0.2em] uppercase text-text font-bold">100% Organic</p>
-            </div>
+            <motion.div 
+              style={{ y: badgeY, translateZ: 100 }}
+              className="absolute top-10 right-0 bg-white/90 backdrop-blur-md p-5 rounded-2xl shadow-2xl z-20"
+            >
+              <p className="font-body text-[10px] tracking-[0.2em] uppercase text-text font-bold">Hand-crafted Batch</p>
+            </motion.div>
+            <motion.div 
+              style={{ y: badgeY, translateZ: 80, x: -50 }}
+              className="absolute bottom-10 left-0 bg-white/90 backdrop-blur-md p-5 rounded-2xl shadow-2xl z-20"
+            >
+              <p className="font-body text-[10px] tracking-[0.2em] uppercase text-text font-bold">100% Organic</p>
+            </motion.div>
           </motion.div>
         </div>
       </div>

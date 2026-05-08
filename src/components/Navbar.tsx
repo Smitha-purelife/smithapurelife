@@ -1,69 +1,56 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X, ShoppingBag, User } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const navLinks = [
-  { name: 'Shop All', href: '#collections' },
-  { name: 'Our Story', href: '#story' },
-  { name: 'Ingredients', href: '#ingredients' },
-  { name: 'Atelier', href: '#atelier' },
+  { name: 'Shop All', href: '/' },
+  { name: 'Our Story', href: '/#story' },
+  { name: 'Atelier', href: '/#atelier' },
 ];
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
-
-  useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 20);
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
 
   return (
     <>
-      <motion.nav
-        initial={{ y: -100 }}
-        animate={{ y: 0 }}
-        transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] as const }}
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-1000 ${
-          scrolled
-            ? 'bg-white/40 backdrop-blur-2xl py-4 border-b border-white/20'
-            : 'bg-transparent py-10'
-        }`}
+      <nav
+        className="fixed top-0 left-0 right-0 z-[9999] bg-white/95 backdrop-blur-xl py-4 border-b border-text/10 shadow-sm"
+        style={{ position: 'fixed', top: 0, left: 0, right: 0 }}
       >
         <div className="max-width px-6 md:px-12">
           <div className="flex items-center justify-between">
             {/* Left Nav */}
             <div className="hidden md:flex items-center gap-8 flex-1">
               {navLinks.slice(0, 2).map((link) => (
-                <a
+                <Link
                   key={link.name}
-                  href={link.href}
+                  to={link.href}
                   className="font-body text-[11px] tracking-[0.25em] uppercase text-text hover:text-accent transition-colors duration-500"
                 >
                   {link.name}
-                </a>
+                </Link>
               ))}
             </div>
 
             {/* Logo */}
-            <motion.a
-              href="#"
+            <Link
+              to="/"
               className="serif-title text-2xl md:text-3xl tracking-tight text-text text-center flex-1"
             >
               Smitha Purelife
-            </motion.a>
+            </Link>
 
             {/* Right Nav */}
             <div className="hidden md:flex items-center justify-end gap-8 flex-1">
               {navLinks.slice(2).map((link) => (
-                <a
+                <Link
                   key={link.name}
-                  href={link.href}
+                  to={link.href}
                   className="font-body text-[11px] tracking-[0.25em] uppercase text-text hover:text-accent transition-colors duration-500"
                 >
                   {link.name}
-                </a>
+                </Link>
               ))}
               <div className="flex items-center gap-6 ml-4">
                 <User size={18} className="text-text cursor-pointer hover:text-accent transition-colors" />
@@ -83,7 +70,7 @@ export default function Navbar() {
             </button>
           </div>
         </div>
-      </motion.nav>
+      </nav>
 
       <AnimatePresence>
         {isOpen && (
@@ -95,17 +82,20 @@ export default function Navbar() {
             className="fixed inset-0 z-40 bg-bg flex flex-col items-center justify-center gap-10 md:hidden"
           >
             {navLinks.map((link, i) => (
-              <motion.a
+              <motion.div
                 key={link.name}
-                href={link.href}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.1 + 0.2 }}
-                onClick={() => setIsOpen(false)}
-                className="serif-title text-4xl text-text"
               >
-                {link.name}
-              </motion.a>
+                <Link
+                  to={link.href}
+                  onClick={() => setIsOpen(false)}
+                  className="serif-title text-4xl text-text"
+                >
+                  {link.name}
+                </Link>
+              </motion.div>
             ))}
           </motion.div>
         )}

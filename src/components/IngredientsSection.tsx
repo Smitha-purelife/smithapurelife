@@ -1,6 +1,5 @@
-import { motion } from 'framer-motion';
+import { motion, useScroll, useTransform } from 'framer-motion';
 import { useRef } from 'react';
-import Scene3D from './Scene3D';
 
 const ingredients = [
   {
@@ -48,9 +47,14 @@ const ingredients = [
 ];
 
 export default function IngredientsSection() {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start end", "end start"]
+  });
+
   return (
-    <section id="ingredients" className="section-padding bg-white/20 relative overflow-hidden">
-      {/* <Scene3D /> */}
+    <section id="ingredients" ref={containerRef} className="section-padding bg-white/20 relative overflow-hidden" style={{ perspective: '2000px' }}>
       <div className="max-width">
         <div className="text-center mb-24">
           <div className="overflow-hidden">
@@ -76,33 +80,39 @@ export default function IngredientsSection() {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
-          {ingredients.map((ingredient, i) => (
-            <motion.div
-              key={ingredient.name}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.1 }}
-              className="organic-card p-10 group hover:bg-white/60 transition-colors duration-500"
-            >
-              <div className="flex items-center justify-between mb-8">
-                <span className="text-4xl grayscale group-hover:grayscale-0 transition-all duration-500">{ingredient.icon}</span>
-                <span className="font-body text-[9px] tracking-[0.2em] uppercase text-text/40">{ingredient.origin}</span>
-              </div>
-              
-              <h3 className="serif-title text-2xl text-text mb-4">{ingredient.name}</h3>
-              <p className="font-body text-sm text-text/60 leading-relaxed">
-                {ingredient.description}
-              </p>
-              
-              <div className="mt-8 pt-8 border-t border-text/5 scale-x-0 group-hover:scale-x-100 transition-transform duration-700 origin-left">
-                <button className="font-body text-[10px] tracking-[0.2em] uppercase text-accent font-semibold">
-                  Learn More
-                </button>
-              </div>
-            </motion.div>
-          ))}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12" style={{ transformStyle: 'preserve-3d' }}>
+          {ingredients.map((ingredient, i) => {
+            // eslint-disable-next-line react-hooks/rules-of-hooks
+            const y = useTransform(scrollYProgress, [0, 1], [100 * (i % 3 - 1), -100 * (i % 3 - 1)]);
+            // eslint-disable-next-line react-hooks/rules-of-hooks
+            const z = useTransform(scrollYProgress, [0, 0.5, 1], [0, 50 * (i % 2 === 0 ? 1 : -1), 0]);
+            // eslint-disable-next-line react-hooks/rules-of-hooks
+            const rotateX = useTransform(scrollYProgress, [0, 1], [10, -10]);
+            
+            return (
+              <motion.div
+                key={ingredient.name}
+                style={{ y, z, rotateX, transformStyle: 'preserve-3d' }}
+                className="organic-card p-10 group hover:bg-white/60 transition-all duration-500 shadow-xl border border-white/10"
+              >
+                <div className="flex items-center justify-between mb-8" style={{ transform: 'translateZ(30px)' }}>
+                  <span className="text-4xl grayscale group-hover:grayscale-0 transition-all duration-500">{ingredient.icon}</span>
+                  <span className="font-body text-[9px] tracking-[0.2em] uppercase text-text/40">{ingredient.origin}</span>
+                </div>
+                
+                <h3 className="serif-title text-2xl text-text mb-4" style={{ transform: 'translateZ(50px)' }}>{ingredient.name}</h3>
+                <p className="font-body text-sm text-text/60 leading-relaxed" style={{ transform: 'translateZ(20px)' }}>
+                  {ingredient.description}
+                </p>
+                
+                <div className="mt-8 pt-8 border-t border-text/5 scale-x-0 group-hover:scale-x-100 transition-transform duration-700 origin-left">
+                  <button className="font-body text-[10px] tracking-[0.2em] uppercase text-accent font-semibold">
+                    Learn More
+                  </button>
+                </div>
+              </motion.div>
+            );
+          })}
         </div>
       </div>
     </section>
