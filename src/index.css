@@ -24,10 +24,11 @@ html {
 }
 
 body {
-  background: #DDF1E9;
+  background-color: #FDF9F6 !important;
   color: #052B08;
   font-family: var(--font-body);
   overflow-x: hidden;
+  transition: background-color 0.8s ease;
 }
 
 .serif-title {

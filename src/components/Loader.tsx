@@ -24,7 +24,7 @@ export default function Loader() {
         y: "-100%",
         transition: { duration: 1.2, ease: [0.16, 1, 0.3, 1] }
       }}
-      className="fixed inset-0 z-[100] bg-text flex flex-col items-center justify-center"
+      className="fixed inset-0 z-[10000] bg-text flex flex-col items-center justify-center"
     >
       <div className="relative overflow-hidden mb-8">
         <motion.h1 
@@ -37,9 +37,9 @@ export default function Loader() {
         </motion.h1>
       </div>
       
-      <div className="w-48 h-[1px] bg-bg/10 relative overflow-hidden">
+      <div className="w-48 h-[1px] bg-bg/20 relative overflow-hidden">
         <motion.div 
-          className="absolute inset-y-0 left-0 bg-accent"
+          className="absolute inset-y-0 left-0 bg-bg"
           initial={{ width: 0 }}
           animate={{ width: `${progress}%` }}
           transition={{ ease: "linear" }}

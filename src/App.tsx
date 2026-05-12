@@ -10,6 +10,7 @@ import StorySection from './components/StorySection';
 import AtelierSection from './components/AtelierSection';
 import TestimonialsSection from './components/TestimonialsSection';
 import NewsletterSection from './components/NewsletterSection';
+import Scene3D from './components/Scene3D';
 import Footer from './components/Footer';
 import SectionTransition from './components/SectionTransition';
 import Loader from './components/Loader';
@@ -31,9 +32,9 @@ function HomePage() {
   const { scrollYProgress } = useScroll();
   
   return (
-    <div className="bg-bg min-h-screen relative z-10" style={{ transformStyle: 'preserve-3d' }}>
+    <div className="bg-transparent min-h-screen relative z-10" style={{ transformStyle: 'preserve-3d' }}>
       
-      {/* Global 3D Parallax Background */}
+      {/* Global 3D Parallax Background (Bubbles) */}
       <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden" style={{ transformStyle: 'preserve-3d' }}>
         {[...Array(8)].map((_, i) => {
           // eslint-disable-next-line react-hooks/rules-of-hooks
@@ -90,7 +91,12 @@ export default function App() {
       <Navbar />
       <SidePagination />
       <SmoothScroll>
-          <div className="bg-[#052B08] min-h-screen selection:bg-accent selection:text-bg relative" style={{ perspective: '3000px' }}>
+          <div className="bg-[#FDF9F6] min-h-screen selection:bg-accent selection:text-bg relative" style={{ perspective: '3000px' }}>
+            {/* Global Continuous 3D WebGL Background */}
+            <div className="fixed inset-0 pointer-events-none z-[-1] overflow-hidden">
+              <Scene3D />
+            </div>
+
             <AnimatePresence mode="wait">
               {loading && <Loader key="loader" />}
             </AnimatePresence>

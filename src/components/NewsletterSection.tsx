@@ -12,7 +12,7 @@ export default function NewsletterSection() {
   };
 
   return (
-    <section className="section-padding bg-bg relative overflow-hidden">
+    <section id="newsletter" className="section-padding bg-bg relative overflow-hidden">
       <div className="max-width">
         <motion.div 
           initial={{ opacity: 0, y: 30 }}

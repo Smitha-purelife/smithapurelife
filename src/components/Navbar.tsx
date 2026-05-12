@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X, ShoppingBag, User } from 'lucide-react';
 import { Link } from 'react-router-dom';
@@ -11,12 +11,22 @@ const navLinks = [
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => setIsScrolled(window.scrollY > 50);
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   return (
     <>
       <nav
-        className="fixed top-0 left-0 right-0 z-[9999] bg-white/95 backdrop-blur-xl py-4 border-b border-text/10 shadow-sm"
-        style={{ position: 'fixed', top: 0, left: 0, right: 0 }}
+        className={`fixed top-0 left-0 right-0 z-[9999] py-5 transition-all duration-700 ${
+          isScrolled 
+            ? 'bg-white/90 backdrop-blur-xl border-b border-text/5 shadow-sm' 
+            : 'bg-transparent border-transparent shadow-none'
+        }`}
       >
         <div className="max-width px-6 md:px-12">
           <div className="flex items-center justify-between">

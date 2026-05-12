@@ -34,7 +34,7 @@ export default function SidePagination() {
       });
     };
 
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
@@ -48,39 +48,53 @@ export default function SidePagination() {
   };
 
   return (
-    <div className="fixed right-8 top-1/2 -translate-y-1/2 z-[60] hidden lg:flex flex-col items-center gap-6">
-      <div className="absolute top-0 bottom-0 right-[7px] w-[1px] bg-[#052B08]/10 h-full">
+    <div className="fixed right-6 top-1/2 -translate-y-1/2 z-[100] hidden lg:flex flex-col items-end gap-5">
+      {/* Vertical Progress Bar */}
+      <div className="absolute right-[5px] top-0 bottom-0 w-[1px] bg-[#052B08]/5 h-full">
         <motion.div 
           style={{ scaleY, originY: 0 }}
-          className="w-full h-full bg-[#052B08] origin-top"
+          className="w-full h-full bg-[#052B08]/30"
         />
       </div>
 
-      {sections.map((section, i) => (
-        <div key={section.id} className="relative group flex items-center justify-end">
-          <motion.span 
-            initial={{ opacity: 0, x: 20 }}
-            whileHover={{ opacity: 1, x: 0 }}
-            className="absolute right-8 font-body text-[10px] tracking-[0.2em] uppercase text-[#052B08] whitespace-nowrap pointer-events-none bg-white/40 backdrop-blur-sm px-3 py-1 rounded-full border border-white/20 shadow-sm"
-          >
-            {section.name}
-          </motion.span>
-          
+      {sections.map((section, i) => {
+        const isActive = activeSection === i;
+        
+        return (
           <button
+            key={section.id}
             onClick={() => scrollTo(section.id)}
-            className="relative"
+            className="group relative flex items-center gap-4 focus:outline-none h-6"
           >
-            <motion.div 
-              animate={{ 
-                scale: activeSection === i ? 1.5 : 1,
-                backgroundColor: activeSection === i ? '#052B08' : 'rgba(5, 43, 8, 0.1)',
-                boxShadow: activeSection === i ? '0 0 20px rgba(5, 43, 8, 0.3)' : '0 0 0px rgba(0,0,0,0)'
-              }}
-              className="w-[15px] h-[15px] rounded-full border border-[#052B08]/20 transition-all duration-500"
-            />
+            {/* Label - Only visible on Hover to prevent content overlap */}
+            <span className={`
+              font-body text-[9px] tracking-[0.3em] uppercase transition-all duration-300
+              opacity-0 translate-x-4 pointer-events-none group-hover:opacity-100 group-hover:translate-x-0
+              text-[#052B08] whitespace-nowrap bg-[#FDF9F6]/80 px-2 py-1 rounded-sm
+            `}>
+              {section.name}
+            </span>
+
+            {/* Dot Indicator */}
+            <div className="relative w-3 h-3 flex items-center justify-center">
+              <motion.div 
+                animate={{ 
+                  scale: isActive ? 1.6 : 0,
+                  opacity: isActive ? 0.2 : 0
+                }}
+                className="absolute inset-0 rounded-full bg-[#052B08]"
+              />
+              <motion.div 
+                animate={{ 
+                  scale: isActive ? 1.2 : 1,
+                  backgroundColor: isActive ? '#052B08' : '#052B0820'
+                }}
+                className="w-1 h-1 rounded-full"
+              />
+            </div>
           </button>
-        </div>
-      ))}
+        );
+      })}
     </div>
   );
 }
