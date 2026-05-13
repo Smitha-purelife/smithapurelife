@@ -69,7 +69,7 @@ export default function ScrollPinnedShowcase() {
         >
           
           <motion.div 
-            style={{ translateZ: 100, transformStyle: 'preserve-3d' }}
+            style={{ z: 100, transformStyle: 'preserve-3d' }}
             className="w-full md:w-1/2 flex flex-col justify-center order-2 md:order-1 pt-8 md:pt-0"
           >
             <div className="overflow-hidden" style={{ transformStyle: 'preserve-3d' }}>
@@ -83,7 +83,7 @@ export default function ScrollPinnedShowcase() {
                   style={{ transformStyle: 'preserve-3d' }}
                 >
                   <motion.span 
-                    style={{ translateZ: 20 }}
+                    style={{ z: 20 }}
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.2 }}
@@ -92,29 +92,29 @@ export default function ScrollPinnedShowcase() {
                     Product 0{activeIndex + 1}
                   </motion.span>
                   
-                  <div style={{ translateZ: 60, transformStyle: 'preserve-3d' }} className="mb-12 text-[#052B08]">
+                  <motion.div style={{ z: 60, transformStyle: 'preserve-3d' }} className="mb-12 text-[#052B08]">
                     <SplitText 
                       text={products[activeIndex].title} 
                       className="font-display text-6xl md:text-8xl leading-[1.1]"
                       delay={0.1}
                     />
-                  </div>
+                  </motion.div>
 
-                  <div style={{ translateZ: 40, transformStyle: 'preserve-3d' }} className="mb-12 text-[#052B08]/70 max-w-md">
+                  <motion.div style={{ z: 40, transformStyle: 'preserve-3d' }} className="mb-12 text-[#052B08]/70 max-w-md">
                     <SplitText 
                       text={products[activeIndex].description} 
                       className="font-serif italic text-xl md:text-2xl font-medium"
                       delay={0.2}
                     />
-                  </div>
+                  </motion.div>
                   
-                  <motion.div style={{ translateZ: 30 }} className="flex flex-wrap gap-3 mb-12">
+                  <motion.div style={{ z: 30 }} className="flex flex-wrap gap-3 mb-12">
                     {products[activeIndex].benefits.map((benefit, i) => (
                       <motion.span 
                         key={i} 
                         initial={{ opacity: 0, z: -20 }}
                         animate={{ opacity: 1, z: 0 }}
-                        whileHover={{ translateZ: 40, scale: 1.1 }}
+                        whileHover={{ z: 40, scale: 1.1 }}
                         className="px-4 py-2 bg-white/50 backdrop-blur-sm border border-[#052B08]/5 rounded-full font-body text-[10px] tracking-wider uppercase text-[#052B08]/70 shadow-sm"
                       >
                         {benefit}
@@ -125,13 +125,13 @@ export default function ScrollPinnedShowcase() {
                   <Link to={`/product/${products[activeIndex].id}`}>
                     <motion.button 
                       style={{ 
-                        translateZ: 60,
+                        z: 60,
                         rotateX: useSpring(useTransform(mouseY, [-0.5, 0.5], [15, -15])),
                         rotateY: useSpring(useTransform(mouseX, [-0.5, 0.5], [-15, 15]))
                       }}
                       whileHover={{ 
                         scale: 1.1, 
-                        translateZ: 120,
+                        z: 120,
                         boxShadow: "0 30px 60px rgba(5,43,8,0.2)"
                       }}
                       whileTap={{ scale: 0.95 }}
@@ -161,7 +161,7 @@ export default function ScrollPinnedShowcase() {
           </motion.div>
 
           <motion.div 
-            style={{ translateZ: 150, transformStyle: 'preserve-3d' }}
+            style={{ z: 150, transformStyle: 'preserve-3d' }}
             className="w-full md:w-1/2 h-[50vh] md:h-full flex items-center justify-center order-1 md:order-2 relative"
           >
             <div className="relative w-full aspect-square max-w-[400px] md:max-w-[550px]" style={{ transformStyle: 'preserve-3d' }}>
@@ -203,7 +203,7 @@ export default function ScrollPinnedShowcase() {
                     <motion.div
                       animate={{ y: [0, -20, 0], rotateZ: [0, 2, -2, 0] }}
                       transition={{ duration: 6, repeat: Infinity, ease: "easeInOut", delay: i * 0.5 }}
-                      style={{ translateZ: activeIndex === i ? 100 : 0, transformStyle: 'preserve-3d' }}
+                      style={{ z: activeIndex === i ? 100 : 0, transformStyle: 'preserve-3d' }}
                       className="relative w-full h-full flex items-center justify-center"
                     >
                       <img
@@ -217,7 +217,7 @@ export default function ScrollPinnedShowcase() {
                         <motion.div 
                           animate={{ scale: [1, 1.2, 1], opacity: [0.2, 0.4, 0.2] }}
                           transition={{ duration: 4, repeat: Infinity }}
-                          style={{ translateZ: -50 }}
+                          style={{ z: -50 }}
                           className="absolute inset-20 bg-white/40 blur-[60px] rounded-full pointer-events-none"
                         />
                       )}
