@@ -118,7 +118,7 @@ export default function HeroSection() {
                 src="/products/hero-product.png" 
                 alt="Smitha Purelife"
                 className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-1000"
-                style={{ translateZ: 50 }}
+                style={{ z: 50 }}
               />
               <div className="absolute inset-0 bg-accent/5 mix-blend-multiply" />
             </motion.div>
@@ -128,7 +128,7 @@ export default function HeroSection() {
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 1.2, duration: 1 }}
-              style={{ rotateX, rotateY, translateZ: 100, transformStyle: "preserve-3d" }}
+              style={{ rotateX, rotateY, z: 100, transformStyle: "preserve-3d" }}
               className="absolute -bottom-10 -right-10 hidden md:block bg-white p-8 rounded-3xl shadow-2xl max-w-[200px] border border-text/5"
             >
               <p className="serif-title text-3xl text-text mb-2">100%</p>

@@ -20,7 +20,7 @@ export default function StorySection() {
           {/* Image Side */}
           <div className="relative" style={{ transformStyle: 'preserve-3d' }}>
             <motion.div 
-              style={{ y: imgY, translateZ: -50 }}
+              style={{ y: imgY, z: -50 }}
               className="aspect-[4/5] rounded-[40px] overflow-hidden bg-white/40 shadow-2xl"
             >
               <img 

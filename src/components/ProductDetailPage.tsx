@@ -122,7 +122,7 @@ export default function ProductDetailPage() {
           {/* Left: Dynamic Content */}
           <motion.div 
             style={{ 
-              rotateX, rotateY, translateZ: 100, transformStyle: 'preserve-3d',
+              rotateX, rotateY, z: 100, transformStyle: 'preserve-3d',
               opacity: useTransform(scrollYProgress, [0.18, 0.25], [0, 1])
             }}
             className="w-full md:w-1/2 flex flex-col justify-center z-10 order-2 md:order-1 pt-48 md:pt-48"
@@ -138,13 +138,13 @@ export default function ProductDetailPage() {
                   className="max-w-xl"
                   style={{ transformStyle: 'preserve-3d' }}
                 >
-                  <motion.span style={{ translateZ: 20 }} className="font-body text-[10px] tracking-[0.5em] uppercase text-[#052B08]/60 font-bold mb-4 block">
+                  <motion.span style={{ z: 20 }} className="font-body text-[10px] tracking-[0.5em] uppercase text-[#052B08]/60 font-bold mb-4 block">
                     Stage 0{activeStage + 1} — {stages[activeStage].title}
                   </motion.span>
-                  <motion.h1 style={{ translateZ: 60 }} className="serif-title text-5xl md:text-8xl text-[#052B08] leading-[1.1] mb-8">
+                  <motion.h1 style={{ z: 60 }} className="serif-title text-5xl md:text-8xl text-[#052B08] leading-[1.1] mb-8">
                     {stages[activeStage].subtitle}
                   </motion.h1>
-                  <motion.p style={{ translateZ: 40 }} className="font-body text-xl md:text-2xl text-[#052B08]/80 leading-relaxed mb-16 italic font-medium">
+                  <motion.p style={{ z: 40 }} className="font-body text-xl md:text-2xl text-[#052B08]/80 leading-relaxed mb-16 italic font-medium">
                     {stages[activeStage].content}
                   </motion.p>
 
@@ -153,10 +153,10 @@ export default function ProductDetailPage() {
                       {product.ingredients.map((ing, i) => (
                         <motion.div 
                           key={i}
-                          initial={{ opacity: 0, y: 20, translateZ: 0 }}
-                          animate={{ opacity: 1, y: 0, translateZ: 30 }}
+                          initial={{ opacity: 0, y: 20, z: 0 }}
+                          animate={{ opacity: 1, y: 0, z: 30 }}
                           transition={{ delay: i * 0.1, type: "spring" }}
-                          whileHover={{ scale: 1.02, translateZ: 50 }}
+                          whileHover={{ scale: 1.02, z: 50 }}
                           className="p-6 bg-white/40 backdrop-blur-md rounded-2xl border border-[#052B08]/5 shadow-lg"
                         >
                           <h4 className="serif-title text-xl text-[#052B08] mb-2">{ing.name}</h4>
@@ -173,7 +173,7 @@ export default function ProductDetailPage() {
           {/* Right: Floating Product Image */}
           <motion.div 
             style={{ 
-              rotateX, rotateY, translateZ: 150, transformStyle: 'preserve-3d',
+              rotateX, rotateY, z: 150, transformStyle: 'preserve-3d',
               opacity: useTransform(scrollYProgress, [0.2, 0.3], [0, 1]),
               scale: useTransform(scrollYProgress, [0.2, 0.3], [0.8, 1])
             }}
@@ -200,7 +200,7 @@ export default function ProductDetailPage() {
                     duration: 1.2, ease: [0.16, 1, 0.3, 1],
                     y: { duration: 4, repeat: Infinity, ease: "easeInOut" }
                   }}
-                  style={{ translateZ: 100 }}
+                  style={{ z: 100 }}
                   className="w-full h-auto object-contain drop-shadow-[0_60px_120px_rgba(5,43,8,0.4)]"
                 />
               </AnimatePresence>

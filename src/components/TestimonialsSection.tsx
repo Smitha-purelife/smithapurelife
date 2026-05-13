@@ -172,7 +172,7 @@ export default function TestimonialsSection() {
                 <textarea rows={5} className="w-full px-8 py-7 bg-white/50 border border-[#052B08]/5 rounded-[40px] focus:outline-none focus:ring-1 focus:ring-[#052B08]/20 font-body text-sm resize-none transition-all" placeholder="How has Smitha Purelife transformed your ritual?" />
               </div>
               <motion.button 
-                whileHover={{ scale: 1.02, translateZ: 50 }}
+                whileHover={{ scale: 1.02, z: 50 }}
                 whileTap={{ scale: 0.98 }}
                 className="w-full py-6 bg-[#052B08] text-white rounded-full font-body text-[11px] tracking-[0.5em] uppercase hover:bg-[#0a4a0e] transition-all duration-500 shadow-xl"
               >

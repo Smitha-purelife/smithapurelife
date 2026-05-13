@@ -81,13 +81,13 @@ export default function AtelierSection() {
             
             {/* Floating Badges */}
             <motion.div 
-              style={{ y: badgeY, translateZ: 100 }}
+              style={{ y: badgeY, z: 100 }}
               className="absolute top-10 right-0 bg-white/90 backdrop-blur-md p-5 rounded-2xl shadow-2xl z-20"
             >
               <p className="font-body text-[10px] tracking-[0.2em] uppercase text-text font-bold">Hand-crafted Batch</p>
             </motion.div>
             <motion.div 
-              style={{ y: badgeY, translateZ: 80, x: -50 }}
+              style={{ y: badgeY, z: 80, x: -50 }}
               className="absolute bottom-10 left-0 bg-white/90 backdrop-blur-md p-5 rounded-2xl shadow-2xl z-20"
             >
               <p className="font-body text-[10px] tracking-[0.2em] uppercase text-text font-bold">100% Organic</p>
