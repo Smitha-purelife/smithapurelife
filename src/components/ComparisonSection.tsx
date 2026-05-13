@@ -42,6 +42,11 @@ export default function ComparisonSection({ beforeImage, afterImage }: Compariso
           <h2 className="serif-title text-5xl md:text-7xl text-[#052B08]">Real Results</h2>
         </div>
 
+        <div className="flex justify-between max-w-5xl mx-auto mb-6 px-4">
+          <span className="font-body text-[10px] tracking-[0.4em] uppercase text-[#052B08]/60 font-bold">Before</span>
+          <span className="font-body text-[10px] tracking-[0.4em] uppercase text-[#052B08]/60 font-bold">After</span>
+        </div>
+
         <motion.div 
           ref={containerRef}
           onMouseMove={(e) => isDragging && handleMove(e)}
@@ -63,13 +68,13 @@ export default function ComparisonSection({ beforeImage, afterImage }: Compariso
             }}
             className="w-full h-full relative"
           >
-            {/* Before Image (Base) */}
+            {/* After Image (Base) */}
             <div className="absolute inset-0">
-              <img src={beforeImage} className="w-full h-full object-cover grayscale-[0.3]" alt="Before" />
-              <div className="absolute top-8 left-8 bg-black/20 backdrop-blur-md px-6 py-2 rounded-full text-white font-body text-[10px] tracking-widest uppercase">Before</div>
+              <img src={afterImage} className="w-full h-full object-cover" alt="After" />
+              <div className="absolute top-8 right-8 bg-[#052B08]/80 backdrop-blur-md px-6 py-2 rounded-full text-white font-body text-[10px] tracking-widest uppercase">After</div>
             </div>
 
-            {/* After Image (Clipped Overlay) */}
+            {/* Before Image (Clipped Overlay) */}
             <motion.div 
               style={{ 
                 clipPath: useTransform(springPos, (v) => `inset(0 ${100 - v}% 0 0)`),
@@ -77,8 +82,8 @@ export default function ComparisonSection({ beforeImage, afterImage }: Compariso
               }}
               className="absolute inset-0 z-10"
             >
-              <img src={afterImage} className="w-full h-full object-cover" alt="After" />
-              <div className="absolute top-8 right-8 bg-[#052B08]/80 backdrop-blur-md px-6 py-2 rounded-full text-white font-body text-[10px] tracking-widest uppercase">After</div>
+              <img src={beforeImage} className="w-full h-full object-cover grayscale-[0.3]" alt="Before" />
+              <div className="absolute top-8 left-8 bg-black/20 backdrop-blur-md px-6 py-2 rounded-full text-white font-body text-[10px] tracking-widest uppercase">Before</div>
             </motion.div>
 
             {/* Slider Divider */}
