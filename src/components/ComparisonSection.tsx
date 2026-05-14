@@ -70,7 +70,13 @@ export default function ComparisonSection({ beforeImage, afterImage }: Compariso
           >
             {/* After Image (Base) */}
             <div className="absolute inset-0">
-              <img src={afterImage} className="w-full h-full object-cover" alt="After" />
+              <img 
+                src={afterImage} 
+                className="w-full h-full object-cover" 
+                alt="After Transformation" 
+                loading="lazy"
+                decoding="async"
+              />
               <div className="absolute top-8 right-8 bg-[#052B08]/80 backdrop-blur-md px-6 py-2 rounded-full text-white font-body text-[10px] tracking-widest uppercase">After</div>
             </div>
 
@@ -82,7 +88,13 @@ export default function ComparisonSection({ beforeImage, afterImage }: Compariso
               }}
               className="absolute inset-0 z-10"
             >
-              <img src={beforeImage} className="w-full h-full object-cover grayscale-[0.3]" alt="Before" />
+              <img 
+                src={beforeImage} 
+                className="w-full h-full object-cover grayscale-[0.3]" 
+                alt="Before Transformation" 
+                loading="lazy"
+                decoding="async"
+              />
               <div className="absolute top-8 left-8 bg-black/20 backdrop-blur-md px-6 py-2 rounded-full text-white font-body text-[10px] tracking-widest uppercase">Before</div>
             </motion.div>
 

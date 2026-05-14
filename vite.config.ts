@@ -10,5 +10,19 @@ export default defineConfig(async () => {
     const m = await import('./.vite-source-tags.js');
     plugins.push(m.sourceTags());
   } catch {}
-  return { plugins };
+  return { 
+    plugins,
+    build: {
+      rollupOptions: {
+        output: {
+          manualChunks: {
+            'vendor-react': ['react', 'react-dom', 'react-router-dom'],
+            'vendor-three': ['three', '@react-three/fiber', '@react-three/drei'],
+            'vendor-motion': ['framer-motion'],
+          }
+        }
+      },
+      chunkSizeWarningLimit: 1000
+    }
+  };
 })
