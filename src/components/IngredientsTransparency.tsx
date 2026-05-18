@@ -13,7 +13,7 @@ const ingredients = [
 
 export default function IngredientsTransparency() {
   return (
-    <section className="py-24 bg-[#052B08] overflow-hidden">
+    <section id="ingredients" className="py-24 bg-[#052B08] overflow-hidden scroll-mt-24">
       <div className="max-w-7xl mx-auto px-6">
         <div className="text-center mb-16">
           <motion.p

@@ -20,7 +20,7 @@ export default function NewsletterVIP() {
   };
 
   return (
-    <section className="py-24 bg-[#1A4B21] relative overflow-hidden">
+    <section id="newsletter" className="py-24 bg-[#1A4B21] relative overflow-hidden scroll-mt-24">
       {/* Decorative blobs */}
       <div className="absolute -top-20 -left-20 w-72 h-72 bg-[#F8CD71]/10 rounded-full blur-[80px] pointer-events-none" />
       <div className="absolute -bottom-20 -right-20 w-72 h-72 bg-[#FF7B89]/10 rounded-full blur-[80px] pointer-events-none" />

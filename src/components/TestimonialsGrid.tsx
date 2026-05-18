@@ -66,7 +66,7 @@ const reviews = [
 
 export default function TestimonialsGrid() {
   return (
-    <section className="py-24 bg-white">
+    <section id="testimonials" className="py-24 bg-white scroll-mt-24">
       <div className="max-w-7xl mx-auto px-6">
         <div className="text-center mb-14">
           <motion.p

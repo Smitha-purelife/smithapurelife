@@ -14,7 +14,6 @@ const WhyUsStrip = lazy(() => import('./components/WhyUsStrip'));
 const StorySection = lazy(() => import('./components/StorySection'));
 const KBeautyFeatures = lazy(() => import('./components/KBeautyFeatures'));
 const ShopByConcern = lazy(() => import('./components/ShopByConcern'));
-const KBeautyCategories = lazy(() => import('./components/KBeautyCategories'));
 const KBeautyBestsellers = lazy(() => import('./components/KBeautyBestsellers'));
 const HairQuizCTA = lazy(() => import('./components/HairQuizCTA'));
 const IngredientsTransparency = lazy(() => import('./components/IngredientsTransparency'));
@@ -38,8 +37,6 @@ function HomePage() {
         <KBeautyFeatures />
         {/* 4. Shop by Hair Concern */}
         <ShopByConcern />
-        {/* 5. Shop by Ritual (product circles) */}
-        <KBeautyCategories />
         {/* 6. Trending Now — Bestsellers Grid */}
         <KBeautyBestsellers />
         {/* 7. Hair Quiz CTA */}

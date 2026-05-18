@@ -24,7 +24,7 @@ export default function HeroSlider() {
   const isDark = product.id === 'radiance-oil';
   
   return (
-    <section className="relative w-full min-h-[100svh] overflow-hidden bg-[#EBF3EB]">
+    <section id="hero" className="relative w-full min-h-[100svh] overflow-hidden bg-[#EBF3EB]">
       <AnimatePresence mode="wait">
         <motion.div
           key={current}

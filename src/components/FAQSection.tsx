@@ -41,7 +41,7 @@ export default function FAQSection() {
   const [open, setOpen] = useState<number | null>(null);
 
   return (
-    <section className="py-24 bg-[#C1CDBF]">
+    <section id="faq" className="py-24 bg-[#C1CDBF] scroll-mt-24">
       <div className="max-w-4xl mx-auto px-6">
         <div className="text-center mb-14">
           <motion.p

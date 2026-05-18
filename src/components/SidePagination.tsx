@@ -3,10 +3,12 @@ import { useEffect, useState } from 'react';
 
 const sections = [
   { name: 'Hero', id: 'hero' },
-  { name: 'Collections', id: 'collections' },
   { name: 'Our Story', id: 'story' },
-  { name: 'Atelier', id: 'atelier' },
+  { name: 'Concerns', id: 'concerns' },
+  { name: 'Trending Now', id: 'trending' },
+  { name: 'Botanical Alchemy', id: 'ingredients' },
   { name: 'Testimonials', id: 'testimonials' },
+  { name: 'FAQs', id: 'faq' },
   { name: 'Newsletter', id: 'newsletter' }
 ];
 

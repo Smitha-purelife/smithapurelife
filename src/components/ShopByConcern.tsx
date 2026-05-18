@@ -13,7 +13,7 @@ const concerns = [
 
 export default function ShopByConcern() {
   return (
-    <section className="py-20 bg-[#C1CDBF]">
+    <section id="concerns" className="py-20 bg-[#C1CDBF] scroll-mt-24">
       <div className="max-w-7xl mx-auto px-6">
         <div className="text-center mb-14">
           <motion.p

@@ -7,7 +7,7 @@ export default function KBeautyBestsellers() {
   const [showAll, setShowAll] = useState(false);
   const visibleProducts = showAll ? products : products.slice(0, 4);
   return (
-    <section className="py-20 bg-[#C1CDBF]">
+    <section id="trending" className="py-20 bg-[#C1CDBF] scroll-mt-24">
       <div className="max-w-7xl mx-auto px-6">
         <div className="flex justify-between items-end mb-12">
           <div>
