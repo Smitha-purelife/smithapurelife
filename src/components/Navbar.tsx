@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, ShoppingBag, User } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 const navLinks = [
@@ -24,8 +24,8 @@ export default function Navbar() {
       <nav
         className={`fixed top-0 left-0 right-0 z-[9999] transition-all duration-700 ${
           isScrolled 
-            ? 'py-4 bg-white/95 backdrop-blur-xl border-b border-black/5 shadow-sm' 
-            : 'py-5 bg-white/80 backdrop-blur-md border-b border-black/5'
+            ? 'py-2 bg-[#C1CDBF]/90 backdrop-blur-xl border-b border-black/5 shadow-sm' 
+            : 'py-3 bg-[#C1CDBF]/70 backdrop-blur-md border-b border-black/5'
         }`}
       >
         <div className="max-width px-6 md:px-12">
@@ -46,11 +46,13 @@ export default function Navbar() {
             {/* Logo */}
             <Link
               to="/"
-              className="text-2xl md:text-3xl tracking-tight text-[#2D2A26] text-center flex-1 font-serif font-medium flex items-center justify-center gap-2"
-              style={{ fontFamily: "'Playfair Display', serif" }}
+              className="flex-1 flex items-center justify-center transition-opacity hover:opacity-90 duration-300"
             >
-              <img src="/logo.png" alt="Logo" className="w-8 h-8 object-contain" onError={(e) => e.currentTarget.style.display = 'none'} />
-              Smitha Purelife
+              <img 
+                src="/logo.png" 
+                alt="Smitha Purelife" 
+                className="h-10 md:h-11 lg:h-12 w-auto object-contain mix-blend-multiply filter contrast-[1.15] brightness-[1.08]" 
+              />
             </Link>
 
             {/* Right Nav */}
@@ -64,13 +66,6 @@ export default function Navbar() {
                   {link.name}
                 </Link>
               ))}
-              <div className="flex items-center gap-6 ml-4">
-                <User size={20} className="text-[#2D2A26] cursor-pointer hover:text-[#FF7B89] transition-colors" />
-                <div className="relative cursor-pointer group">
-                  <ShoppingBag size={20} className="text-[#2D2A26] group-hover:text-[#FF7B89] transition-colors" />
-                  <span className="absolute -top-1.5 -right-2 text-[10px] bg-[#FF7B89] text-white font-bold w-[18px] h-[18px] flex items-center justify-center rounded-full">0</span>
-                </div>
-              </div>
             </div>
 
             {/* Mobile Menu Toggle */}

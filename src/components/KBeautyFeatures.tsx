@@ -9,7 +9,7 @@ export default function KBeautyFeatures() {
   ];
 
   return (
-    <section className="bg-[#F8F6F0] py-12 border-y border-[#052B08]/10">
+    <section className="bg-[#C1CDBF] py-12 border-y border-[#052B08]/10">
       <div className="max-w-7xl mx-auto px-6">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {features.map((feat, i) => (

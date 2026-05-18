@@ -17,7 +17,7 @@ import ScrollToHash from './components/ScrollToHash';
 
 function HomePage() {
   return (
-    <div className="bg-[#FCF9F9] min-h-screen relative z-10">
+    <div className="bg-[#C1CDBF] min-h-screen relative z-10">
       <Suspense fallback={null}>
         <HeroSlider />
         <KBeautyFeatures />
@@ -44,7 +44,7 @@ export default function App() {
       <Navbar />
       <SidePagination />
       <SmoothScroll>
-          <div className="bg-[#FCF9F9] min-h-screen selection:bg-[#FF7B89] selection:text-white relative">
+          <div className="bg-[#C1CDBF] min-h-screen selection:bg-[#FF7B89] selection:text-white relative">
             <AnimatePresence mode="wait">
               {loading && <Loader key="loader" />}
             </AnimatePresence>

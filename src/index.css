@@ -2,11 +2,11 @@
 @import "tailwindcss";
 
 @theme {
-  --color-bg: #FCF9F9;
+  --color-bg: #C1CDBF;
   --color-text: #2D2A26;
   --color-accent: #FF7B89;
   --color-white: #FFFFFF;
-  --color-cream: #FFF5F5;
+  --color-cream: #DCE4DA;
   --font-display: 'Playfair Display', serif;
   --font-body: 'Inter', sans-serif;
   --font-serif: 'Cormorant Garamond', serif;

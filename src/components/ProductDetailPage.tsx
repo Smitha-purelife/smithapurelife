@@ -67,7 +67,7 @@ export default function ProductDetailPage() {
   ];
 
   return (
-    <div className="bg-[#FDF9F6] min-h-screen selection:bg-accent selection:text-bg overflow-x-hidden pt-[76px]">
+    <div className="bg-[#C1CDBF] min-h-screen selection:bg-accent selection:text-bg overflow-x-hidden pt-[76px]">
       
 
 

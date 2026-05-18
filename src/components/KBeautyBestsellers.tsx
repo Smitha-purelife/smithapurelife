@@ -4,7 +4,7 @@ import { Heart, Star } from 'lucide-react';
 
 export default function KBeautyBestsellers() {
   return (
-    <section className="py-20 bg-[#FCF9F9]">
+    <section className="py-20 bg-[#C1CDBF]">
       <div className="max-w-7xl mx-auto px-6">
         <div className="flex justify-between items-end mb-12">
           <div>
