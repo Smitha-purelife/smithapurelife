@@ -1,8 +1,11 @@
 import { products } from '../data/products';
 import { motion } from 'framer-motion';
-import { Heart, Star } from 'lucide-react';
+import { Star } from 'lucide-react';
+import { useState } from 'react';
 
 export default function KBeautyBestsellers() {
+  const [showAll, setShowAll] = useState(false);
+  const visibleProducts = showAll ? products : products.slice(0, 4);
   return (
     <section className="py-20 bg-[#C1CDBF]">
       <div className="max-w-7xl mx-auto px-6">
@@ -13,11 +16,16 @@ export default function KBeautyBestsellers() {
             </h2>
             <p className="text-[#2D2A26]/60">Cult favorites loved by the community.</p>
           </div>
-          <button className="text-sm font-medium text-[#FF7B89] hover:underline">View All</button>
+          <button 
+            onClick={() => setShowAll(!showAll)} 
+            className="text-sm font-medium text-[#FF7B89] hover:underline transition-colors duration-300"
+          >
+            {showAll ? 'View Less' : 'View All'}
+          </button>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-          {products.slice(0, 5).map((product, i) => {
+          {visibleProducts.map((product, i) => {
             const dummyBadges = ["Bestseller", "Trending", "Viral", "Must Have", "New"];
             const dummyPrices = ["₹1,200", "₹1,450", "₹999", "₹1,150", "₹1,800"];
             const dummyDiscounts = ["15%", "20%", "", "10%", "5%"];
@@ -33,9 +41,7 @@ export default function KBeautyBestsellers() {
               viewport={{ once: true }}
               className="bg-white rounded-2xl p-4 shadow-sm hover:shadow-xl transition-shadow group relative"
             >
-              <div className="absolute top-6 right-6 z-10 cursor-pointer text-gray-300 hover:text-[#FF7B89] transition-colors">
-                <Heart size={20} />
-              </div>
+
 
               {dummyBadges[i] && (
                 <div className="absolute top-6 left-6 z-10 bg-[#FF7B89] text-white text-[10px] font-bold uppercase tracking-wider px-2 py-1 rounded">
