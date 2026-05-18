@@ -31,40 +31,40 @@ export default function Footer() {
   return (
     <footer id="contact" className="bg-[#052B08] text-white scroll-mt-24">
       {/* Main Footer */}
-      <div className="max-w-7xl mx-auto px-6 py-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12">
+      <div className="max-w-7xl mx-auto px-6 py-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8">
           {/* Brand Column */}
           <div className="lg:col-span-2">
-            <div className="mb-5">
+            <div className="mb-4">
               <img
                 src="/logo.png"
                 alt="Smitha Purelife"
-                className="h-14 w-auto object-contain"
+                className="h-10 w-auto object-contain"
                 style={{ filter: 'brightness(10)' }}
               />
             </div>
-            <p className="text-white/50 text-sm leading-relaxed mb-6 max-w-xs">
+            <p className="text-white/50 text-xs leading-relaxed mb-4 max-w-xs">
               India's leading botanical haircare brand. Crafted with 35+ pure herbs and zero harmful chemicals for hair that truly thrives.
             </p>
 
             {/* Contact Info */}
-            <div className="space-y-3 mb-7">
-              <a href="tel:+919876543210" className="flex items-center gap-3 text-white/50 hover:text-[#F8CD71] transition-colors text-sm group">
-                <Phone size={16} className="text-[#F8CD71]/60 group-hover:text-[#F8CD71]" />
+            <div className="space-y-2 mb-4">
+              <a href="tel:+919876543210" className="flex items-center gap-2.5 text-white/50 hover:text-[#F8CD71] transition-colors text-xs group">
+                <Phone size={14} className="text-[#F8CD71]/60 group-hover:text-[#F8CD71]" />
                 +91 98765 43210
               </a>
-              <a href="mailto:support@smithapurelife.com" className="flex items-center gap-3 text-white/50 hover:text-[#F8CD71] transition-colors text-sm group">
-                <Mail size={16} className="text-[#F8CD71]/60 group-hover:text-[#F8CD71]" />
+              <a href="mailto:support@smithapurelife.com" className="flex items-center gap-2.5 text-white/50 hover:text-[#F8CD71] transition-colors text-xs group">
+                <Mail size={14} className="text-[#F8CD71]/60 group-hover:text-[#F8CD71]" />
                 support@smithapurelife.com
               </a>
-              <div className="flex items-start gap-3 text-white/50 text-sm">
-                <MapPin size={16} className="text-[#F8CD71]/60 flex-shrink-0 mt-0.5" />
+              <div className="flex items-start gap-2.5 text-white/50 text-xs">
+                <MapPin size={14} className="text-[#F8CD71]/60 flex-shrink-0 mt-0.5" />
                 <span>123 Botanical Gardens Road,<br />Bangalore, Karnataka 560001</span>
               </div>
             </div>
 
             {/* Social Icons */}
-            <div className="flex gap-4">
+            <div className="flex gap-3">
               {[
                 { Icon: Instagram, href: 'https://www.instagram.com/smitha_purelife?igsh=MWd1cjgyeWp3eG0wdw==', label: 'Instagram' },
                 { Icon: Facebook, href: '#', label: 'Facebook' },
@@ -74,9 +74,9 @@ export default function Footer() {
                   key={label}
                   href={href}
                   aria-label={label}
-                  className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-white/50 hover:text-[#F8CD71] hover:border-[#F8CD71]/40 hover:bg-[#F8CD71]/10 transition-all"
+                  className="w-8 h-8 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-white/50 hover:text-[#F8CD71] hover:border-[#F8CD71]/40 hover:bg-[#F8CD71]/10 transition-all"
                 >
-                  <Icon size={18} />
+                  <Icon size={14} />
                 </a>
               ))}
             </div>
@@ -85,13 +85,13 @@ export default function Footer() {
           {/* Link Columns */}
           {columns.map((col) => (
             <div key={col.title}>
-              <h4 className="text-[10px] tracking-[0.3em] uppercase text-white/30 font-bold mb-5">{col.title}</h4>
-              <ul className="space-y-3">
+              <h4 className="text-[10px] tracking-[0.3em] uppercase text-white/30 font-bold mb-3">{col.title}</h4>
+              <ul className="space-y-1.5">
                 {col.links.map((link) => (
                   <li key={link.label}>
                     <a
                       href={link.href}
-                      className="text-sm text-white/60 hover:text-[#F8CD71] transition-colors"
+                      className="text-xs text-white/60 hover:text-[#F8CD71] transition-colors"
                     >
                       {link.label}
                     </a>
@@ -105,7 +105,7 @@ export default function Footer() {
 
       {/* Trust Badges */}
       <div className="border-t border-white/5">
-        <div className="max-w-7xl mx-auto px-6 py-6 flex flex-wrap justify-center gap-8 text-white/25 text-[11px] uppercase tracking-widest font-semibold">
+        <div className="max-w-7xl mx-auto px-6 py-3 flex flex-wrap justify-center gap-6 text-white/25 text-[9px] uppercase tracking-widest font-semibold">
           {['100% Natural', 'Dermatologist Tested', 'Cruelty Free', 'Made in India', 'GMP Certified', 'ISO 9001:2015'].map((badge) => (
             <span key={badge}>{badge}</span>
           ))}
@@ -114,7 +114,7 @@ export default function Footer() {
 
       {/* Copyright */}
       <div className="border-t border-white/5">
-        <div className="max-w-7xl mx-auto px-6 py-5 flex flex-col md:flex-row justify-between items-center gap-4">
+        <div className="max-w-7xl mx-auto px-6 py-3 flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-white/30 text-xs">
             © 2026 Smitha Purelife Natural Care Pvt. Ltd. All rights reserved.
           </p>
