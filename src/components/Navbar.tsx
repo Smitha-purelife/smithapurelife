@@ -6,7 +6,6 @@ import { Link } from 'react-router-dom';
 const navLinks = [
   { name: 'Shop All', href: '/' },
   { name: 'Our Story', href: '/#story' },
-  { name: 'Atelier', href: '/#atelier' },
 ];
 
 export default function Navbar() {
@@ -32,7 +31,7 @@ export default function Navbar() {
           <div className="flex items-center justify-between">
             {/* Left Nav */}
             <div className="hidden md:flex items-center gap-8 flex-1">
-              {navLinks.slice(0, 2).map((link) => (
+              {navLinks.slice(0, 1).map((link) => (
                 <Link
                   key={link.name}
                   to={link.href}
@@ -63,7 +62,7 @@ export default function Navbar() {
 
             {/* Right Nav */}
             <div className="hidden md:flex items-center justify-end gap-8 flex-1">
-              {navLinks.slice(2).map((link) => (
+              {navLinks.slice(1, 2).map((link) => (
                 <Link
                   key={link.name}
                   to={link.href}
