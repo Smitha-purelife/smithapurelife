@@ -5,9 +5,7 @@ export default function Footer() {
     {
       title: 'Shop',
       links: [
-        { label: 'All Products', href: '/' },
-        { label: 'Best Sellers', href: '/' },
-        { label: 'New Arrivals', href: '/' },
+        { label: 'All Products', href: '/#trending' },
         { label: 'Hair Oil', href: '/product/radiance-oil' },
         { label: 'Hair Serum', href: '/product/pro-repair-serum' },
         { label: 'Hair Wash', href: '/product/herbal-wash' },
@@ -17,30 +15,21 @@ export default function Footer() {
     {
       title: 'Our Story',
       links: [
-        { label: 'About Smitha', href: '/' },
-        { label: 'Our Ingredients', href: '/' },
-        { label: 'Sustainability', href: '/' },
-        { label: 'Press & Media', href: '/' },
-        { label: 'Careers', href: '/' },
-        { label: 'Certifications', href: '/' },
+        { label: 'About Smitha', href: '/#story' },
+        { label: 'Our Ingredients', href: '/#ingredients' },
       ],
     },
     {
       title: 'Help',
       links: [
-        { label: 'Contact Us', href: '/' },
-        { label: 'Shipping & Delivery', href: '/' },
-        { label: 'Returns & Refunds', href: '/' },
-        { label: 'Track Your Order', href: '/' },
-        { label: 'FAQ', href: '/' },
-        { label: 'Privacy Policy', href: '/' },
-        { label: 'Terms of Service', href: '/' },
+        { label: 'Contact Us', href: '/#contact' },
+        { label: 'FAQ', href: '/#faq' },
       ],
     },
   ];
 
   return (
-    <footer className="bg-[#052B08] text-white">
+    <footer id="contact" className="bg-[#052B08] text-white scroll-mt-24">
       {/* Main Footer */}
       <div className="max-w-7xl mx-auto px-6 py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12">
