@@ -11,6 +11,7 @@ import ScrollToHash from './components/ScrollToHash';
 
 const HeroSlider = lazy(() => import('./components/HeroSlider'));
 const WhyUsStrip = lazy(() => import('./components/WhyUsStrip'));
+const StorySection = lazy(() => import('./components/StorySection'));
 const KBeautyFeatures = lazy(() => import('./components/KBeautyFeatures'));
 const ShopByConcern = lazy(() => import('./components/ShopByConcern'));
 const KBeautyCategories = lazy(() => import('./components/KBeautyCategories'));
@@ -31,6 +32,8 @@ function HomePage() {
         <HeroSlider />
         {/* 2. Why Us — Trust Building Strip */}
         <WhyUsStrip />
+        {/* 2b. Our Story Section */}
+        <StorySection />
         {/* 3. Brand Promise Feature Cards */}
         <KBeautyFeatures />
         {/* 4. Shop by Hair Concern */}
