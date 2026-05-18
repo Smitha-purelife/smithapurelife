@@ -46,13 +46,19 @@ export default function Navbar() {
             {/* Logo */}
             <Link
               to="/"
-              className="flex-1 flex items-center justify-center transition-opacity hover:opacity-90 duration-300"
+              className="flex-1 flex items-center justify-center gap-3 transition-opacity hover:opacity-90 duration-300"
             >
               <img 
                 src="/logo.png" 
                 alt="Smitha Purelife" 
-                className="h-10 md:h-11 lg:h-12 w-auto object-contain mix-blend-multiply filter contrast-[1.15] brightness-[1.08]" 
+                className="h-8 md:h-9 lg:h-10 w-auto object-contain mix-blend-multiply filter contrast-[1.15] brightness-[1.08]" 
               />
+              <span 
+                className="text-lg md:text-xl lg:text-2xl tracking-tight text-[#2D2A26] font-serif font-medium whitespace-nowrap"
+                style={{ fontFamily: "'Playfair Display', serif" }}
+              >
+                Smitha Purelife
+              </span>
             </Link>
 
             {/* Right Nav */}
