@@ -53,10 +53,9 @@ const cardConfig: Record<string, {
     rating: 4.7,
     reviews: 5800,
   },
-  // ⬇ Replace 'silk_gloss_pro_repair_serum.png' with the studio shot once saved
   'pro-repair-serum': {
-    shopImage: '/products/silk_gloss_pro_repair_serum_studio.png', // ← new studio shot
-    objectFit: 'cover',
+    shopImage: '/products/silk_gloss_pro_repair_serum.png',
+    objectFit: 'contain' as const,
     bgColor: '#FDF0F5',
     price: '₹1,150',
     badge: 'Must Have',
