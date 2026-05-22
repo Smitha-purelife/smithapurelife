@@ -61,7 +61,7 @@ export const products = [
     subtitle: "Silk Gloss Technology",
     description: "Instant silk gloss with botanical repair technology. Restore natural vitality and overnight repair.",
     image: "/products/silk_gloss_pro_repair_serum.png",
-    lifestyleImage: "/products/silk_gloss_pro_repair_serum.png",
+    lifestyleImage: "/products/pro_repair_serum_hero_v2_png_1778593726696.png",
     texture: "/products/pro_repair_texture.png",
     accent: "#DBCDF0",
     bg: "#F5F0FA",
