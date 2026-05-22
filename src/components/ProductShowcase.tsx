@@ -1,3 +1,4 @@
+import React from 'react';
 import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
 import { Link } from 'react-router-dom';
@@ -14,7 +15,7 @@ const shopConfig: Record<string, {
   shopImage: string;       // ← replace with your custom image path
   lifestyleThumb: string;  // ← replace with your lifestyle shot path
   tag: string;
-  icon: JSX.Element;
+  icon: React.ReactNode;
 }> = {
   'avosilk-bloom': {
     price: '₹1,200',
