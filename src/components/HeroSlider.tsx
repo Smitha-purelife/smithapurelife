@@ -28,156 +28,189 @@ export default function HeroSlider() {
       <AnimatePresence mode="wait">
         <motion.div
           key={current}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
-          className="absolute inset-0 w-full h-full"
+          initial={{ opacity: 0, x: 100 }}
+          animate={{ opacity: 1, x: 0 }}
+          exit={{ opacity: 0, x: -100 }}
+          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+          className="absolute inset-0 w-full h-full flex"
         >
           {/* Background / Lifestyle Image with Ken Burns effect */}
-          <div className="absolute inset-0 w-full h-full overflow-hidden">
+          <div 
+            className="absolute inset-0 w-full h-full overflow-hidden transition-colors duration-1000"
+            style={{ backgroundColor: product.hasFullBanner ? product.bg : undefined }}
+          >
              <motion.img 
                src={product.lifestyleImage} 
                alt={product.title} 
-               initial={{ scale: 1.1, x: 20 }}
-               animate={{ scale: 1, x: 0 }}
-               transition={{ duration: 10, ease: "linear" }}
-               className="w-full h-full object-cover object-[center_top] md:object-[right_top]"
+               initial={{ scale: product.hasFullBanner ? 1.05 : 1.1 }}
+               animate={{ scale: 1 }}
+               transition={{ duration: 8, ease: "linear" }}
+               className={`w-full h-full ${product.hasFullBanner ? 'max-md:object-contain object-cover' : 'object-cover'} object-[center_top] md:object-[right_top]`}
              />
-             {/* Gradient overlay for text readability */}
-             <div className={`absolute inset-0 ${isDark ? 'bg-gradient-to-r from-black/90 via-black/50 to-transparent' : 'bg-gradient-to-r from-white/80 via-white/40 to-transparent'}`} />
+             {/* Gradient overlay for text readability - hide if full banner */}
+             {!product.hasFullBanner && (
+               <div className={`absolute inset-0 ${isDark ? 'bg-gradient-to-r from-black/90 via-black/50 to-transparent' : 'bg-gradient-to-r from-white/80 via-white/40 to-transparent'}`} />
+             )}
           </div>
 
-          <div className="relative z-10 max-w-7xl mx-auto px-6 h-full flex flex-col justify-center pt-32 md:pt-36 pb-24 md:pb-32">
-            <div className={`max-w-2xl ${isDark ? 'text-white' : 'text-[#052B08]'}`}>
-              
-              {/* Top Subtitle */}
-              <motion.div 
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.3, duration: 1, ease: [0.16, 1, 0.3, 1] }}
-                className="mb-4"
-              >
-                {isDark ? (
-                  <h2 className="text-4xl md:text-6xl font-serif leading-tight">
-                    Stronger Roots. <br />
-                    Longer Lengths. <br />
-                    <span className="font-serif italic text-[#F8CD71]">Lasting Shine.</span>
-                  </h2>
-                ) : (
-                  <>
-                    <p className="text-xs md:text-sm tracking-[0.3em] uppercase font-bold mb-4">
-                      {product.benefits.join(' • ')}
-                    </p>
-                    <h2 className="text-6xl md:text-8xl font-serif mb-6 leading-none">
-                      {product.title.split(' ')[0]} <br />
-                      {product.title.split(' ').slice(1).join(' ')}
+          {/* Floating Product Bottle */}
+          {!product.hasFullBanner && (
+            <motion.div
+              initial={{ x: 50, opacity: 0, rotate: 5 }}
+              animate={{ x: 0, opacity: 1, rotate: 0 }}
+              transition={{ delay: 0.5, duration: 1, type: "spring", bounce: 0.4 }}
+              className="hidden md:block absolute right-[5%] lg:right-[15%] top-1/2 -translate-y-1/2 w-72 lg:w-96 aspect-square z-20 pointer-events-none drop-shadow-2xl"
+            >
+              <img 
+                src={product.image} 
+                alt={product.title} 
+                className="w-full h-full object-contain mix-blend-multiply filter contrast-[1.1]" 
+              />
+            </motion.div>
+          )}
+
+          {!product.hasFullBanner && (
+            <div className="relative z-10 max-w-7xl mx-auto px-6 h-full flex flex-col justify-center pt-32 md:pt-36 pb-24 md:pb-32">
+              <div className={`max-w-2xl ${isDark ? 'text-white' : 'text-[#052B08]'}`}>
+                
+                {/* Top Subtitle */}
+                <motion.div 
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.3, duration: 1, ease: [0.16, 1, 0.3, 1] }}
+                  className="mb-4"
+                >
+                  {isDark ? (
+                    <h2 className="text-4xl md:text-6xl font-serif leading-tight">
+                      Stronger Roots. <br />
+                      Longer Lengths. <br />
+                      <span className="font-serif italic text-[#F8CD71]">Lasting Shine.</span>
                     </h2>
-                  </>
-                )}
-              </motion.div>
+                  ) : (
+                    <>
+                      <p className="text-xs md:text-sm tracking-[0.3em] uppercase font-bold mb-4">
+                        {product.benefits.join(' • ')}
+                      </p>
+                      <h2 className="text-6xl md:text-8xl font-serif mb-6 leading-none">
+                        {product.title.split(' ')[0]} <br />
+                        {product.title.split(' ').slice(1).join(' ')}
+                      </h2>
+                    </>
+                  )}
+                </motion.div>
 
-              {/* Description */}
-              <motion.p 
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.5, duration: 1, ease: [0.16, 1, 0.3, 1] }}
-                className={`text-base md:text-lg mb-8 max-w-lg leading-relaxed ${isDark ? 'text-white/90' : 'text-[#052B08]/90'}`}
-              >
-                {product.description}
-              </motion.p>
+                {/* Description */}
+                <motion.p 
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.5, duration: 1, ease: [0.16, 1, 0.3, 1] }}
+                  className={`text-base md:text-lg mb-8 max-w-lg leading-relaxed ${isDark ? 'text-white/90' : 'text-[#052B08]/90'}`}
+                >
+                  {product.description}
+                </motion.p>
 
-              {/* Redesigned Minimalist Boutique Tiles */}
-              <div className="relative mb-12 flex flex-col sm:flex-row flex-wrap gap-3 md:gap-6">
-                {product.benefits.map((benefit, i) => {
-                  const getIcon = (name: string) => {
-                    const n = name.toLowerCase();
-                    if (n.includes('growth') || n.includes('regrowth') || n.includes('therapy')) return <Sparkles size={14} />;
-                    if (n.includes('blend') || n.includes('herbal') || n.includes('natural')) return <Leaf size={14} />;
-                    if (n.includes('strength') || n.includes('root') || n.includes('rescue')) return <Shield size={14} />;
-                    if (n.includes('cleanse') || n.includes('wash')) return <Droplets size={14} />;
-                    if (n.includes('shine') || n.includes('gloss')) return <Sun size={14} />;
-                    return <div className="w-1 h-1 rounded-full bg-current" />;
-                  };
+                {/* Redesigned Minimalist Boutique Tiles */}
+                <div className="relative mb-12 flex flex-col sm:flex-row flex-wrap gap-3 md:gap-6">
+                  {product.benefits.map((benefit, i) => {
+                    const getIcon = (name: string) => {
+                      const n = name.toLowerCase();
+                      if (n.includes('growth') || n.includes('regrowth') || n.includes('therapy')) return <Sparkles size={14} />;
+                      if (n.includes('blend') || n.includes('herbal') || n.includes('natural')) return <Leaf size={14} />;
+                      if (n.includes('strength') || n.includes('root') || n.includes('rescue')) return <Shield size={14} />;
+                      if (n.includes('cleanse') || n.includes('wash')) return <Droplets size={14} />;
+                      if (n.includes('shine') || n.includes('gloss')) return <Sun size={14} />;
+                      return <div className="w-1 h-1 rounded-full bg-current" />;
+                    };
 
-                  return (
-                    <motion.div 
-                      key={i} 
-                      initial={{ opacity: 0, x: -20 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      whileHover={{ x: 10 }}
-                      transition={{ 
-                        delay: 0.6 + i * 0.1, 
-                        duration: 0.5,
-                        ease: "easeOut"
-                      }}
-                      className="group flex items-center"
-                    >
-                      <div 
-                        className={`relative flex items-center gap-4 py-4 px-6 rounded-xl transition-all duration-500 ${
-                          isDark 
-                            ? 'bg-white/5 hover:bg-white/10 border border-white/10' 
-                            : 'bg-white/40 backdrop-blur-md hover:bg-white/80 border border-[#052B08]/5 shadow-sm hover:shadow-md'
-                        }`}
+                    return (
+                      <motion.div 
+                        key={i} 
+                        initial={{ opacity: 0, x: -20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        whileHover={{ x: 10 }}
+                        transition={{ 
+                          delay: 0.6 + i * 0.1, 
+                          duration: 0.5,
+                          ease: "easeOut"
+                        }}
+                        className="group flex items-center"
                       >
-                        {/* Vertical Accent Bar */}
-                        <div className={`absolute left-0 top-1/4 bottom-1/4 w-[3px] rounded-r-full transition-all duration-500 group-hover:top-0 group-hover:bottom-0 ${
-                          isDark ? 'bg-[#F8CD71]' : 'bg-[#1A4B21]'
-                        }`} />
-
-                        {/* Icon */}
-                        <div className={`flex-shrink-0 w-8 h-8 rounded-lg flex items-center justify-center transition-all duration-500 group-hover:scale-110 ${
-                          isDark ? 'bg-white/5 text-[#F8CD71]' : 'bg-[#1A4B21]/5 text-[#1A4B21]'
-                        }`}>
-                          {getIcon(benefit)}
-                        </div>
-
-                        {/* Text Content */}
-                        <div className="flex flex-col">
-                          <span className={`text-[10px] md:text-[11px] uppercase tracking-[0.25em] font-extrabold leading-none ${
-                            isDark ? 'text-white' : 'text-[#1A4B21]'
+                        <div 
+                          className={`relative flex items-center gap-4 py-4 px-6 rounded-xl transition-all duration-500 ${
+                            isDark 
+                              ? 'bg-white/5 hover:bg-white/10 border border-white/10' 
+                              : 'bg-white/40 backdrop-blur-md hover:bg-white/80 border border-[#052B08]/5 shadow-sm hover:shadow-md'
                           }`}
-                          style={{ fontFamily: "'Inter', sans-serif" }}
-                          >
-                            {benefit}
-                          </span>
-                          <span className={`text-[8px] uppercase tracking-[0.1em] mt-1 opacity-0 group-hover:opacity-40 transition-opacity duration-500 ${
-                            isDark ? 'text-white' : 'text-[#1A4B21]'
-                          }`}>
-                            Pure Essence
-                          </span>
-                        </div>
-                      </div>
-                    </motion.div>
-                  );
-                })}
-              </div>
+                        >
+                          {/* Vertical Accent Bar */}
+                          <div className={`absolute left-0 top-1/4 bottom-1/4 w-[3px] rounded-r-full transition-all duration-500 group-hover:top-0 group-hover:bottom-0 ${
+                            isDark ? 'bg-[#F8CD71]' : 'bg-[#1A4B21]'
+                          }`} />
 
-              {/* Shop Button with hover animation */}
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.9, duration: 0.8 }}
-              >
-                <Link to={`/product/${product.id}`}>
-                  <motion.button 
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.98 }}
-                    className="bg-[#1A4B21] text-white px-8 py-4 rounded-full font-bold tracking-widest uppercase text-xs flex items-center gap-3 hover:bg-[#0f2e14] transition-all duration-300 group shadow-lg hover:shadow-2xl"
-                  >
-                    Shop Now 
-                    <motion.div
-                      animate={{ x: [0, 5, 0] }}
-                      transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
-                      className="group-hover:translate-x-1 transition-transform"
+                          {/* Icon */}
+                          <div className={`flex-shrink-0 w-8 h-8 rounded-lg flex items-center justify-center transition-all duration-500 group-hover:scale-110 ${
+                            isDark ? 'bg-white/5 text-[#F8CD71]' : 'bg-[#1A4B21]/5 text-[#1A4B21]'
+                          }`}>
+                            {getIcon(benefit)}
+                          </div>
+
+                          {/* Text Content */}
+                          <div className="flex flex-col">
+                            <span className={`text-[10px] md:text-[11px] uppercase tracking-[0.25em] font-extrabold leading-none ${
+                              isDark ? 'text-white' : 'text-[#1A4B21]'
+                            }`}
+                            style={{ fontFamily: "'Inter', sans-serif" }}
+                            >
+                              {benefit}
+                            </span>
+                            <span className={`text-[8px] uppercase tracking-[0.1em] mt-1 opacity-0 group-hover:opacity-40 transition-opacity duration-500 ${
+                              isDark ? 'text-white' : 'text-[#1A4B21]'
+                            }`}>
+                              Pure Essence
+                            </span>
+                          </div>
+                        </div>
+                      </motion.div>
+                    );
+                  })}
+                </div>
+
+                {/* Shop Button and Mobile Product Bottle with hover animation */}
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.9, duration: 0.8 }}
+                  className="flex items-center gap-6"
+                >
+                  <Link to={`/product/${product.id}`}>
+                    <motion.button 
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.98 }}
+                      className="bg-[#1A4B21] text-white px-8 py-4 rounded-full font-bold tracking-widest uppercase text-xs flex items-center gap-3 hover:bg-[#0f2e14] transition-all duration-300 group shadow-lg hover:shadow-2xl"
                     >
-                      <ArrowRight size={16} />
-                    </motion.div>
-                  </motion.button>
-                </Link>
-              </motion.div>
+                      Shop Now 
+                      <motion.div
+                        animate={{ x: [0, 5, 0] }}
+                        transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+                        className="group-hover:translate-x-1 transition-transform"
+                      >
+                        <ArrowRight size={16} />
+                      </motion.div>
+                    </motion.button>
+                  </Link>
+
+                  {/* Mobile-only inline product bottle */}
+                  <div className="md:hidden w-20 h-28 relative flex-shrink-0">
+                    <img 
+                      src={product.image} 
+                      alt={product.title} 
+                      className="w-full h-full object-contain mix-blend-multiply filter contrast-[1.1] drop-shadow-xl" 
+                    />
+                  </div>
+                </motion.div>
+              </div>
             </div>
-          </div>
+          )}
         </motion.div>
       </AnimatePresence>
 

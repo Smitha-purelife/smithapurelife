@@ -49,11 +49,15 @@ export default function KBeautyBestsellers() {
                 </div>
               )}
 
-              <div className="aspect-square bg-[#F8F9FA] rounded-xl overflow-hidden mb-4 p-6 relative">
+              <div className="aspect-square bg-[#F8F9FA] rounded-xl overflow-hidden mb-4 relative">
                 <img 
-                  src={product.image} 
+                  src={[
+                    "/products/media__1779346601889.png",
+                    "/products/media__1779346610043.png",
+                    "/products/media__1779346616301.jpg"
+                  ][i] || product.image} 
                   alt={product.title} 
-                  className="w-full h-full object-contain rounded-md group-hover:scale-105 transition-transform duration-500 mix-blend-multiply" 
+                  className="w-full h-full object-cover rounded-md group-hover:scale-105 transition-transform duration-500" 
                 />
               </div>
 

@@ -10,6 +10,8 @@ import SidePagination from './components/SidePagination';
 import ScrollToHash from './components/ScrollToHash';
 
 const HeroSlider = lazy(() => import('./components/HeroSlider'));
+const ProductShowcase = lazy(() => import('./components/ProductShowcase'));
+const KBeautyCategories = lazy(() => import('./components/KBeautyCategories'));
 const WhyUsStrip = lazy(() => import('./components/WhyUsStrip'));
 const StorySection = lazy(() => import('./components/StorySection'));
 const KBeautyFeatures = lazy(() => import('./components/KBeautyFeatures'));
@@ -29,6 +31,10 @@ function HomePage() {
       <Suspense fallback={null}>
         {/* 1. Full-bleed Hero Slider */}
         <HeroSlider />
+        {/* Categories Side Scroll */}
+        <KBeautyCategories />
+        {/* Old Floating 5 Scroll Animation */}
+        <ProductShowcase />
         {/* 2. Why Us — Trust Building Strip */}
         <WhyUsStrip />
         {/* 2b. Our Story Section */}

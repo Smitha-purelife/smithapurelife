@@ -1,43 +1,6 @@
 import { motion, useScroll, useTransform, useInView } from 'framer-motion';
 import { useRef } from 'react';
-
-const products = [
-  {
-    title: "Avosilky Bloom",
-    description: "Nourish your hair with the rich goodness of Avocado. Designed for deep conditioning and silken texture that lasts.",
-    image: "/products/avosilk_bloom.png",
-    accent: "#E9D5CA",
-    benefit: "Avocado Rich"
-  },
-  {
-    title: "Herbal Hair Wash",
-    description: "Nature's therapy in a powder. A traditional blend of Marshmallow root, Amla, and Hibiscus for a pure, herbal cleanse.",
-    image: "/products/hair_wash_powder.png",
-    accent: "#D4E2D4",
-    benefit: "Pure Therapy"
-  },
-  {
-    title: "Radiance Hair Oil",
-    description: "2x Advance Growth Revival. Infused with Jojoba, Rosemary, and 20+ botanical extracts for intensive rescue and shine.",
-    image: "/products/image copy 6.png",
-    accent: "#F9F3CC",
-    benefit: "Growth Revival"
-  },
-  {
-    title: "Pro Repair Serum",
-    description: "Instant silk gloss with botanical repair technology. Restore natural vitality and overnight repair to stressed hair.",
-    image: "/products/skin_glow_pro_repair_hairserum.png",
-    accent: "#DBCDF0",
-    benefit: "Silk Gloss"
-  },
-  {
-    title: "Follicra Regrowth",
-    description: "Advanced hair regrowth therapy. A concentrated scalp ritual featuring Marshmallow root and Ayurvedic botanicals.",
-    image: "/products/hexagen-image (1).png",
-    accent: "#DDF1E9",
-    benefit: "Regrowth Therapy"
-  }
-];
+import { products } from '../data/products';
 
 function ProductRow({ product, index }: { product: typeof products[0]; index: number }) {
   const containerRef = useRef(null);
@@ -142,7 +105,7 @@ function ProductRow({ product, index }: { product: typeof products[0]; index: nu
               className={`absolute top-1/4 ${isEven ? '-right-12' : '-left-12'} bg-white/80 backdrop-blur-md p-6 rounded-2xl shadow-xl border border-white/20 hidden lg:block`}
             >
               <p className="font-body text-[8px] tracking-[0.2em] uppercase text-text/40 mb-1">Benefit</p>
-              <p className="serif-title text-xl text-text whitespace-nowrap">{product.benefit}</p>
+              <p className="serif-title text-xl text-text whitespace-nowrap">{product.benefits[0]}</p>
             </motion.div>
 
             {/* Bottom floating badge */}
