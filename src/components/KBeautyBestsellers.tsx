@@ -1,6 +1,6 @@
 import { products } from '../data/products';
 import { motion } from 'framer-motion';
-import { Star, ShoppingBag } from 'lucide-react';
+import { Star, ShoppingBag, ArrowRight } from 'lucide-react';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 
@@ -16,53 +16,38 @@ const cardConfig: Record<string, {
   price: string;
   badge: string;
   badgeColor: string;
-  discount: string;
-  rating: number;
-  reviews: number;
 }> = {
   'avosilk-bloom': {
-    shopImage: '/products/media__1779346601889.png',   // lifestyle model photo
+    shopImage: '/products/media__1779533781731.jpg',
     objectFit: 'cover',
     bgColor: '#EEF7EE',
     price: '₹1,200',
     badge: 'Bestseller',
     badgeColor: '#2D7A3A',
-    discount: '15% OFF',
-    rating: 4.8,
-    reviews: 1204,
   },
   'radiance-oil': {
-    shopImage: '/products/media__1779346610043.png',   // lifestyle model photo
+    shopImage: '/products/media__1779346610043.png',
     objectFit: 'cover',
     bgColor: '#FFF8E6',
     price: '₹1,450',
     badge: 'Trending',
     badgeColor: '#B8860B',
-    discount: '20% OFF',
-    rating: 4.9,
-    reviews: 3400,
   },
   'herbal-wash': {
-    shopImage: '/products/media__1779346616301.jpg',   // lifestyle photo
+    shopImage: '/products/media__1779533787189.jpg',
     objectFit: 'cover',
     bgColor: '#EEF4EE',
     price: '₹999',
     badge: 'Viral',
     badgeColor: '#4A7C59',
-    discount: '',
-    rating: 4.7,
-    reviews: 5800,
   },
   'pro-repair-serum': {
-    shopImage: '/products/silk_gloss_pro_repair_serum.png',
-    objectFit: 'contain' as const,
+    shopImage: '/products/media__1779533774577.jpg',
+    objectFit: 'cover',
     bgColor: '#FDF0F5',
     price: '₹1,150',
     badge: 'Must Have',
     badgeColor: '#8B5E8B',
-    discount: '10% OFF',
-    rating: 4.9,
-    reviews: 4200,
   },
   'follicra-regrowth': {
     shopImage: '/products/hexagen-image (1).png',
@@ -71,9 +56,6 @@ const cardConfig: Record<string, {
     price: '₹1,800',
     badge: 'New',
     badgeColor: '#2D6A8B',
-    discount: '5% OFF',
-    rating: 5.0,
-    reviews: 890,
   },
 };
 
@@ -82,33 +64,29 @@ export default function KBeautyBestsellers() {
   const visibleProducts = showAll ? products : products.slice(0, 4);
 
   return (
-    <section id="trending" className="py-20 bg-[#C1CDBF] scroll-mt-24">
+    <section id="trending" className="py-20 bg-[#F5F7F5] scroll-mt-24">
       <div className="max-w-7xl mx-auto px-4 md:px-6">
 
         {/* Header */}
         <div className="flex justify-between items-end mb-10">
           <div>
-            <p className="text-xs tracking-[0.3em] uppercase font-bold text-[#2D7A3A] mb-2">
+            <p className="text-xs tracking-[0.3em] uppercase font-bold text-[#1A4B21] mb-2">
               Community Favourites
             </p>
-            <h2 className="text-3xl md:text-4xl font-serif text-[#2D2A26]"
-                style={{ fontFamily: "'Playfair Display', serif" }}>
+            <h2 className="text-3xl md:text-4xl font-serif text-[#2D2A26]">
               Trending Now
             </h2>
-            <p className="text-[#2D2A26]/60 text-sm mt-1">
-              Cult favorites loved by the community.
-            </p>
           </div>
           <button
             onClick={() => setShowAll(!showAll)}
-            className="text-sm font-semibold text-[#1A4B21] border border-[#1A4B21]/30 px-5 py-2 rounded-full hover:bg-[#1A4B21] hover:text-white transition-all duration-300"
+            className="text-sm font-bold text-[#1A4B21] border-2 border-[#1A4B21] px-6 py-2.5 rounded-full hover:bg-[#1A4B21] hover:text-white transition-all duration-300"
           >
             {showAll ? 'View Less' : 'View All'}
           </button>
         </div>
 
         {/* Product Grid */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {visibleProducts.map((product, i) => {
             const cfg = cardConfig[product.id] ?? {
               shopImage: product.image,
@@ -117,9 +95,6 @@ export default function KBeautyBestsellers() {
               price: '₹999',
               badge: '',
               badgeColor: '#666',
-              discount: '',
-              rating: 4.8,
-              reviews: 100,
             };
 
             return (
@@ -129,85 +104,79 @@ export default function KBeautyBestsellers() {
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.08, duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
                 viewport={{ once: true }}
-                className="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-400 group relative flex flex-col"
+                className="group relative flex flex-col rounded-[2rem] overflow-hidden shadow-md hover:shadow-xl transition-all duration-500 bg-white h-[500px] md:h-[550px]"
               >
                 {/* Badge */}
                 {cfg.badge && (
                   <div
-                    className="absolute top-3 left-3 z-10 text-white text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full shadow-sm"
+                    className="absolute top-4 left-4 z-10 text-white text-[10px] font-bold uppercase tracking-widest px-4 py-1.5 rounded-full shadow-md"
                     style={{ backgroundColor: cfg.badgeColor }}
                   >
                     {cfg.badge}
                   </div>
                 )}
 
-                {/* Image container — fixed height, no crop bleed */}
-                <Link to={`/product/${product.id}`} className="block">
-                  <div
-                    className="w-full overflow-hidden"
-                    style={{
-                      height: '220px',
-                      backgroundColor: cfg.bgColor,
-                    }}
-                  >
+                {/* Background Image Container */}
+                <div 
+                  className="absolute inset-0 w-full h-full"
+                  style={{ backgroundColor: cfg.objectFit === 'contain' ? cfg.bgColor : '#FDF9F6' }}
+                >
+                  <Link to={`/product/${product.id}`} className="block w-full h-full">
                     <img
                       src={cfg.shopImage}
                       alt={product.title}
                       onError={(e) => {
-                        // Fallback to product.image if studio shot not found yet
                         (e.currentTarget as HTMLImageElement).src = product.image;
                         (e.currentTarget as HTMLImageElement).style.objectFit = 'contain';
-                        (e.currentTarget as HTMLImageElement).style.padding = '16px';
+                        (e.currentTarget as HTMLImageElement).style.padding = '32px';
                       }}
-                      className={`w-full h-full transition-transform duration-500 group-hover:scale-105 ${
+                      className={`w-full h-full transition-transform duration-700 group-hover:scale-105 ${
                         cfg.objectFit === 'cover'
                           ? 'object-cover object-center'
-                          : 'object-contain p-4'
+                          : 'object-contain p-8 pb-32'
                       }`}
                     />
-                  </div>
-                </Link>
-
-                {/* Info */}
-                <div className="p-4 flex flex-col flex-1">
-                  <p className="text-[10px] font-bold text-[#FF7B89] uppercase tracking-widest mb-1">
-                    Smitha Purelife
-                  </p>
-                  <Link to={`/product/${product.id}`}>
-                    <h3 className="font-semibold text-[#2D2A26] text-sm leading-snug mb-2 group-hover:text-[#1A4B21] transition-colors line-clamp-2">
-                      {product.title}
-                    </h3>
                   </Link>
+                </div>
 
-                  {/* Rating */}
-                  <div className="flex items-center gap-1 mb-3">
-                    {[...Array(5)].map((_, s) => (
-                      <Star
-                        key={s}
-                        size={11}
-                        className={s < Math.floor(cfg.rating) ? 'text-yellow-400' : 'text-gray-200'}
-                        fill={s < Math.floor(cfg.rating) ? 'currentColor' : 'currentColor'}
-                      />
-                    ))}
-                    <span className="text-[11px] font-semibold text-[#2D2A26] ml-1">{cfg.rating}</span>
-                    <span className="text-[11px] text-[#2D2A26]/40">({cfg.reviews.toLocaleString()})</span>
-                  </div>
-
-                  {/* Price row */}
-                  <div className="flex items-center gap-2 mt-auto mb-3">
-                    <span className="font-bold text-base text-[#2D2A26]">{cfg.price}</span>
-                    {cfg.discount && (
-                      <span className="text-[11px] font-semibold text-[#FF7B89] bg-[#FFE5E5] px-2 py-0.5 rounded-full">
-                        {cfg.discount}
+                {/* White Floating Content Overlay */}
+                <div className="absolute bottom-3 left-3 right-3 md:bottom-4 md:left-4 md:right-4 pointer-events-none">
+                  <div className="bg-white/95 backdrop-blur-xl rounded-[1.5rem] p-5 md:p-6 shadow-sm border border-white/60 pointer-events-auto transition-transform duration-300 group-hover:-translate-y-1">
+                    
+                    {/* Subtitle */}
+                    <p className="text-[9px] md:text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2">
+                      {product.subtitle || 'Smitha Purelife'}
+                    </p>
+                    
+                    {/* Title & Price */}
+                    <div className="flex justify-between items-end mb-4">
+                      <Link to={`/product/${product.id}`} className="block flex-1 pr-2">
+                        <h3 className="font-serif text-xl md:text-2xl text-[#2D2A26] leading-snug group-hover:text-[#1A4B21] transition-colors line-clamp-1">
+                          {product.title}
+                        </h3>
+                      </Link>
+                      <span className="font-bold text-2xl md:text-3xl text-[#2D2A26] leading-none shrink-0" style={{ fontFamily: "'Inter', sans-serif" }}>
+                        {cfg.price}
                       </span>
-                    )}
-                  </div>
+                    </div>
 
-                  {/* Add to Bag button */}
-                  <button className="w-full flex items-center justify-center gap-2 bg-white border-2 border-[#2D2A26] text-[#2D2A26] py-2.5 rounded-xl text-sm font-bold hover:bg-[#1A4B21] hover:border-[#1A4B21] hover:text-white transition-all duration-300 group/btn">
-                    <ShoppingBag size={14} className="group-hover/btn:scale-110 transition-transform" />
-                    Add to Bag
-                  </button>
+                    {/* Tags & Button */}
+                    <div className="flex items-center justify-between">
+                      <div className="flex flex-wrap gap-2">
+                        {product.benefits.slice(0, 2).map((b, i) => (
+                          <span key={i} className="bg-[#EEF7EE] text-[#1A4B21] px-3 py-1 rounded-full text-[10px] font-semibold whitespace-nowrap">
+                            {b}
+                          </span>
+                        ))}
+                      </div>
+                      <Link to={`/product/${product.id}`} className="shrink-0 ml-2">
+                        <button className="flex items-center gap-2 bg-[#1A4B21] text-white px-5 py-2.5 rounded-full text-[11px] font-bold uppercase tracking-wider hover:bg-[#0f2e14] transition-all shadow-md hover:shadow-lg active:scale-95">
+                          Shop Now <ArrowRight size={14} />
+                        </button>
+                      </Link>
+                    </div>
+
+                  </div>
                 </div>
               </motion.div>
             );
