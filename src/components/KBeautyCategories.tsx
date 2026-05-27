@@ -1,43 +1,51 @@
-import { products } from '../data/products';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 
-export default function KBeautyCategories() {
-  const getCategoryName = (id: string) => {
-    switch(id) {
-      case 'avosilk-bloom': return 'Conditioners';
-      case 'radiance-oil': return 'Hair Oils';
-      case 'herbal-wash': return 'Cleansers';
-      case 'pro-repair-serum': return 'Serums';
-      default: return 'Treatments';
-    }
-  };
+const categories = [
+  {
+    id: 'haircare',
+    name: 'Haircare',
+    count: '5 Products',
+    image: '/products/hair_icon.png',
+    href: '/#trending',
+    bg: '#F0F5F1',
+  }
+];
 
+export default function KBeautyCategories() {
   return (
-    <section className="py-6 bg-[#FDF9F6]">
+    <section className="py-8 md:py-10 bg-[#FDF9F6] border-b border-[#2D2A26]/5">
       <div className="max-w-7xl mx-auto px-4 md:px-6">
-        <div className="flex justify-start md:justify-center gap-4 overflow-x-auto pb-4 hide-scrollbar snap-x">
-          {products.map((product, i) => (
-            <Link to={`/product/${product.id}`} key={product.id}>
+        <div className="flex justify-center items-center gap-8">
+          {categories.map((cat, i) => (
+            <Link to={cat.href} key={cat.id}>
               <motion.div 
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ delay: i * 0.1 }}
-              viewport={{ once: true }}
-              key={product.id} 
-              className="flex flex-col items-center gap-3 snap-center cursor-pointer group flex-shrink-0"
-            >
-              <div 
-                className="w-20 h-20 md:w-24 md:h-24 rounded-full flex items-center justify-center overflow-hidden transition-transform duration-300 group-hover:scale-105"
-                style={{ backgroundColor: product.bg }}
+                initial={{ opacity: 0, y: 16 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: i * 0.1, duration: 0.5 }}
+                className="flex flex-col items-center gap-3 cursor-pointer group"
               >
-                <img src={product.image} alt={product.title} className="w-[85%] h-[85%] object-contain drop-shadow-sm group-hover:scale-110 transition-transform" />
-              </div>
-              <div className="flex items-center gap-1.5 px-3 py-1 bg-white border border-[#2D2A26]/15 rounded-full shadow-sm group-hover:border-[#2D2A26]/40 transition-colors">
-                <span className="text-[13px] md:text-sm font-medium text-[#2D2A26]">{getCategoryName(product.id)}</span>
-                <span className="text-[#2D2A26] text-[10px] md:text-xs">›</span>
-              </div>
-            </motion.div>
+                {/* Premium Round Container */}
+                <div 
+                  className="w-24 h-24 md:w-28 md:h-28 rounded-full flex items-center justify-center overflow-hidden transition-all duration-500 group-hover:scale-105 border border-[#2D2A26]/5 shadow-sm group-hover:shadow-md relative bg-white"
+                >
+                  <img 
+                    src={cat.image} 
+                    alt={cat.name} 
+                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" 
+                  />
+                  <div className="absolute inset-0 bg-black/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                </div>
+
+                {/* Styled Badge */}
+                <div className="flex flex-col items-center text-center">
+                  <div className="flex items-center gap-1.5 px-4 py-1.5 bg-white border border-[#2D2A26]/10 rounded-full shadow-xs group-hover:border-[#1A4B21]/45 group-hover:bg-[#EEF7EE]/10 transition-all duration-300">
+                    <span className="text-[12px] md:text-[13px] font-bold tracking-wider text-[#2D2A26] uppercase group-hover:text-[#1A4B21] transition-colors">{cat.name}</span>
+                    <span className="text-[#2D2A26]/40 text-xs group-hover:text-[#1A4B21]/60 transition-colors">›</span>
+                  </div>
+                  <span className="text-[9px] md:text-[10px] text-gray-400 mt-1 font-semibold uppercase tracking-widest">{cat.count}</span>
+                </div>
+              </motion.div>
             </Link>
           ))}
         </div>
