@@ -571,7 +571,7 @@ export default function KBeautyBestsellers() {
                   >
                     {/* Top Image Box (Fully visible and un-obscured) */}
                     <div 
-                      className="relative w-full aspect-square overflow-hidden flex items-center justify-center p-6 border-b border-[#2D2A26]/5 flex-shrink-0"
+                      className="relative w-full aspect-square overflow-hidden flex items-center justify-center p-0 border-b border-[#2D2A26]/5 flex-shrink-0"
                       style={{ backgroundColor: cfg.bgColor || product.bg }}
                     >
                       {/* Badge overlay top left */}
@@ -589,7 +589,7 @@ export default function KBeautyBestsellers() {
                           <img
                             src={cfg.shopImage}
                             alt={product.title}
-                            className={`w-full h-full transition-transform duration-700 group-hover:scale-105 ${cfg.objectFit === 'cover' ? 'object-cover' : 'object-contain'}`}
+                            className={`w-full h-full transition-transform duration-700 group-hover:scale-105 ${cfg.objectFit === 'cover' ? 'object-cover p-0' : 'object-contain p-6'}`}
                           />
                         </a>
                       ) : (
@@ -602,7 +602,7 @@ export default function KBeautyBestsellers() {
                               (e.currentTarget as HTMLImageElement).style.objectFit = 'contain';
                               (e.currentTarget as HTMLImageElement).style.padding = '24px';
                             }}
-                            className={`w-full h-full transition-transform duration-700 group-hover:scale-105 ${cfg.objectFit === 'cover' ? 'object-cover' : 'object-contain'}`}
+                            className={`w-full h-full transition-transform duration-700 group-hover:scale-105 ${cfg.objectFit === 'cover' ? 'object-cover p-0' : 'object-contain p-6'}`}
                           />
                         </Link>
                       )}
