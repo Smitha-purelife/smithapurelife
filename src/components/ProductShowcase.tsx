@@ -124,23 +124,23 @@ export default function ProductShowcase() {
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.08, duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
                 viewport={{ once: true }}
-                className="group relative flex flex-col rounded-[2rem] overflow-hidden shadow-md hover:shadow-xl transition-all duration-500 bg-white h-[500px] md:h-[550px]"
+                className="group flex flex-col rounded-[2.5rem] overflow-hidden border border-[#2D2A26]/5 bg-white shadow-xs hover:shadow-xl transition-all duration-500 h-full"
               >
-                {/* Badge */}
-                {cfg.badge && (
-                  <div
-                    className="absolute top-4 left-4 z-10 text-white text-[10px] font-bold uppercase tracking-widest px-4 py-1.5 rounded-full shadow-md"
-                    style={{ backgroundColor: cfg.badgeColor }}
-                  >
-                    {cfg.badge}
-                  </div>
-                )}
-
-                {/* Background Image Container */}
+                {/* Top Image Box */}
                 <div 
-                  className="absolute inset-0 w-full h-full"
-                  style={{ backgroundColor: cfg.objectFit === 'contain' ? cfg.bgColor : '#FDF9F6' }}
+                  className="relative w-full aspect-square overflow-hidden flex items-center justify-center p-0 border-b border-[#2D2A26]/5 flex-shrink-0"
+                  style={{ backgroundColor: cfg.bgColor || product.bg }}
                 >
+                  {/* Badge overlay top left */}
+                  {cfg.badge && (
+                    <div
+                      className="absolute top-4 left-4 z-10 text-white text-[9px] font-bold uppercase tracking-widest px-3.5 py-1.5 rounded-full shadow-xs"
+                      style={{ backgroundColor: cfg.badgeColor }}
+                    >
+                      {cfg.badge}
+                    </div>
+                  )}
+
                   <Link to={`/product/${product.id}`} className="block w-full h-full">
                     <img
                       src={cfg.shopImage}
@@ -148,55 +148,49 @@ export default function ProductShowcase() {
                       onError={(e) => {
                         (e.currentTarget as HTMLImageElement).src = product.image;
                         (e.currentTarget as HTMLImageElement).style.objectFit = 'contain';
-                        (e.currentTarget as HTMLImageElement).style.padding = '32px';
+                        (e.currentTarget as HTMLImageElement).style.padding = '24px';
                       }}
-                      className={`w-full h-full transition-transform duration-700 group-hover:scale-105 ${
-                        cfg.objectFit === 'cover'
-                          ? 'object-cover object-center'
-                          : 'object-contain p-8 pb-32'
-                      }`}
+                      className={`w-full h-full transition-transform duration-700 group-hover:scale-105 ${cfg.objectFit === 'cover' ? 'object-cover p-0' : 'object-contain p-6'}`}
                     />
                   </Link>
                 </div>
 
-                {/* White Floating Content Overlay */}
-                <div className="absolute bottom-3 left-3 right-3 md:bottom-4 md:left-4 md:right-4 pointer-events-none">
-                  <div className="bg-white/95 backdrop-blur-xl rounded-[1.5rem] p-5 md:p-6 shadow-sm border border-white/60 pointer-events-auto transition-transform duration-300 group-hover:-translate-y-1">
-                    
+                {/* Bottom Metadata & Purchase details */}
+                <div className="p-5 flex flex-col flex-grow justify-between bg-[#FAF9F5]/30">
+                  <div>
                     {/* Subtitle */}
-                    <p className="text-[9px] md:text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2">
+                    <p className="text-[9px] font-bold text-gray-400 uppercase tracking-widest mb-1.5 text-left">
                       {product.subtitle || 'Smitha Purelife'}
                     </p>
                     
                     {/* Title & Price */}
-                    <div className="flex justify-between items-end mb-4">
-                      <Link to={`/product/${product.id}`} className="block flex-1 pr-2">
-                        <h3 className="font-serif text-xl md:text-2xl text-[#2D2A26] leading-snug group-hover:text-[#1A4B21] transition-colors line-clamp-1">
+                    <div className="flex justify-between items-baseline gap-2 mb-3">
+                      <Link to={`/product/${product.id}`} className="block flex-1 min-w-0 text-left">
+                        <h3 className="font-serif text-lg md:text-xl text-[#2D2A26] leading-snug group-hover:text-[#1A4B21] transition-colors truncate font-bold">
                           {product.title}
                         </h3>
                       </Link>
-                      <span className="font-bold text-2xl md:text-3xl text-[#2D2A26] leading-none shrink-0" style={{ fontFamily: "'Inter', sans-serif" }}>
+                      <span className="font-bold text-lg md:text-xl text-[#2D2A26] shrink-0" style={{ fontFamily: "'Inter', sans-serif" }}>
                         {cfg.price}
                       </span>
                     </div>
 
-                    {/* Tags & Button */}
-                    <div className="flex items-center justify-between">
-                      <div className="flex flex-wrap gap-2">
-                        {product.benefits.slice(0, 2).map((b, i) => (
-                          <span key={i} className="bg-[#EEF7EE] text-[#1A4B21] px-3 py-1 rounded-full text-[10px] font-semibold whitespace-nowrap">
-                            {b}
-                          </span>
-                        ))}
-                      </div>
-                      <Link to={`/product/${product.id}`} className="shrink-0 ml-2">
-                        <button className="flex items-center gap-2 bg-[#1A4B21] text-white px-5 py-2.5 rounded-full text-[11px] font-bold uppercase tracking-wider hover:bg-[#0f2e14] transition-all shadow-md hover:shadow-lg active:scale-95">
-                          Shop Now <ArrowRight size={14} />
-                        </button>
-                      </Link>
+                    {/* Benefits / Included items pills */}
+                    <div className="flex flex-wrap gap-1.5 mb-5 text-left">
+                      {product.benefits.slice(0, 2).map((b: string, idx: number) => (
+                        <span key={idx} className="bg-[#EEF7EE] text-[#1A4B21] px-2.5 py-0.5 rounded-full text-[9px] font-bold whitespace-nowrap uppercase tracking-wider">
+                          {b}
+                        </span>
+                      ))}
                     </div>
-
                   </div>
+
+                  {/* Shop Now Button */}
+                  <Link to={`/product/${product.id}`} className="block w-full">
+                    <button className="w-full flex items-center justify-center gap-2 bg-[#1A4B21] text-white py-3 rounded-full text-[10px] font-bold uppercase tracking-widest hover:bg-[#0f2e14] transition-all shadow-xs active:scale-95">
+                      Shop Now <ArrowRight size={12} />
+                    </button>
+                  </Link>
                 </div>
               </motion.div>
             );
