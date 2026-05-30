@@ -24,6 +24,7 @@ const TestimonialsGrid = lazy(() => import('./components/TestimonialsGrid'));
 const FAQSection = lazy(() => import('./components/FAQSection'));
 const NewsletterVIP = lazy(() => import('./components/NewsletterVIP'));
 const ProductDetailPage = lazy(() => import('./components/ProductDetailPage'));
+const AboutPage = lazy(() => import('./components/AboutPage'));
 
 function HomePage() {
   return (
@@ -86,6 +87,7 @@ export default function App() {
             <Routes>
               <Route path="/" element={<HomePage />} />
               <Route path="/product/:id" element={<ProductDetailPage />} />
+              <Route path="/about" element={<AboutPage />} />
             </Routes>
           </Suspense>
         </div>

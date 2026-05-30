@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom';
 // ─── Per-product card config ────────────────────────────────────────────────
 const cardConfig: Record<string, {
   shopImage: string;
+  objectFit: 'cover' | 'contain';
   bgColor: string;
   price: string;
   badge: string;
@@ -14,6 +15,7 @@ const cardConfig: Record<string, {
 }> = {
   'avosilk-bloom': {
     shopImage: '/products/avosilk_bloom_new.jpg',
+    objectFit: 'cover',
     bgColor: '#EEF7EE',
     price: '₹1,200',
     badge: 'Bestseller',
@@ -21,6 +23,7 @@ const cardConfig: Record<string, {
   },
   'radiance-oil': {
     shopImage: '/products/radiance_oil_new.png',
+    objectFit: 'cover',
     bgColor: '#FFF8E6',
     price: '₹1,450',
     badge: 'Trending',
@@ -28,6 +31,7 @@ const cardConfig: Record<string, {
   },
   'herbal-wash': {
     shopImage: '/products/hair_wash_powder_new.jpg',
+    objectFit: 'cover',
     bgColor: '#EEF4EE',
     price: '₹999',
     badge: 'Viral',
@@ -35,6 +39,7 @@ const cardConfig: Record<string, {
   },
   'pro-repair-serum': {
     shopImage: '/products/pro_repair_serum_new.png',
+    objectFit: 'cover',
     bgColor: '#FDF0F5',
     price: '₹1,150',
     badge: 'Must Have',
@@ -42,6 +47,7 @@ const cardConfig: Record<string, {
   },
   'follicra-regrowth': {
     shopImage: '/products/follicra_proper.jpg',
+    objectFit: 'cover',
     bgColor: '#FAF6F0',
     price: '₹1,800',
     badge: 'New',
@@ -49,6 +55,7 @@ const cardConfig: Record<string, {
   },
   'satin-pillowcase': {
     shopImage: '/products/satin_pillowcase_proper.jpg',
+    objectFit: 'cover',
     bgColor: '#FAF3EE',
     price: '₹799',
     badge: 'Silk Slumber',
@@ -56,6 +63,7 @@ const cardConfig: Record<string, {
   },
   'satin-scrunchies': {
     shopImage: '/products/satin_scrunchies_proper.jpg',
+    objectFit: 'cover',
     bgColor: '#FAF9F5',
     price: '₹299',
     badge: 'Anti-Crease',
@@ -285,15 +293,15 @@ function ComboCard({ combo, index }: { combo: Combo; index: number }) {
 export default function KBeautyBestsellers() {
   const [showAll, setShowAll] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState<'all' | 'haircare' | 'accessories'>('all');
+  const [selectedCategory, setSelectedCategory] = useState<'all' | 'haircare' | 'accessories' | 'combos'>('all');
   const [selectedConcern, setSelectedConcern] = useState<string>('all');
 
   // Synchronize category bubble scrolls & localStorage events
   useEffect(() => {
     const checkCategoryFilter = () => {
       const stored = localStorage.getItem('smitha_selected_category');
-      if (stored === 'haircare' || stored === 'accessories') {
-        setSelectedCategory(stored);
+      if (stored === 'haircare' || stored === 'accessories' || stored === 'combos') {
+        setSelectedCategory(stored as any);
         localStorage.removeItem('smitha_selected_category');
       }
     };
@@ -304,41 +312,52 @@ export default function KBeautyBestsellers() {
   }, []);
 
   // Filter Catalog dynamically
-  const filteredProducts = products.filter(product => {
-    // 1. Category Filter
-    if (selectedCategory !== 'all' && product.category !== selectedCategory) {
-      return false;
-    }
-    
-    // 2. Concern Filter
-    if (selectedConcern !== 'all') {
-      const concernMapping: Record<string, string[]> = {
-        'dry-frizzy': ['avosilk-bloom', 'pro-repair-serum'],
-        'hair-fall': ['radiance-oil', 'herbal-wash', 'avosilk-bloom', 'follicra-regrowth'],
-        'growth-thickness': ['radiance-oil', 'follicra-regrowth', 'herbal-wash'],
-        'dandruff-scalp': ['herbal-wash', 'radiance-oil'],
-        'damaged-repair': ['avosilk-bloom', 'pro-repair-serum', 'radiance-oil'],
-        'early-baldness': ['follicra-regrowth', 'radiance-oil'],
-        'maintenance': ['radiance-oil', 'herbal-wash', 'avosilk-bloom', 'pro-repair-serum', 'follicra-regrowth']
-      };
-      const allowedProducts = concernMapping[selectedConcern] || [];
-      if (!allowedProducts.includes(product.id)) {
-        return false;
-      }
-    }
-    
-    // 3. Name, subtitle, description, or benefit tags search
-    if (searchQuery.trim() !== '') {
-      const query = searchQuery.toLowerCase();
-      const matchTitle = product.title.toLowerCase().includes(query);
-      const matchSubtitle = product.subtitle.toLowerCase().includes(query);
-      const matchDesc = product.description.toLowerCase().includes(query);
-      const matchBenefits = product.benefits.some(b => b.toLowerCase().includes(query));
-      return matchTitle || matchSubtitle || matchDesc || matchBenefits;
-    }
-    
-    return true;
-  });
+  const filteredProducts = selectedCategory === 'combos'
+    ? comboProducts.filter(combo => {
+        if (searchQuery.trim() !== '') {
+          const query = searchQuery.toLowerCase();
+          const matchTitle = combo.title.toLowerCase().includes(query);
+          const matchSubtitle = combo.subtitle.toLowerCase().includes(query);
+          const matchDesc = combo.description.toLowerCase().includes(query);
+          return matchTitle || matchSubtitle || matchDesc;
+        }
+        return true;
+      })
+    : products.filter(product => {
+        // 1. Category Filter
+        if (selectedCategory !== 'all' && product.category !== selectedCategory) {
+          return false;
+        }
+        
+        // 2. Concern Filter
+        if (selectedConcern !== 'all') {
+          const concernMapping: Record<string, string[]> = {
+            'dry-frizzy': ['avosilk-bloom', 'pro-repair-serum'],
+            'hair-fall': ['radiance-oil', 'herbal-wash', 'avosilk-bloom', 'follicra-regrowth'],
+            'growth-thickness': ['radiance-oil', 'follicra-regrowth', 'herbal-wash'],
+            'dandruff-scalp': ['herbal-wash', 'radiance-oil'],
+            'damaged-repair': ['avosilk-bloom', 'pro-repair-serum', 'radiance-oil'],
+            'early-baldness': ['follicra-regrowth', 'radiance-oil'],
+            'maintenance': ['radiance-oil', 'herbal-wash', 'avosilk-bloom', 'pro-repair-serum', 'follicra-regrowth']
+          };
+          const allowedProducts = concernMapping[selectedConcern] || [];
+          if (!allowedProducts.includes(product.id)) {
+            return false;
+          }
+        }
+        
+        // 3. Name, subtitle, description, or benefit tags search
+        if (searchQuery.trim() !== '') {
+          const query = searchQuery.toLowerCase();
+          const matchTitle = product.title.toLowerCase().includes(query);
+          const matchSubtitle = product.subtitle.toLowerCase().includes(query);
+          const matchDesc = product.description.toLowerCase().includes(query);
+          const matchBenefits = product.benefits.some(b => b.toLowerCase().includes(query));
+          return matchTitle || matchSubtitle || matchDesc || matchBenefits;
+        }
+        
+        return true;
+      });
 
   const visibleProducts = showAll ? filteredProducts : filteredProducts.slice(0, 4);
 
@@ -381,19 +400,20 @@ export default function KBeautyBestsellers() {
             </div>
 
             {/* Category Filter Buttons */}
-            <div className="flex gap-2">
+            <div className="grid grid-cols-2 sm:flex sm:flex-wrap gap-2 w-full">
               {[
                 { id: 'all', label: 'All' },
                 { id: 'haircare', label: 'Haircare' },
-                { id: 'accessories', label: 'Accessories' }
+                { id: 'accessories', label: 'Essentials' },
+                { id: 'combos', label: 'Combos' }
               ].map((cat) => (
                 <button
                   key={cat.id}
                   onClick={() => setSelectedCategory(cat.id as any)}
-                  className={`flex-1 py-3 px-2 rounded-full text-[10px] font-bold uppercase tracking-wider border transition-all ${
+                  className={`py-3 px-2 rounded-full text-[10px] font-bold uppercase tracking-wider border transition-all ${
                     selectedCategory === cat.id
-                      ? 'bg-[#1A4B21] text-white border-[#1A4B21]'
-                      : 'bg-transparent text-[#2D2A26] border-black/10 hover:bg-[#F5F7F5]'
+                      ? 'bg-[#1A4B21] text-white border-[#1A4B21] flex-1'
+                      : 'bg-transparent text-[#2D2A26] border-black/10 hover:bg-[#F5F7F5] flex-1'
                   }`}
                 >
                   {cat.label}
@@ -431,7 +451,7 @@ export default function KBeautyBestsellers() {
                 
                 {selectedCategory !== 'all' && (
                   <span className="bg-[#1A4B21]/5 text-[#1A4B21] border border-[#1A4B21]/15 px-3 py-1 rounded-full text-[9px] font-bold uppercase tracking-wider flex items-center gap-1.5">
-                    Category: {selectedCategory}
+                    Category: {selectedCategory === 'accessories' ? 'Essentials' : selectedCategory}
                     <button onClick={() => setSelectedCategory('all')} className="hover:text-red-500 font-bold ml-0.5">×</button>
                   </span>
                 )}
@@ -479,12 +499,64 @@ export default function KBeautyBestsellers() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             <AnimatePresence mode="popLayout">
               {visibleProducts.map((product, i) => {
-                const cfg = cardConfig[product.id] ?? {
-                  shopImage: product.image,
-                  bgColor: product.bg,
-                  price: '₹999',
-                  badge: '',
-                  badgeColor: '#666',
+                const isCombo = 'comboPrice' in product;
+                const cfg = isCombo
+                  ? {
+                      shopImage: (product as any).image,
+                      objectFit: 'cover' as const,
+                      bgColor: (product as any).bg,
+                      price: `₹${(product as any).comboPrice}`,
+                      badge: (product as any).badge || 'Bundle',
+                      badgeColor: (product as any).accent || '#FF7B89',
+                    }
+                  : (cardConfig[product.id] ?? {
+                      shopImage: product.image,
+                      objectFit: 'contain' as const,
+                      bgColor: product.bg,
+                      price: '₹999',
+                      badge: '',
+                      badgeColor: '#666',
+                    });
+
+                const pills = isCombo
+                  ? (product as any).includedProducts.map((pId: string) => {
+                      const p = products.find(prod => prod.id === pId);
+                      return p ? p.title : pId;
+                    })
+                  : product.benefits;
+
+                const handleBuyClick = (e: React.MouseEvent) => {
+                  if (isCombo) {
+                    e.preventDefault();
+                    try {
+                      const existing = localStorage.getItem('smitha_purelife_cart');
+                      let cart = existing ? JSON.parse(existing) : [];
+                      (product as any).includedProducts.forEach((prodId: string) => {
+                        const prod = products.find(p => p.id === prodId);
+                        if (prod) {
+                          const defaultSize = prod.sizes[0];
+                          const cartId = `${prod.id}-${defaultSize.size}`;
+                          const existingIndex = cart.findIndex((item: any) => item.cartId === cartId);
+                          if (existingIndex > -1) {
+                            cart[existingIndex].quantity += 1;
+                          } else {
+                            cart.push({
+                              cartId,
+                              productId: prod.id,
+                              size: defaultSize.size,
+                              price: defaultSize.price,
+                              quantity: 1
+                            });
+                          }
+                        }
+                      });
+                      localStorage.setItem('smitha_purelife_cart', JSON.stringify(cart));
+                      localStorage.setItem('smitha_purelife_cart_auto_open', 'true');
+                      window.dispatchEvent(new Event('cart-updated'));
+                    } catch (err) {
+                      console.error("Grid combo add failed:", err);
+                    }
+                  }
                 };
 
                 return (
@@ -512,18 +584,28 @@ export default function KBeautyBestsellers() {
                         </div>
                       )}
 
-                      <Link to={`/product/${product.id}`} className="block w-full h-full">
-                        <img
-                          src={cfg.shopImage}
-                          alt={product.title}
-                          onError={(e) => {
-                            (e.currentTarget as HTMLImageElement).src = product.image;
-                            (e.currentTarget as HTMLImageElement).style.objectFit = 'contain';
-                            (e.currentTarget as HTMLImageElement).style.padding = '24px';
-                          }}
-                          className="w-full h-full transition-transform duration-700 group-hover:scale-105 object-contain"
-                        />
-                      </Link>
+                      {isCombo ? (
+                        <a href="#combos" className="block w-full h-full">
+                          <img
+                            src={cfg.shopImage}
+                            alt={product.title}
+                            className={`w-full h-full transition-transform duration-700 group-hover:scale-105 ${cfg.objectFit === 'cover' ? 'object-cover' : 'object-contain'}`}
+                          />
+                        </a>
+                      ) : (
+                        <Link to={`/product/${product.id}`} className="block w-full h-full">
+                          <img
+                            src={cfg.shopImage}
+                            alt={product.title}
+                            onError={(e) => {
+                              (e.currentTarget as HTMLImageElement).src = product.image;
+                              (e.currentTarget as HTMLImageElement).style.objectFit = 'contain';
+                              (e.currentTarget as HTMLImageElement).style.padding = '24px';
+                            }}
+                            className={`w-full h-full transition-transform duration-700 group-hover:scale-105 ${cfg.objectFit === 'cover' ? 'object-cover' : 'object-contain'}`}
+                          />
+                        </Link>
+                      )}
                     </div>
 
                     {/* Bottom Metadata & Purchase details */}
@@ -536,32 +618,49 @@ export default function KBeautyBestsellers() {
                         
                         {/* Title & Price */}
                         <div className="flex justify-between items-baseline gap-2 mb-3">
-                          <Link to={`/product/${product.id}`} className="block flex-1 min-w-0 text-left">
-                            <h3 className="font-serif text-lg md:text-xl text-[#2D2A26] leading-snug group-hover:text-[#1A4B21] transition-colors truncate font-bold">
-                              {product.title}
-                            </h3>
-                          </Link>
+                          {isCombo ? (
+                            <a href="#combos" className="block flex-1 min-w-0 text-left">
+                              <h3 className="font-serif text-lg md:text-xl text-[#2D2A26] leading-snug group-hover:text-[#1A4B21] transition-colors truncate font-bold">
+                                {product.title}
+                              </h3>
+                            </a>
+                          ) : (
+                            <Link to={`/product/${product.id}`} className="block flex-1 min-w-0 text-left">
+                              <h3 className="font-serif text-lg md:text-xl text-[#2D2A26] leading-snug group-hover:text-[#1A4B21] transition-colors truncate font-bold">
+                                {product.title}
+                              </h3>
+                            </Link>
+                          )}
                           <span className="font-bold text-lg md:text-xl text-[#2D2A26] shrink-0" style={{ fontFamily: "'Inter', sans-serif" }}>
                             {cfg.price}
                           </span>
                         </div>
 
-                        {/* Benefits pills */}
+                        {/* Benefits / Included items pills */}
                         <div className="flex flex-wrap gap-1.5 mb-5 text-left">
-                          {product.benefits.slice(0, 2).map((b, idx) => (
+                          {pills.slice(0, 2).map((b: string, idx: number) => (
                             <span key={idx} className="bg-[#EEF7EE] text-[#1A4B21] px-2.5 py-0.5 rounded-full text-[9px] font-bold whitespace-nowrap uppercase tracking-wider">
-                              {typeof b === 'string' ? b : 'Pure Care'}
+                              {b}
                             </span>
                           ))}
                         </div>
                       </div>
 
                       {/* Buy Button */}
-                      <Link to={`/product/${product.id}`} className="block w-full">
-                        <button className="w-full flex items-center justify-center gap-2 bg-[#1A4B21] text-white py-3 rounded-full text-[10px] font-bold uppercase tracking-widest hover:bg-[#0f2e14] transition-all shadow-xs active:scale-95">
-                          Shop Now <ArrowRight size={12} />
+                      {isCombo ? (
+                        <button 
+                          onClick={handleBuyClick}
+                          className="w-full flex items-center justify-center gap-2 bg-[#1A4B21] text-white py-3 rounded-full text-[10px] font-bold uppercase tracking-widest hover:bg-[#0f2e14] transition-all shadow-xs active:scale-95 cursor-pointer"
+                        >
+                          Add Bundle <ShoppingBag size={12} />
                         </button>
-                      </Link>
+                      ) : (
+                        <Link to={`/product/${product.id}`} className="block w-full">
+                          <button className="w-full flex items-center justify-center gap-2 bg-[#1A4B21] text-white py-3 rounded-full text-[10px] font-bold uppercase tracking-widest hover:bg-[#0f2e14] transition-all shadow-xs active:scale-95">
+                            Shop Now <ArrowRight size={12} />
+                          </button>
+                        </Link>
+                      )}
                     </div>
                   </motion.div>
                 );

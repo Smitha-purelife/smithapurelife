@@ -6,7 +6,7 @@ import { products } from '../data/products';
 
 const navLinks = [
   { name: 'Shop All', href: '/' },
-  { name: 'Our Story', href: '/#story' },
+  { name: 'About Us', href: '/about' },
 ];
 
 export interface CartItem {
@@ -184,39 +184,186 @@ export default function Navbar() {
         </div>
       </nav>
 
-      {/* Mobile Drawer Navigation */}
+      {/* Mobile Drawer Navigation (Side Category slide drawer) */}
       <AnimatePresence>
         {isOpen && (
-          <motion.div
-            initial={{ opacity: 0, x: '100%' }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: '100%' }}
-            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-            className="fixed inset-0 z-[9999] bg-[#C1CDBF] flex flex-col items-center justify-center gap-10 md:hidden"
-          >
-            <button 
+          <>
+            {/* Dark Backdrop overlay */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 0.5 }}
+              exit={{ opacity: 0 }}
               onClick={() => setIsOpen(false)}
-              className="absolute top-6 right-6 text-[#2D2A26]"
+              className="fixed inset-0 z-[9999] bg-black/50 backdrop-blur-xs md:hidden"
+            />
+
+            {/* Left Category Drawer Panel */}
+            <motion.div
+              initial={{ x: '-100%' }}
+              animate={{ x: 0 }}
+              exit={{ x: '-100%' }}
+              transition={{ type: 'spring', damping: 25, stiffness: 220 }}
+              className="fixed inset-y-0 left-0 z-[99999] w-[85%] max-w-[340px] bg-[#FAF8F5] shadow-2xl flex flex-col h-full overflow-hidden md:hidden text-left"
             >
-              <X size={28} />
-            </button>
-            {navLinks.map((link, i) => (
-              <motion.div
-                key={link.name}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: i * 0.1 + 0.2 }}
-              >
-                <Link
-                  to={link.href}
+              {/* Promo Banner at the top */}
+              <div className="bg-gradient-to-r from-[#D4E2D4] to-[#C1CDBF] px-5 py-4 flex justify-between items-center relative border-b border-black/5">
+                <div className="text-left">
+                  <span className="text-[10px] font-bold uppercase tracking-widest text-[#1A4B21] block">Welcome Offer</span>
+                  <span className="text-[11px] font-bold text-[#2D2A26] block mt-0.5">FLAT 10% OFF | USE CODE: <span className="underline">PURE10</span></span>
+                </div>
+                <button 
                   onClick={() => setIsOpen(false)}
-                  className="font-serif italic text-4xl text-[#2D2A26] hover:text-[#FF7B89] transition-colors"
+                  className="p-1 rounded-full bg-white/70 hover:bg-white text-gray-500 shadow-sm transition-colors"
                 >
-                  {link.name}
-                </Link>
-              </motion.div>
-            ))}
-          </motion.div>
+                  <X size={16} />
+                </button>
+              </div>
+
+              {/* Navigation List items */}
+              <div className="flex-1 overflow-y-auto px-5 py-6 space-y-2">
+                <span className="text-[9px] font-bold text-gray-400 uppercase tracking-widest block mb-4">Shop By Category</span>
+                
+                {[
+                  {
+                    name: 'Shop All',
+                    badge: '',
+                    onClick: () => {
+                      localStorage.setItem('smitha_selected_category', 'all');
+                      window.dispatchEvent(new Event('category-filter-updated'));
+                      setIsOpen(false);
+                      // Scroll to trending
+                      const element = document.getElementById('trending');
+                      if (element) {
+                        const lenis = (window as any).lenis;
+                        if (lenis) lenis.scrollTo(element, { offset: -96 });
+                        else element.scrollIntoView({ behavior: 'smooth' });
+                      }
+                    }
+                  },
+                  {
+                    name: 'Haircare Range',
+                    badge: '',
+                    onClick: () => {
+                      localStorage.setItem('smitha_selected_category', 'haircare');
+                      window.dispatchEvent(new Event('category-filter-updated'));
+                      setIsOpen(false);
+                      const element = document.getElementById('trending');
+                      if (element) {
+                        const lenis = (window as any).lenis;
+                        if (lenis) lenis.scrollTo(element, { offset: -96 });
+                        else element.scrollIntoView({ behavior: 'smooth' });
+                      }
+                    }
+                  },
+                  {
+                    name: 'Essentials',
+                    badge: 'New',
+                    onClick: () => {
+                      localStorage.setItem('smitha_selected_category', 'accessories');
+                      window.dispatchEvent(new Event('category-filter-updated'));
+                      setIsOpen(false);
+                      const element = document.getElementById('trending');
+                      if (element) {
+                        const lenis = (window as any).lenis;
+                        if (lenis) lenis.scrollTo(element, { offset: -96 });
+                        else element.scrollIntoView({ behavior: 'smooth' });
+                      }
+                    }
+                  },
+                  {
+                    name: 'Combos & Gifting',
+                    badge: 'New',
+                    onClick: () => {
+                      localStorage.setItem('smitha_selected_category', 'combos');
+                      window.dispatchEvent(new Event('category-filter-updated'));
+                      setIsOpen(false);
+                      const element = document.getElementById('trending');
+                      if (element) {
+                        const lenis = (window as any).lenis;
+                        if (lenis) lenis.scrollTo(element, { offset: -96 });
+                        else element.scrollIntoView({ behavior: 'smooth' });
+                      }
+                    }
+                  },
+                  {
+                    name: 'Shop By Concern',
+                    badge: '',
+                    onClick: () => {
+                      setIsOpen(false);
+                      const element = document.getElementById('concerns');
+                      if (element) {
+                        const lenis = (window as any).lenis;
+                        if (lenis) lenis.scrollTo(element, { offset: -96 });
+                        else element.scrollIntoView({ behavior: 'smooth' });
+                      }
+                    }
+                  },
+                  {
+                    name: 'Our Story & Philosophy',
+                    badge: '',
+                    href: '/about'
+                  },
+                  {
+                    name: 'Find a Store Near You',
+                    badge: '',
+                    onClick: () => {
+                      alert("Our premium boutique experience is expanding! Our current physical flagship atelier is based in Coimbatore, TN. New store locations coming soon to Bangalore and Chennai!");
+                    }
+                  }
+                ].map((item, i) => (
+                  <motion.div
+                    key={item.name}
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: i * 0.05 + 0.1 }}
+                  >
+                    {item.href ? (
+                      <Link
+                        to={item.href}
+                        onClick={() => setIsOpen(false)}
+                        className="flex justify-between items-center py-4 border-b border-[#2D2A26]/5 text-[#2D2A26] hover:text-[#1A4B21] transition-colors group"
+                      >
+                        <span className="text-sm font-bold uppercase tracking-wider group-hover:translate-x-1.5 transition-transform duration-300">{item.name}</span>
+                        <span className="text-gray-400 text-sm group-hover:text-[#1A4B21] transition-colors pr-1">›</span>
+                      </Link>
+                    ) : (
+                      <button
+                        onClick={item.onClick}
+                        className="w-full flex justify-between items-center py-4 border-b border-[#2D2A26]/5 text-[#2D2A26] hover:text-[#1A4B21] transition-colors group cursor-pointer"
+                      >
+                        <div className="flex items-center gap-2">
+                          <span className="text-sm font-bold uppercase tracking-wider group-hover:translate-x-1.5 transition-transform duration-300">{item.name}</span>
+                          {item.badge && (
+                            <span className="bg-[#FF7B89] text-white font-bold text-[8px] px-1.5 py-0.5 rounded-full uppercase tracking-wider">{item.badge}</span>
+                          )}
+                        </div>
+                        <span className="text-gray-400 text-sm group-hover:text-[#1A4B21] transition-colors pr-1">›</span>
+                      </button>
+                    )}
+                  </motion.div>
+                ))}
+              </div>
+
+              {/* Bottom WhatsApp support strip */}
+              <div className="p-5 border-t border-[#2D2A26]/5 bg-[#F5F2EE]/50 text-left">
+                <a 
+                  href="https://wa.me/919999999999" 
+                  target="_blank" 
+                  rel="noreferrer"
+                  className="w-full flex items-center justify-center gap-2 bg-[#2D7A3A] text-white py-3 rounded-full text-[10px] font-bold uppercase tracking-widest hover:bg-[#1E5C28] transition-colors shadow-xs"
+                >
+                  <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
+                    <path d="M12.012 2c-5.506 0-9.988 4.479-9.988 9.984 0 1.761.459 3.475 1.332 5.001l-1.417 5.176 5.304-1.391c1.472.802 3.125 1.226 4.774 1.227h.004c5.503 0 9.984-4.479 9.984-9.986 0-2.67-1.037-5.178-2.923-7.063s-4.394-2.948-7.07-2.948zm5.922 14.186c-.244.686-1.42 1.341-1.954 1.401-.483.053-.984.093-3.111-.796-2.718-1.135-4.469-3.901-4.605-4.083-.137-.182-1.111-1.476-1.111-2.818 0-1.342.701-2.001.948-2.263.247-.263.541-.329.721-.329.18 0 .36.002.518.01.164.008.384-.062.599.453.22.527.753 1.834.819 1.97.066.136.11.294.02.473-.09.18-.135.293-.27.452-.136.159-.285.355-.407.476-.135.135-.277.283-.12.553.157.27.701 1.153 1.503 1.867.953.85 1.751 1.112 2.023 1.225.27.113.43.096.59-.085.16-.18.685-.795.867-1.066.182-.271.365-.226.613-.135.248.09 1.57.74 1.84.875.27.135.45.203.518.319.068.118.068.686-.176 1.373z"/>
+                  </svg>
+                  Chat on WhatsApp
+                </a>
+                <div className="flex justify-between items-center mt-4 text-[9px] font-bold text-[#2D2A26]/50 uppercase tracking-wider">
+                  <span>Earn With Us</span>
+                  <span>Need Help?</span>
+                </div>
+              </div>
+            </motion.div>
+          </>
         )}
       </AnimatePresence>
 

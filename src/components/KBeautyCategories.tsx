@@ -12,9 +12,9 @@ const categories = [
   },
   {
     id: 'accessories',
-    name: 'Accessories',
+    name: 'Essentials',
     count: '2 Products',
-    image: '/products/satin_pillowcase_proper.jpg',
+    image: '/products/essentials_icon.jpg',
     href: '/#trending',
     bg: '#FAF3EE',
   },
