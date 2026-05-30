@@ -10,11 +10,21 @@ export default function ScrollToHash() {
       const element = document.getElementById(id);
       if (element) {
         setTimeout(() => {
-          element.scrollIntoView({ behavior: 'smooth' });
+          const globalLenis = (window as any).lenis;
+          if (globalLenis) {
+            globalLenis.scrollTo(element, { offset: -96, duration: 1.5 });
+          } else {
+            element.scrollIntoView({ behavior: 'smooth' });
+          }
         }, 100);
       }
     } else {
-      window.scrollTo(0, 0);
+      const globalLenis = (window as any).lenis;
+      if (globalLenis) {
+        globalLenis.scrollTo(0, { immediate: true });
+      } else {
+        window.scrollTo(0, 0);
+      }
     }
   }, [pathname, hash]);
 

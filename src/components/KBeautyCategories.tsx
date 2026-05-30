@@ -9,6 +9,22 @@ const categories = [
     image: '/products/hair_icon.png',
     href: '/#trending',
     bg: '#F0F5F1',
+  },
+  {
+    id: 'accessories',
+    name: 'Accessories',
+    count: '2 Products',
+    image: '/products/satin_pillowcase_proper.jpg',
+    href: '/#trending',
+    bg: '#FAF3EE',
+  },
+  {
+    id: 'combos',
+    name: 'Combos',
+    count: '4 Bundles',
+    image: '/products/combos_icon.jpg',
+    href: '/#combos',
+    bg: '#FAF9F5',
   }
 ];
 
@@ -16,9 +32,32 @@ export default function KBeautyCategories() {
   return (
     <section className="py-8 md:py-10 bg-[#FDF9F6] border-b border-[#2D2A26]/5">
       <div className="max-w-7xl mx-auto px-4 md:px-6">
-        <div className="flex justify-center items-center gap-8">
+        <div className="flex justify-center items-center gap-4 md:gap-8">
           {categories.map((cat, i) => (
-            <Link to={cat.href} key={cat.id}>
+            <Link 
+              to={cat.href} 
+              key={cat.id}
+              onClick={(e) => {
+                if (cat.id !== 'combos') {
+                  localStorage.setItem('smitha_selected_category', cat.id);
+                  window.dispatchEvent(new Event('category-filter-updated'));
+                }
+                // Robust smooth scrolling for both active Lenis instances and standard viewport jumps
+                if (window.location.pathname === '/') {
+                  const targetId = cat.id === 'combos' ? 'combos' : 'trending';
+                  const element = document.getElementById(targetId);
+                  const lenis = (window as any).lenis;
+                  if (element) {
+                    e.preventDefault();
+                    if (lenis) {
+                      lenis.scrollTo(element, { offset: -96, duration: 1.5 });
+                    } else {
+                      element.scrollIntoView({ behavior: 'smooth' });
+                    }
+                  }
+                }
+              }}
+            >
               <motion.div 
                 initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}

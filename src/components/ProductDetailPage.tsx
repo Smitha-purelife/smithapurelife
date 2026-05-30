@@ -1,8 +1,8 @@
 import { useParams, Link } from 'react-router-dom';
-import { motion, useScroll, useTransform, AnimatePresence, useMotionValue, useSpring, MotionValue } from 'framer-motion';
+import { motion, useTransform, useMotionValue, useSpring } from 'framer-motion';
 import { useRef, useState, useEffect, memo } from 'react';
 import { products } from '../data/products';
-import { ArrowLeft, ArrowRight, ChevronDown, Sparkles } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Sparkles } from 'lucide-react';
 import ComparisonSection from './ComparisonSection';
 
 // Interactive Floating Particle Component
@@ -37,6 +37,16 @@ export default function ProductDetailPage() {
   const productIndex = products.findIndex(p => p.id === id);
   const product = products[productIndex];
 
+  // State for size selection
+  const [selectedSize, setSelectedSize] = useState(product ? product.sizes[0] : null);
+
+  // Update selected size when product changes
+  useEffect(() => {
+    if (product) {
+      setSelectedSize(product.sizes[0]);
+    }
+  }, [product]);
+
   // Enhanced 3D Motion Values for the product jar
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
@@ -57,27 +67,47 @@ export default function ProductDetailPage() {
     window.scrollTo(0, 0);
   }, [id]);
 
-  if (!product) return <div className="h-screen flex items-center justify-center font-display text-2xl">Product not found</div>;
+  if (!product || !selectedSize) return <div className="h-screen flex items-center justify-center font-display text-2xl">Product not found</div>;
 
-  const stages = [
-    { title: "The Product", subtitle: product.subtitle, content: product.description },
-    { title: "Key Ingredients", subtitle: "Botanical Alchemy", content: product.ingredients.map(i => i.name).join(", ") },
-    { title: "Core Effects", subtitle: "The Transformation", content: product.ingredients.map(i => i.effect).join(". ") },
-    { title: "Final Results", subtitle: "Clinical Efficacy", content: product.results }
-  ];
+  // Add to Bag action handler
+  const handleAddToBag = () => {
+    const cartId = `${product.id}-${selectedSize.size}`;
+    const cartItem = {
+      cartId,
+      productId: product.id,
+      size: selectedSize.size,
+      price: selectedSize.price,
+      quantity: 1
+    };
+
+    try {
+      const existing = localStorage.getItem('smitha_purelife_cart');
+      let cart = existing ? JSON.parse(existing) : [];
+      const existingIndex = cart.findIndex((item: any) => item.cartId === cartId);
+      if (existingIndex > -1) {
+        cart[existingIndex].quantity += 1;
+      } else {
+        cart.push(cartItem);
+      }
+      localStorage.setItem('smitha_purelife_cart', JSON.stringify(cart));
+      // Auto-open cart drawer when item is added
+      localStorage.setItem('smitha_purelife_cart_auto_open', 'true');
+      window.dispatchEvent(new Event('cart-updated'));
+    } catch (e) {
+      console.error("Cart action failed:", e);
+    }
+  };
 
   return (
     <div className="bg-[#C1CDBF] min-h-screen selection:bg-accent selection:text-bg overflow-x-hidden pt-[76px]">
       
-
-
       {/* Full-width Lifestyle Hero Banner */}
       <div className="w-full h-[calc(100svh-76px)] min-h-[500px] relative mb-16 lg:mb-24 flex flex-col">
         <div className="absolute inset-0 w-full h-full">
           <img 
             src={product.lifestyleImage}
             alt={`${product.title} Lifestyle`}
-            className="w-full h-full object-cover object-[center_30%] lg:object-[center_25%]"
+            className="w-full h-full object-cover object-center"
           />
           <div className="absolute inset-0 bg-gradient-to-b from-[#052B08]/50 via-[#052B08]/20 to-transparent flex items-center justify-center">
             <div className="text-center px-4 md:px-6 w-full max-w-6xl mx-auto mt-20">
@@ -93,7 +123,7 @@ export default function ProductDetailPage() {
                 initial={{ y: 20, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ duration: 1, delay: 0.2, ease: "easeOut" }}
-                className="font-body text-xs sm:text-sm md:text-base lg:text-lg tracking-[0.15em] sm:tracking-[0.2em] md:tracking-[0.3em] uppercase text-white/95 drop-shadow-md max-w-4xl mx-auto leading-relaxed"
+                className="font-body text-xs sm:text-sm md:text-base lg:text-lg tracking-[0.15em] sm:tracking-[0.2em] md:tracking-[0.3em] uppercase text-white/95 drop-shadow-md max-w-4xl mx-auto leading-relaxed font-bold"
               >
                 {product.results}
               </motion.p>
@@ -136,7 +166,7 @@ export default function ProductDetailPage() {
                 transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
                 fetchPriority="high"
                 loading="eager"
-                className="w-full h-full object-contain drop-shadow-[0_20px_40px_rgba(5,43,8,0.2)] lg:drop-shadow-[0_40px_80px_rgba(5,43,8,0.3)] z-50"
+                className="w-full h-full object-contain drop-shadow-[0_20px_40px_rgba(5,43,8,0.2)] lg:drop-shadow-[0_40px_80px_rgba(5,43,8,0.3)] z-50 mix-blend-multiply"
                 style={{ transformStyle: 'preserve-3d' }}
               />
             </div>
@@ -175,13 +205,58 @@ export default function ProductDetailPage() {
               {product.description}
             </motion.p>
             
+            {/* Dynamic Size & Pricing selector */}
+            <motion.div 
+              initial={{ opacity: 0, y: 15 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.45 }}
+              className="mb-8 text-left max-w-md mx-auto lg:mx-0 w-full"
+            >
+              <span className="text-[10px] uppercase tracking-wider font-bold text-[#052B08]/50 block mb-3">Select Product Size</span>
+              <div className="flex flex-wrap gap-3">
+                {product.sizes.map((s) => {
+                  const active = s.size === selectedSize.size;
+                  const discountPercent = Math.round(((s.originalPrice - s.price) / s.originalPrice) * 100);
+                  
+                  return (
+                    <button
+                      key={s.size}
+                      onClick={() => setSelectedSize(s)}
+                      className={`flex-1 min-w-[130px] p-3.5 rounded-2xl border text-left transition-all duration-300 ${
+                        active 
+                          ? 'border-[#052B08] bg-[#052B08] text-white shadow-md' 
+                          : 'border-[#052B08]/15 bg-white/40 hover:bg-white text-[#052B08]'
+                      }`}
+                    >
+                      <span className="block text-[11px] font-bold tracking-wider uppercase block">{s.size}</span>
+                      <div className="flex items-baseline gap-2 mt-1">
+                        <span className="text-base font-bold font-inter">₹{s.price}</span>
+                        {s.originalPrice > s.price && (
+                          <span className={`text-xs line-through ${active ? 'text-white/60' : 'text-gray-400'}`}>
+                            ₹{s.originalPrice}
+                          </span>
+                        )}
+                      </div>
+                      {s.originalPrice > s.price && (
+                        <span className={`inline-block text-[8px] font-bold px-1.5 py-0.5 rounded-md mt-1 uppercase ${
+                          active ? 'bg-white/20 text-white' : 'bg-red-50 text-red-500 border border-red-100'
+                        }`}>
+                          Save {discountPercent}%
+                        </span>
+                      )}
+                    </button>
+                  );
+                })}
+              </div>
+            </motion.div>
+
             <motion.div 
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.5 }}
               className="mb-10 lg:mb-14"
             >
-              <h3 className="font-serif italic text-2xl lg:text-3xl text-[#052B08] mb-6 lg:mb-8">Botanical Alchemy</h3>
+              <h3 className="font-serif italic text-2xl lg:text-3xl text-[#052B08] mb-6 lg:mb-8 text-left">Botanical Alchemy</h3>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 lg:gap-6 text-left">
                 {product.ingredients.slice(0, 4).map((ing, i) => (
                   <motion.div 
@@ -193,33 +268,93 @@ export default function ProductDetailPage() {
                   >
                     <Sparkles size={18} className="text-[#FF7B89] mb-3" />
                     <h4 className="font-bold text-[#052B08] mb-1 lg:text-lg">{ing.name}</h4>
-                    <p className="text-xs lg:text-sm text-[#052B08]/60 uppercase tracking-wider">{ing.effect}</p>
+                     <p className="text-xs lg:text-sm text-[#052B08]/60 uppercase tracking-wider">{ing.effect}</p>
                   </motion.div>
                 ))}
               </div>
             </motion.div>
 
             <motion.button 
+              onClick={handleAddToBag}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.8 }}
+              transition={{ delay: 0.6 }}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="bg-[#052B08] text-white py-4 lg:py-5 px-8 lg:px-12 rounded-full font-bold tracking-widest uppercase hover:bg-[#FF7B89] transition-colors duration-300 w-full sm:w-auto text-center shadow-xl hover:shadow-2xl self-center lg:self-start text-sm lg:text-base"
+              className="bg-[#052B08] text-white py-4 lg:py-5 px-8 lg:px-12 rounded-full font-bold tracking-widest uppercase hover:bg-[#FF7B89] transition-colors duration-300 w-full sm:w-auto text-center shadow-xl hover:shadow-2xl self-center lg:self-start text-sm lg:text-base flex items-center justify-center gap-3"
             >
-              Add to Bag • ₹1,450
+              Add to Bag • <span className="font-inter">₹{selectedSize.price.toLocaleString()}</span>
             </motion.button>
           </motion.div>
         </div>
       </div>
 
+      {/* 3rd Efficacy, Benefits & Infographic Showcase */}
+      {product.additionalImage && (
+        <section className="py-20 lg:py-28 bg-white/60 backdrop-blur-md border-t border-[#052B08]/5">
+          <div className="max-w-6xl mx-auto px-6 md:px-12">
+            <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-20">
+              
+              {/* Left: Premium Infographic card */}
+              <motion.div
+                initial={{ opacity: 0, scale: 0.95 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+                className="w-full lg:w-1/2 rounded-[2.5rem] overflow-hidden shadow-2xl border border-[#052B08]/5 bg-white relative aspect-[4/5] flex items-center justify-center group"
+              >
+                <img
+                  src={product.additionalImage}
+                  alt={`${product.title} Benefits Showcase`}
+                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-102"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent pointer-events-none" />
+              </motion.div>
 
+              {/* Right: Detailed Efficacy Info */}
+              <div className="w-full lg:w-1/2 space-y-8 text-left">
+                <div>
+                  <span className="text-[10px] tracking-[0.35em] uppercase font-bold text-[#FF7B89] mb-2 block">Premium Efficacy</span>
+                  <h2 className="serif-title text-3xl md:text-5xl text-[#052B08] leading-tight">Key Benefits & Results</h2>
+                </div>
 
-      {/* Comparison Section */}
-      <ComparisonSection 
-        beforeImage="/products/before_hair.png"
-        afterImage="/products/after_hair.png"
-      />
+                <div className="space-y-6">
+                  {product.benefits.map((benefit, i) => (
+                    <motion.div
+                      key={i}
+                      initial={{ opacity: 0, x: -10 }}
+                      whileInView={{ opacity: 1, x: 0 }}
+                      transition={{ delay: i * 0.1 }}
+                      viewport={{ once: true }}
+                      className="flex gap-4 items-start"
+                    >
+                      <span className="w-6 h-6 rounded-full bg-[#1A4B21]/10 flex items-center justify-center text-[#1A4B21] font-bold text-xs mt-1 shrink-0">✓</span>
+                      <div>
+                        <h4 className="font-bold text-lg text-[#052B08] leading-snug">{benefit}</h4>
+                        <p className="text-sm text-[#052B08]/70 mt-1">Our certified formulas are tailored for maximum hair & skin rejuvenation, matching advanced editorial standards.</p>
+                      </div>
+                    </motion.div>
+                  ))}
+                </div>
+
+                <div className="p-6 bg-white/80 rounded-2xl border border-[#052B08]/5 mt-4">
+                  <h4 className="font-serif italic text-xl text-[#052B08] mb-2">Proven Efficacy</h4>
+                  <p className="text-sm text-[#052B08]/80 leading-relaxed font-medium">{product.results}</p>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* Comparison Section (only for Haircare products) */}
+      {product.category === 'haircare' && (
+        <ComparisonSection 
+          beforeImage="/products/before_hair.png"
+          afterImage="/products/after_hair.png"
+        />
+      )}
 
       {/* Bottom Product Navigation */}
       <section className="py-20 lg:py-32 px-6 md:px-12 bg-white/40 backdrop-blur-md border-t border-[#052B08]/5">

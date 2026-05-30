@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Smitha Purelife Image Explorer</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background-color: #FDF9F6;
+      color: #2D2A26;
+      padding: 40px 20px;
+      margin: 0;
+    }
+    h1 {
+      text-align: center;
+      font-family: serif;
+      font-size: 2.5rem;
+      margin-bottom: 10px;
+    }
+    p.subtitle {
+      text-align: center;
+      color: #666;
+      margin-bottom: 40px;
+    }
+    .grid {
+      display: grid;
+      grid-template-cols: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 30px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .card {
+      background: white;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+      border: 1px solid rgba(0,0,0,0.04);
+      transition: transform 0.3s;
+    }
+    .card:hover {
+      transform: translateY(-5px);
+    }
+    .img-container {
+      width: 100%;
+      height: 320px;
+      background-color: #F5F5F5;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+    .img-container img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .img-container.contain img {
+      object-fit: contain;
+      padding: 20px;
+    }
+    .info {
+      padding: 20px;
+    }
+    .name {
+      font-weight: bold;
+      font-size: 1.1rem;
+      margin-bottom: 5px;
+      word-break: break-all;
+    }
+    .size {
+      color: #888;
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+  <h1>Follicra Image Explorer</h1>
+  <p class="subtitle">Open this page locally to see all available Follicra assets in your directory!</p>
+  
+  <div class="grid">
+    <!-- Temp 1 -->
+    <div class="card">
+      <div class="img-container"><img src="/products/follicra_new_temp1.png" alt="Temp 1"></div>
+      <div class="info">
+        <div class="name">follicra_new_temp1.png</div>
+        <div class="size">Size: 762 KB (media__1779882801296)</div>
+      </div>
+    </div>
+
+    <!-- Temp 2 -->
+    <div class="card">
+      <div class="img-container"><img src="/products/follicra_new_temp2.png" alt="Temp 2"></div>
+      <div class="info">
+        <div class="name">follicra_new_temp2.png</div>
+        <div class="size">Size: 629 KB (media__1779882828328)</div>
+      </div>
+    </div>
+
+    <!-- Temp 3 -->
+    <div class="card">
+      <div class="img-container"><img src="/products/follicra_new_temp3.png" alt="Temp 3"></div>
+      <div class="info">
+        <div class="name">follicra_new_temp3.png</div>
+        <div class="size">Size: 466 KB (media__1779882831153)</div>
+      </div>
+    </div>
+
+    <!-- Temp 4 -->
+    <div class="card">
+      <div class="img-container"><img src="/products/follicra_new_temp4.png" alt="Temp 4"></div>
+      <div class="info">
+        <div class="name">follicra_new_temp4.png</div>
+        <div class="size">Size: 364 KB (media__1779882934421)</div>
+      </div>
+    </div>
+
+    <!-- Temp 5 -->
+    <div class="card">
+      <div class="img-container"><img src="/products/follicra_new_temp5.png" alt="Temp 5"></div>
+      <div class="info">
+        <div class="name">follicra_new_temp5.png</div>
+        <div class="size">Size: 213 KB (media__1779882938397)</div>
+      </div>
+    </div>
+
+    <!-- Temp 6 -->
+    <div class="card">
+      <div class="img-container"><img src="/products/follicra_new_temp6.jpg" alt="Temp 6"></div>
+      <div class="info">
+        <div class="name">follicra_new_temp6.jpg</div>
+        <div class="size">Size: 326 KB (media__1779879303554)</div>
+      </div>
+    </div>
+
+    <!-- Temp 7 -->
+    <div class="card">
+      <div class="img-container"><img src="/products/follicra_new_temp7.png" alt="Temp 7"></div>
+      <div class="info">
+        <div class="name">follicra_new_temp7.png</div>
+        <div class="size">Size: 68 KB (media__1779879347311)</div>
+      </div>
+    </div>
+
+    <!-- Temp 8 -->
+    <div class="card">
+      <div class="img-container"><img src="/products/follicra_new_temp8.png" alt="Temp 8"></div>
+      <div class="info">
+        <div class="name">follicra_new_temp8.png</div>
+        <div class="size">Size: 557 KB (media__1779879368675)</div>
+      </div>
+    </div>
+
+    <!-- Temp 9 -->
+    <div class="card">
+      <div class="img-container"><img src="/products/follicra_new_temp9.png" alt="Temp 9"></div>
+      <div class="info">
+        <div class="name">follicra_new_temp9.png</div>
+        <div class="size">Size: 338 KB (media__1779882022321)</div>
+      </div>
+    </div>
+
+    <!-- Temp 10 -->
+    <div class="card">
+      <div class="img-container"><img src="/products/follicra_new_temp10.jpg" alt="Temp 10"></div>
+      <div class="info">
+        <div class="name">follicra_new_temp10.jpg</div>
+        <div class="size">Size: 326 KB (media__1779882048206)</div>
+      </div>
+    </div>
+
+    <!-- Temp 12 -->
+    <div class="card">
+      <div class="img-container"><img src="/products/follicra_new_temp12.png" alt="Temp 12"></div>
+      <div class="info">
+        <div class="name">follicra_new_temp12.png</div>
+        <div class="size">Size: 584 KB (media__1779882770962)</div>
+      </div>
+    </div>
+
+    <!-- Temp 13 -->
+    <div class="card">
+      <div class="img-container"><img src="/products/follicra_new_temp13.png" alt="Temp 13"></div>
+      <div class="info">
+        <div class="name">follicra_new_temp13.png</div>
+        <div class="size">Size: 270 KB (media__1779909362192)</div>
+      </div>
+    </div>
+
+    <!-- Temp 14 -->
+    <div class="card">
+      <div class="img-container"><img src="/products/follicra_new_temp14.png" alt="Temp 14"></div>
+      <div class="info">
+        <div class="name">follicra_new_temp14.png</div>
+        <div class="size">Size: 545 KB (media__1779909535815)</div>
+      </div>
+    </div>
+
+    <!-- Current Hero -->
+    <div class="card">
+      <div class="img-container"><img src="/products/follicra_regrowth_hero.png" alt="Current Hero"></div>
+      <div class="info">
+        <div class="name">follicra_regrowth_hero.png</div>
+        <div class="size">Size: 804 KB (Forest Image)</div>
+      </div>
+    </div>
+
+    <!-- Original hexagen-image -->
+    <div class="card">
+      <div class="img-container contain"><img src="/products/hexagen-image (1).png" alt="Original Hexagen"></div>
+      <div class="info">
+        <div class="name">hexagen-image (1).png</div>
+        <div class="size">Size: 6.6 MB (Original Bottle)</div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
