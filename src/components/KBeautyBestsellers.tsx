@@ -496,7 +496,7 @@ export default function KBeautyBestsellers() {
             <p className="text-[#2D2A26]/60 text-sm max-w-sm mx-auto">Try clearing your filters or searches to discover our premium clean botanical catalog.</p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             <AnimatePresence mode="popLayout">
               {visibleProducts.map((product, i) => {
                 const isCombo = 'comboPrice' in product;

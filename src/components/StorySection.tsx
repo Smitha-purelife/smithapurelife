@@ -38,7 +38,7 @@ export default function StorySection() {
                 rotateZ: cardRotate,
                 transformStyle: 'preserve-3d'
               }}
-              className="absolute -bottom-10 -right-10 bg-white p-8 rounded-3xl shadow-[0_20px_50px_rgba(0,0,0,0.2)] max-w-[240px] z-20"
+              className="absolute -bottom-6 right-4 lg:-bottom-10 lg:-right-10 bg-white p-6 lg:p-8 rounded-3xl shadow-[0_20px_50px_rgba(0,0,0,0.2)] max-w-[200px] sm:max-w-[240px] z-20"
             >
               <p className="serif-title text-5xl text-accent mb-2">15+</p>
               <p className="font-body text-[10px] tracking-[0.2em] uppercase text-text/60">

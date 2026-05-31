@@ -83,108 +83,110 @@ export default function HeroSlider() {
 
           {/* ── Text Content (Only rendered when not a full graphic banner to prevent overlap) ── */}
           {!product.hasFullBanner && (
-            <div className="relative z-10 w-full h-full flex flex-col justify-center px-5 md:px-10 lg:px-16 pt-20 pb-28 md:pb-24">
-              <div className={`max-w-xs sm:max-w-sm md:max-w-lg ${textColor}`}>
+            <div className="relative z-10 w-full h-full flex flex-col justify-center pt-20 pb-28 md:pb-24">
+              <div className="max-w-7xl mx-auto w-full px-5 md:px-10 lg:px-16">
+                <div className={`max-w-xs sm:max-w-sm md:max-w-lg ${textColor}`}>
 
-                {/* Slide label */}
-                <motion.p
-                  initial={{ opacity: 0, y: 12 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.2, duration: 0.6 }}
-                  className={`text-[10px] tracking-[0.3em] uppercase font-bold mb-3 ${
-                    isDark ? 'text-[#F8CD71]' : 'text-[#2D7A3A]'
-                  }`}
-                >
-                  0{current + 1} / 0{products.length} &nbsp;·&nbsp; {product.subtitle}
-                </motion.p>
+                  {/* Slide label */}
+                  <motion.p
+                    initial={{ opacity: 0, y: 12 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.2, duration: 0.6 }}
+                    className={`text-[10px] tracking-[0.3em] uppercase font-bold mb-3 ${
+                      isDark ? 'text-[#F8CD71]' : 'text-[#2D7A3A]'
+                    }`}
+                  >
+                    0{current + 1} / 0{products.length} &nbsp;·&nbsp; {product.subtitle}
+                  </motion.p>
 
-                {/* Product Title */}
-                <motion.h1
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.3, duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-                  className="font-serif leading-tight mb-3"
-                  style={{ fontSize: 'clamp(2rem, 8vw, 4.5rem)' }}
-                >
-                  {isDark ? (
-                    <>
-                      Stronger Roots.<br />
-                      Longer Lengths.<br />
-                      <span className="italic text-[#F8CD71]">Lasting Shine.</span>
-                    </>
-                  ) : (
-                    product.title
-                  )}
-                </motion.h1>
+                  {/* Product Title */}
+                  <motion.h1
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.3, duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+                    className="font-serif leading-tight mb-3"
+                    style={{ fontSize: 'clamp(2rem, 8vw, 4.5rem)' }}
+                  >
+                    {isDark ? (
+                      <>
+                        Stronger Roots.<br />
+                        Longer Lengths.<br />
+                        <span className="italic text-[#F8CD71]">Lasting Shine.</span>
+                      </>
+                    ) : (
+                      product.title
+                    )}
+                  </motion.h1>
 
-                {/* Description – hidden on very small screens to save space */}
-                <motion.p
-                  initial={{ opacity: 0, y: 12 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.45, duration: 0.7 }}
-                  className={`text-sm md:text-base leading-relaxed mb-5 max-w-sm ${
-                    isDark ? 'text-white/85' : 'text-[#1A2E1A]/80'
-                  } hidden sm:block`}
-                >
-                  {product.description}
-                </motion.p>
+                  {/* Description – hidden on very small screens to save space */}
+                  <motion.p
+                    initial={{ opacity: 0, y: 12 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.45, duration: 0.7 }}
+                    className={`text-sm md:text-base leading-relaxed mb-5 max-w-sm ${
+                      isDark ? 'text-white/85' : 'text-[#1A2E1A]/80'
+                    } hidden sm:block`}
+                  >
+                    {product.description}
+                  </motion.p>
 
-                {/* Benefit pills — horizontal scroll on mobile, no wrap */}
-                <motion.div
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.55, duration: 0.6 }}
-                  className="flex gap-2 mb-6 overflow-x-auto pb-1 hide-scrollbar"
-                  style={{ WebkitOverflowScrolling: 'touch' }}
-                >
-                  {product.benefits.map((benefit) => (
-                    <span
-                      key={benefit}
-                      className={`flex-shrink-0 text-[10px] md:text-[11px] font-bold uppercase tracking-wider px-3 py-1.5 rounded-full whitespace-nowrap ${
-                        isDark
-                          ? 'bg-white/15 text-white border border-white/25 backdrop-blur-sm'
-                          : 'bg-[#1A4B21]/10 text-[#1A4B21] border border-[#1A4B21]/20'
-                      }`}
-                    >
-                      {benefit}
-                    </span>
-                  ))}
-                </motion.div>
+                  {/* Benefit pills — horizontal scroll on mobile, no wrap */}
+                  <motion.div
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.55, duration: 0.6 }}
+                    className="flex gap-2 mb-6 overflow-x-auto pb-1 hide-scrollbar"
+                    style={{ WebkitOverflowScrolling: 'touch' }}
+                  >
+                    {product.benefits.map((benefit) => (
+                      <span
+                        key={benefit}
+                        className={`flex-shrink-0 text-[10px] md:text-[11px] font-bold uppercase tracking-wider px-3 py-1.5 rounded-full whitespace-nowrap ${
+                          isDark
+                            ? 'bg-white/15 text-white border border-white/25 backdrop-blur-sm'
+                            : 'bg-[#1A4B21]/10 text-[#1A4B21] border border-[#1A4B21]/20'
+                        }`}
+                      >
+                        {benefit}
+                      </span>
+                    ))}
+                  </motion.div>
 
-                {/* CTA row */}
-                <motion.div
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.65, duration: 0.6 }}
-                  className="flex items-center gap-4"
-                >
-                  <Link to={`/product/${product.id}`}>
-                    <motion.button
-                      whileHover={{ scale: 1.04 }}
-                      whileTap={{ scale: 0.97 }}
-                      className={`flex items-center gap-2 px-6 py-3 rounded-full font-bold text-xs tracking-widest uppercase shadow-lg transition-all duration-300 ${
-                        isDark
-                          ? 'bg-[#F8CD71] text-[#1A2E00] hover:bg-yellow-300'
-                          : 'bg-[#1A4B21] text-white hover:bg-[#0f2e14]'
-                      }`}
-                    >
-                      Shop Now
-                      <ArrowRight size={14} />
-                    </motion.button>
-                  </Link>
+                  {/* CTA row */}
+                  <motion.div
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.65, duration: 0.6 }}
+                    className="flex items-center gap-4"
+                  >
+                    <Link to={`/product/${product.id}`}>
+                      <motion.button
+                        whileHover={{ scale: 1.04 }}
+                        whileTap={{ scale: 0.97 }}
+                        className={`flex items-center gap-2 px-6 py-3 rounded-full font-bold text-xs tracking-widest uppercase shadow-lg transition-all duration-300 ${
+                          isDark
+                            ? 'bg-[#F8CD71] text-[#1A2E00] hover:bg-yellow-300'
+                            : 'bg-[#1A4B21] text-white hover:bg-[#0f2e14]'
+                        }`}
+                      >
+                        Shop Now
+                        <ArrowRight size={14} />
+                      </motion.button>
+                    </Link>
 
-                  {/* Mobile inline bottle thumbnail */}
-                  {!product.hasFullBanner && (
-                    <div className="md:hidden w-14 h-20 flex-shrink-0">
-                      <img
-                        src={product.image}
-                        alt={product.title}
-                        className="w-full h-full object-contain drop-shadow-lg"
-                      />
-                    </div>
-                  )}
-                </motion.div>
+                    {/* Mobile inline bottle thumbnail */}
+                    {!product.hasFullBanner && (
+                      <div className="md:hidden w-14 h-20 flex-shrink-0">
+                        <img
+                          src={product.image}
+                          alt={product.title}
+                          className="w-full h-full object-contain drop-shadow-lg"
+                        />
+                      </div>
+                    )}
+                  </motion.div>
 
+                </div>
               </div>
             </div>
           )}

@@ -64,7 +64,7 @@ export default function KBeautyTexture() {
             whileInView={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
-            className="relative h-[600px] rounded-[3rem] overflow-hidden"
+            className="relative h-[320px] sm:h-[420px] md:h-[520px] lg:h-[600px] rounded-[3rem] overflow-hidden"
           >
             <img 
               src={products[0].lifestyleImage} 
