@@ -10,7 +10,6 @@ import SidePagination from './components/SidePagination';
 import ScrollToHash from './components/ScrollToHash';
 
 const HeroSlider = lazy(() => import('./components/HeroSlider'));
-const ProductShowcase = lazy(() => import('./components/ProductShowcase'));
 const KBeautyCategories = lazy(() => import('./components/KBeautyCategories'));
 const WhyUsStrip = lazy(() => import('./components/WhyUsStrip'));
 const StorySection = lazy(() => import('./components/StorySection'));
@@ -34,18 +33,16 @@ function HomePage() {
         <HeroSlider />
         {/* Categories Side Scroll */}
         <KBeautyCategories />
-        {/* Old Floating 5 Scroll Animation */}
-        <ProductShowcase />
+        {/* 6. Trending Now — Bestsellers Grid */}
+        <KBeautyBestsellers />
+        {/* 4. Shop by Hair Concern */}
+        <ShopByConcern />
         {/* 2. Why Us — Trust Building Strip */}
         <WhyUsStrip />
         {/* 2b. Our Story Section */}
         <StorySection />
         {/* 3. Brand Promise Feature Cards */}
         <KBeautyFeatures />
-        {/* 4. Shop by Hair Concern */}
-        <ShopByConcern />
-        {/* 6. Trending Now — Bestsellers Grid */}
-        <KBeautyBestsellers />
         {/* 7. Hair Quiz CTA */}
         <HairQuizCTA />
         {/* 8. Botanical Alchemy — Ingredients Transparency */}

@@ -58,17 +58,36 @@ export default function AboutPage() {
               className="space-y-6"
             >
               <span className="text-[10px] font-bold text-[#FF7B89] uppercase tracking-widest block">The Genesis</span>
-              <h2 className="text-3xl md:text-4xl font-serif text-[#2D2A26] leading-tight">
-                Our Quest for Pure, Sensorially Rich Hair Solutions
-              </h2>
-              <p className="text-xs sm:text-sm text-[#2D2A26]/70 leading-relaxed">
-                Traditional hair treatments are often heavy, greasy, and difficult to wash off. Meanwhile, conventional cosmetic formulas rely on harsh chemical fillers that temporarily mask damage while causing long-term follicle degradation.
+              <div>
+                <h2 className="text-3xl md:text-4xl font-serif text-[#2D2A26] leading-tight">
+                  Our Quest for Pure, Naturally Rich Hair Solutions
+                </h2>
+                <p className="font-serif italic text-lg text-[#1A4B21] mt-2">
+                  A 20-Year-Old Girl's Dream. A Future Built on Nature.
+                </p>
+              </div>
+              
+              <p className="text-xs sm:text-sm text-[#2D2A26]/70 leading-relaxed font-semibold">
+                Why choose chemicals when nature gives us everything we need?
               </p>
+              
               <p className="text-xs sm:text-sm text-[#2D2A26]/70 leading-relaxed">
-                We sought a third way. By partnering with leading trichologists in Seoul and traditional Ayurvedic vaidyas in India, we engineered formulas that deliver maximum root nourishment using lightweight, fast-absorbing textures. The result is a clean botanical line that leaves your scalp balanced and your strands looking sensorially rich and glossy.
+                At Smitha Purelife, we create natural hair and skincare products using carefully selected ingredients inspired by nature. Every product is made with the belief that safe, effective, and honest self-care should be available to everyone.
+              </p>
+              
+              <p className="text-xs sm:text-sm text-[#2D2A26]/70 leading-relaxed">
+                What started as a dream, built through hard work, savings, and determination, has grown into a brand trusted by customers who believe in natural living.
+              </p>
+              
+              <p className="text-xs sm:text-sm text-[#2D2A26]/70 leading-relaxed">
+                We don't see you as customers. We see you as family. Your trust inspires us to continue creating products made with care, love, and responsibility.
+              </p>
+              
+              <p className="text-xs sm:text-sm text-[#1A4B21] font-bold tracking-wide leading-relaxed">
+                Let's choose nature. Let's live pure. Together.
               </p>
 
-              <div className="pt-4">
+              <div className="pt-2">
                 <Link to="/#trending">
                   <button className="flex items-center gap-2 bg-[#1A4B21] text-white px-6 py-3 rounded-full text-[10px] font-bold uppercase tracking-widest hover:bg-[#0f2e14] transition-all shadow-xs active:scale-95">
                     Explore Our Catalog <ArrowRight size={13} />
@@ -87,8 +106,8 @@ export default function AboutPage() {
             >
               <div className="absolute inset-0 bg-[#EBF3EB] opacity-60 pointer-events-none" />
               <img 
-                src="/products/combos_icon.jpg" 
-                alt="Ayurvedic Botanicals" 
+                src="/products/about_sketch.png" 
+                alt="Smitha Purelife Botanical Remedies sketch" 
                 className="w-[85%] h-[85%] object-contain mix-blend-multiply z-10 relative hover:scale-105 transition-transform duration-500"
               />
             </motion.div>

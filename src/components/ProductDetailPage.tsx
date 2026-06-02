@@ -1,5 +1,5 @@
 import { useParams, Link } from 'react-router-dom';
-import { motion, useTransform, useMotionValue, useSpring } from 'framer-motion';
+import { motion, useTransform, useMotionValue, useSpring, AnimatePresence } from 'framer-motion';
 import { useRef, useState, useEffect, memo } from 'react';
 import { products } from '../data/products';
 import { ArrowLeft, ArrowRight, Sparkles } from 'lucide-react';
@@ -31,6 +31,346 @@ const FloatingDebris = memo(({ index }: { index: number }) => {
   );
 });
 
+const productDetailData: Record<string, {
+  benefits: string[];
+  reviews: { name: string; rating: number; text: string; date: string }[];
+}> = {
+  'avosilk-bloom': {
+    benefits: [
+      'Deep Conditioning & Moisture',
+      'Restores Natural Elasticity',
+      'Intensive Frizz Control',
+      'Silken Shine Finish'
+    ],
+    reviews: [
+      { name: 'Riya Sen', rating: 5, text: 'This avocado conditioner works wonders on my dry frizzy ends! I leave it on for 5 mins and my hair is incredibly smooth and detangled.', date: '2 weeks ago' },
+      { name: 'Kunal Kapoor', rating: 5, text: 'Amazing hydration without weighting my hair down. The scent is very premium and natural.', date: '1 month ago' },
+      { name: 'Pooja G.', rating: 4, text: 'Love the thick texture. My hair cuticles feel very sealed and protected.', date: '3 days ago' }
+    ]
+  },
+  'radiance-oil': {
+    benefits: [
+      'Accelerates Hair Growth',
+      'Boosts Root Strength',
+      'Controls Excessive Hair Fall',
+      'Locks in Scalp Moisture'
+    ],
+    reviews: [
+      { name: 'Harpreet Singh', rating: 5, text: 'Visible hair fall reduction in 3 weeks! My scalp feels nourished and healthy. I massage it slightly warm as recommended.', date: '1 week ago' },
+      { name: 'Surbhi M.', rating: 5, text: 'Non-greasy but very deep action. Smells botanical and has definitely improved my hair density.', date: '3 weeks ago' },
+      { name: 'Aditya R.', rating: 5, text: 'Excellent oil. Reduces dryness and flaky scalp completely.', date: '2 months ago' }
+    ]
+  },
+  'herbal-wash': {
+    benefits: [
+      'Pure Herbal Cleanse',
+      'Scalp Detox & Freshness',
+      'Soothes Irritation & Dandruff',
+      'Prevents Premature Graying'
+    ],
+    reviews: [
+      { name: 'Gayathri Krishnan', rating: 5, text: 'No chemicals, just pure natural therapy! Cleanses oily scalp completely and leaves a fresh natural bounce.', date: '5 days ago' },
+      { name: 'Nisha Patil', rating: 5, text: 'My dandruff is completely gone after 3 washes. I mix it with water to a paste. Love this traditional wash.', date: '1 month ago' },
+      { name: 'Vikram S.', rating: 4, text: 'Excellent natural alternative to chemical shampoos. Scalp feels very healthy.', date: '2 weeks ago' }
+    ]
+  },
+  'pro-repair-serum': {
+    benefits: [
+      'Instant Silk Gloss Shine',
+      'Thermal Damage Protection',
+      'Smoothes Split Ends',
+      'Detangles Instantly'
+    ],
+    reviews: [
+      { name: 'Sneha Patel', rating: 5, text: 'Just 2 drops after air-drying gives a gorgeous mirror shine! Frizz is completely gone.', date: 'Yesterday' },
+      { name: 'Megha Roy', rating: 5, text: 'Amazing slip! It makes combing through my damp hair so easy. Very lightweight.', date: '2 weeks ago' },
+      { name: 'Divya K.', rating: 5, text: 'Smells heavenly and works like magic on frizzy weather.', date: '1 month ago' }
+    ]
+  },
+  'follicra-regrowth': {
+    benefits: [
+      'Thickens Thinning Crown',
+      'Ayurvedic Follicle Stimulation',
+      'Combats Scalp Inflammation',
+      'Revitalizes Dormant Roots'
+    ],
+    reviews: [
+      { name: 'Dr. Shruti Bajaj', rating: 5, text: 'Highly recommend this Ayurvedic serum. Visible root activation on my crown within 2 months.', date: '1 month ago' },
+      { name: 'Rahul V.', rating: 5, text: 'Non-sticky formula that is easy to apply. Hair feels much stronger at the roots.', date: '3 weeks ago' },
+      { name: 'Preeti Sharma', rating: 5, text: 'Noticeable reduction in scalp showing. New baby hairs are growing.', date: '2 months ago' }
+    ]
+  },
+  'satin-pillowcase': {
+    benefits: [
+      'Frictionless Silk Sleep',
+      'Prevents Hair Breakage & Frizz',
+      'Gentle on Sensitive Skin',
+      'Retains Dermal Moisture'
+    ],
+    reviews: [
+      { name: 'Aparna Sen', rating: 5, text: 'My hair is so smooth in the morning! No more wake-up knots or frizz. Feels very cool to sleep on.', date: '3 days ago' },
+      { name: 'Jaya B.', rating: 5, text: 'My skin creases are gone! This is a must-have beauty accessory.', date: '1 month ago' },
+      { name: 'Shweta K.', rating: 5, text: 'Premium fabric, washes well and works perfectly for frizz control.', date: '2 weeks ago' }
+    ]
+  },
+  'satin-scrunchies': {
+    benefits: [
+      'Zero Crease Hold',
+      'Prevents Tension Headaches',
+      'Reduces Hair Snagging',
+      'Premium Satin Slip'
+    ],
+    reviews: [
+      { name: 'Ananya Panday', rating: 5, text: 'Super soft scrunchies that hold my bun perfectly without pulling. No headaches!', date: '1 week ago' },
+      { name: 'Ritu V.', rating: 5, text: 'Zero breakage when taking them out. Beautiful pastel shades.', date: '3 weeks ago' },
+      { name: 'Tanya S.', rating: 4, text: 'Very gentle hold, perfect for overnight hair protection.', date: '1 month ago' }
+    ]
+  }
+};
+
+const ritualSteps = [
+  {
+    step: 1,
+    title: 'Apply Hair Oil',
+    targetProducts: ['radiance-oil'],
+    bulletPoints: [
+      'Warm the oil slightly.',
+      'Apply it to your scalp and hair lengths.',
+      'Massage gently for 5 minutes.',
+      'Leave it on for 1 to 1.5 hours.'
+    ]
+  },
+  {
+    step: 2,
+    title: 'Wash with Herbal Hair Wash Powder',
+    targetProducts: ['herbal-wash'],
+    bulletPoints: [
+      'Mix the powder with enough water to make a smooth paste.',
+      'Wet your hair and scalp well with water.',
+      'Apply the paste gently and massage lightly.',
+      'Rinse thoroughly with water.'
+    ]
+  },
+  {
+    step: 3,
+    title: 'Apply Avocado Conditioner',
+    targetProducts: ['avosilk-bloom'],
+    bulletPoints: [
+      'After rinsing, squeeze out extra water from your hair.',
+      'Apply conditioner only on hair lengths and mid-ends (not on scalp).',
+      'Leave it on for 5-10 minutes.',
+      'Rinse with normal water.'
+    ]
+  },
+  {
+    step: 4,
+    title: 'Dry Naturally',
+    targetProducts: [],
+    bulletPoints: [
+      'Let your hair air-dry naturally under sunlight.'
+    ]
+  },
+  {
+    step: 5,
+    title: 'Apply Hair Serum',
+    targetProducts: ['pro-repair-serum', 'follicra-regrowth'],
+    bulletPoints: [
+      'Take 1-3 drops of serum.',
+      'Rub the serum between your palms to warm it.',
+      'Apply on clean, damp hair (70% dry).',
+      'Apply from mid-lengths to ends.',
+      'Use a wide-tooth comb for even distribution.'
+    ]
+  }
+];
+
+function ProductBenefitsVisual({ productId, productImage }: { productId: string; productImage: string }) {
+  const data = productDetailData[productId] || { benefits: ['Natural Sourcing', 'Premium Quality', 'Chemical Free', 'Scalp Safe'] };
+  
+  return (
+    <section className="py-24 bg-[#FAF9F5]/80 border-t border-[#052B08]/5 relative overflow-hidden">
+      <div className="max-w-4xl mx-auto px-6 text-center">
+        <h2 className="serif-title text-4xl sm:text-5xl lg:text-6xl text-[#052B08] mb-16">Benefits</h2>
+        
+        <div className="relative w-full max-w-[500px] aspect-square mx-auto flex items-center justify-center">
+          {/* SVG Dotted Pointers Layer */}
+          <svg className="absolute inset-0 w-full h-full pointer-events-none z-10" viewBox="0 0 100 100">
+            {/* Top Left Path */}
+            <path d="M 18,25 Q 32,23 40,32" stroke="#052B08" strokeWidth="0.5" strokeDasharray="1.5,1.5" fill="none" />
+            <circle cx="40" cy="32" r="1" fill="#052B08" />
+
+            {/* Top Right Path */}
+            <path d="M 82,28 Q 68,26 60,34" stroke="#052B08" strokeWidth="0.5" strokeDasharray="1.5,1.5" fill="none" />
+            <circle cx="60" cy="34" r="1" fill="#052B08" />
+
+            {/* Mid Left Path */}
+            <path d="M 12,52 Q 28,52 36,46" stroke="#052B08" strokeWidth="0.5" strokeDasharray="1.5,1.5" fill="none" />
+            <circle cx="36" cy="46" r="1" fill="#052B08" />
+
+            {/* Bottom Right Path */}
+            <path d="M 85,76 Q 70,76 60,64" stroke="#052B08" strokeWidth="0.5" strokeDasharray="1.5,1.5" fill="none" />
+            <circle cx="60" cy="64" r="1" fill="#052B08" />
+          </svg>
+
+          {/* Floating Badges */}
+          <div className="absolute left-[2%] top-[22%] -translate-y-1/2 z-20">
+            <span className="bg-[#EEF7EE] text-[#052B08] border border-[#052B08]/10 px-4 py-2 rounded-full text-xs font-bold shadow-xs whitespace-nowrap block">
+              {data.benefits[0]}
+            </span>
+          </div>
+
+          <div className="absolute right-[2%] top-[25%] -translate-y-1/2 z-20">
+            <span className="bg-[#FAF3EE] text-[#052B08] border border-[#052B08]/10 px-4 py-2 rounded-full text-xs font-bold shadow-xs whitespace-nowrap block">
+              {data.benefits[1]}
+            </span>
+          </div>
+
+          <div className="absolute left-[0%] top-[55%] -translate-y-1/2 z-20">
+            <span className="bg-[#EBF3EB] text-[#052B08] border border-[#052B08]/10 px-4 py-2 rounded-full text-xs font-bold shadow-xs whitespace-nowrap block">
+              {data.benefits[2]}
+            </span>
+          </div>
+
+          <div className="absolute right-[0%] top-[78%] -translate-y-1/2 z-20">
+            <span className="bg-[#FAF9F5] text-[#052B08] border border-[#052B08]/10 px-4 py-2 rounded-full text-xs font-bold shadow-xs whitespace-nowrap block">
+              {data.benefits[3]}
+            </span>
+          </div>
+
+          {/* Center Swatch/Product Image */}
+          <div className="w-[45%] aspect-[3/4] rounded-3xl overflow-hidden shadow-2xl border border-[#052B08]/10 bg-white relative flex items-center justify-center p-4 hover:scale-102 transition-transform duration-500">
+            <img 
+              src={productImage} 
+              alt="Swatch view" 
+              className="w-full h-full object-contain mix-blend-multiply drop-shadow-md"
+            />
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function ProductUsageSection({ productId }: { productId: string }) {
+  // Find which step is active for this product
+  let activeStepNum = 4; // default to Dry Naturally if not matched
+  if (productId === 'radiance-oil') activeStepNum = 1;
+  else if (productId === 'herbal-wash') activeStepNum = 2;
+  else if (productId === 'avosilk-bloom') activeStepNum = 3;
+  else if (['pro-repair-serum', 'follicra-regrowth'].includes(productId)) activeStepNum = 5;
+
+  const currentStep = ritualSteps.find(s => s.step === activeStepNum) || ritualSteps[3];
+
+  return (
+    <section className="py-24 bg-white border-t border-[#052B08]/5">
+      <div className="max-w-5xl mx-auto px-6">
+        <div className="text-center mb-16">
+          <span className="text-[10px] tracking-[0.35em] uppercase font-bold text-[#FF7B89] mb-2 block">Optimal Routine</span>
+          <h2 className="serif-title text-4xl sm:text-5xl text-[#052B08] leading-tight">How to Use</h2>
+        </div>
+
+        {/* 5-Step Checklist / Timeline Row */}
+        <div className="relative flex flex-col md:flex-row justify-between items-start md:items-center gap-6 md:gap-4 mb-20 border-b border-[#052B08]/5 pb-12">
+          {ritualSteps.map((s) => {
+            const isActive = s.step === activeStepNum;
+            return (
+              <div key={s.step} className="flex flex-row md:flex-col items-center gap-4 text-left md:text-center flex-1 relative w-full group">
+                {/* Visual Circle Indicator */}
+                <div 
+                  className={`w-10 h-10 rounded-full flex items-center justify-center font-bold text-xs transition-all duration-500 border ${
+                    isActive 
+                      ? 'bg-[#052B08] text-white border-[#052B08] scale-110 shadow-md shadow-[#052B08]/20 ring-4 ring-[#052B08]/15' 
+                      : 'bg-[#F5F7F5] text-[#052B08]/40 border-black/5 hover:bg-[#EEF7EE]/40 hover:text-[#052B08]'
+                  }`}
+                >
+                  {s.step}
+                </div>
+                
+                {/* Step Title Label */}
+                <div className="flex flex-col md:items-center">
+                  <span className={`text-[10px] font-bold uppercase tracking-wider ${isActive ? 'text-[#052B08]' : 'text-gray-400'}`}>
+                    Step {s.step}
+                  </span>
+                  <span className={`text-xs font-semibold leading-tight max-w-[120px] ${isActive ? 'text-[#052B08] font-bold' : 'text-gray-400/80'}`}>
+                    {s.title}
+                  </span>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+
+        {/* Detailed Active Step Instructions Panel */}
+        <div className="max-w-2xl mx-auto bg-[#FAF9F5] border border-[#052B08]/5 rounded-[2.5rem] p-8 md:p-12 shadow-sm">
+          <div className="text-left mb-6">
+            <span className="text-[10px] uppercase font-bold tracking-widest text-[#FF7B89] block mb-1">Instruction Details</span>
+            <h3 className="font-serif text-2xl text-[#052B08] font-bold">{currentStep.title}</h3>
+          </div>
+          
+          <ul className="space-y-4 text-left">
+            {currentStep.bulletPoints.map((bullet, idx) => (
+              <li key={idx} className="flex gap-4 items-start text-sm text-[#052B08]/80 leading-relaxed font-medium">
+                <span className="w-5 h-5 rounded-full bg-[#052B08]/5 border border-[#052B08]/10 text-[#052B08] font-bold text-[10px] flex items-center justify-center mt-0.5 shrink-0">
+                  {idx + 1}
+                </span>
+                <span>{bullet}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+      </div>
+    </section>
+  );
+}
+
+function ProductReviewsSection({ productId }: { productId: string }) {
+  const data = productDetailData[productId] || { reviews: [] };
+  
+  return (
+    <section className="py-24 bg-[#FAF9F5]/50 border-t border-[#052B08]/5">
+      <div className="max-w-6xl mx-auto px-6">
+        <div className="text-center mb-16">
+          <span className="text-[10px] tracking-[0.35em] uppercase font-bold text-[#052B08]/40 mb-2 block">Verified Feedback</span>
+          <h2 className="serif-title text-4xl sm:text-5xl text-[#052B08]">Customer Reviews</h2>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+          {data.reviews.map((rev, idx) => (
+            <div key={idx} className="bg-white rounded-3xl p-6 border border-black/5 hover:shadow-lg transition-shadow duration-300 flex flex-col justify-between h-full text-left">
+              <div>
+                <div className="flex items-center justify-between mb-4">
+                  <div className="flex gap-0.5 text-[#F8CD71]">
+                    {[...Array(rev.rating)].map((_, i) => (
+                      <svg key={i} className="w-4 h-4 fill-current" viewBox="0 0 20 20">
+                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                      </svg>
+                    ))}
+                  </div>
+                  <span className="text-[10px] text-gray-400 font-bold uppercase tracking-wider">{rev.date}</span>
+                </div>
+                <p className="text-sm text-[#052B08]/80 leading-relaxed italic mb-6">"{rev.text}"</p>
+              </div>
+              
+              <div className="flex items-center gap-3 border-t border-black/5 pt-4">
+                <div className="w-8 h-8 rounded-full bg-[#052B08] text-white font-bold text-xs flex items-center justify-center">
+                  {rev.name.charAt(0)}
+                </div>
+                <div>
+                  <h4 className="text-xs font-bold text-[#052B08]">{rev.name}</h4>
+                  <span className="text-[9px] text-[#2D7A3A] font-bold uppercase tracking-wider flex items-center gap-1">
+                    <span className="text-[10px]">✓</span> Verified Buyer
+                  </span>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
 export default function ProductDetailPage() {
   const { id } = useParams();
   const containerRef = useRef<HTMLDivElement>(null);
@@ -39,6 +379,8 @@ export default function ProductDetailPage() {
 
   // State for size selection
   const [selectedSize, setSelectedSize] = useState(product ? product.sizes[0] : null);
+  // State for active image index in the product gallery
+  const [activeImageIndex, setActiveImageIndex] = useState(0);
 
   // Update selected size when product changes
   useEffect(() => {
@@ -65,9 +407,35 @@ export default function ProductDetailPage() {
 
   useEffect(() => {
     window.scrollTo(0, 0);
+    setActiveImageIndex(0);
   }, [id]);
 
   if (!product || !selectedSize) return <div className="h-screen flex items-center justify-center font-display text-2xl">Product not found</div>;
+
+  // Dynamic list of gallery images for each product page
+  const gallery: { src: string; label: string; isTransparent: boolean }[] = [
+    { src: product.image, label: 'Main View', isTransparent: true },
+  ];
+  if (product.additionalImage) {
+    gallery.push({ src: product.additionalImage, label: 'Benefits Info', isTransparent: false });
+  }
+  if (product.texture) {
+    gallery.push({ src: product.texture, label: 'Sensory Texture', isTransparent: false });
+  }
+
+  // Inject relevant combos based on the product ID
+  if (['avosilk-bloom', 'radiance-oil', 'herbal-wash'].includes(product.id)) {
+    gallery.push({ src: '/products/combo_daily_3step.jpg', label: 'Daily 3-Step Combo', isTransparent: false });
+  }
+  if (['avosilk-bloom', 'radiance-oil', 'herbal-wash', 'pro-repair-serum'].includes(product.id)) {
+    gallery.push({ src: '/products/combo_complete_haircare.jpg', label: 'Complete Hair Care Combo', isTransparent: false });
+  }
+  if (['avosilk-bloom', 'pro-repair-serum'].includes(product.id)) {
+    gallery.push({ src: '/products/combo_smooth_silky.png', label: 'Smooth & Silky Duo', isTransparent: false });
+  }
+  if (['avosilk-bloom', 'radiance-oil', 'herbal-wash', 'pro-repair-serum', 'follicra-regrowth', 'satin-pillowcase', 'satin-scrunchies'].includes(product.id)) {
+    gallery.push({ src: '/products/combo_complete_transformation.jpg', label: 'Complete Hair Transformation Combo', isTransparent: false });
+  }
 
   // Add to Bag action handler
   const handleAddToBag = () => {
@@ -136,41 +504,124 @@ export default function ProductDetailPage() {
       <div className="pb-20 lg:pb-32 max-w-screen-2xl mx-auto px-6 md:px-12 lg:px-20">
         <div className="flex flex-col lg:flex-row gap-16 lg:gap-24 items-center">
           
-          {/* Left: 3D Interactive Product Image */}
-          <motion.div 
-            onMouseMove={handleMouseMove} 
-            onMouseLeave={() => { mouseX.set(0); mouseY.set(0); }}
-            style={{ 
-              rotateX, 
-              rotateY, 
-              x: translateX,
-              y: translateY,
-              z: 200, 
-              transformStyle: 'preserve-3d',
-            }}
-            className="w-full lg:w-1/2 h-[50vh] sm:h-[60vh] lg:h-[80vh] relative flex items-center justify-center perspective-2000"
-          >
-            {/* Background Decorative Particles */}
-            <div className="absolute inset-0 z-0 pointer-events-none opacity-40">
-              {[...Array(6)].map((_, i) => (
-                <FloatingDebris key={i} index={i} />
+          {/* Left: 3D Interactive Product Image + Gallery Carousel */}
+          <div className="w-full lg:w-1/2 flex flex-row gap-4 items-start h-[50vh] sm:h-[60vh] lg:h-[80vh] relative min-h-[350px]">
+            
+            {/* Gallery Thumbnails (Vertical Stack on the left) */}
+            <div className="flex flex-col gap-2.5 overflow-y-auto pr-1 select-none hide-scrollbar max-h-full scroll-smooth shrink-0 py-2 w-12 sm:w-16 md:w-20">
+              {gallery.map((img, idx) => (
+                <button
+                  key={idx}
+                  onClick={() => setActiveImageIndex(idx)}
+                  className={`w-10 h-10 sm:w-16 sm:h-16 md:w-20 md:h-20 rounded-2xl overflow-hidden border-2 transition-all duration-300 relative bg-white shadow-xs hover:scale-105 active:scale-95 shrink-0 ${
+                    activeImageIndex === idx 
+                      ? 'border-[#052B08] scale-102 ring-2 ring-[#052B08]/15' 
+                      : 'border-[#052B08]/10 opacity-70 hover:opacity-100'
+                  }`}
+                >
+                  <img 
+                    src={img.src} 
+                    alt={img.label} 
+                    className={`w-full h-full object-cover ${img.isTransparent ? 'mix-blend-multiply p-1.5' : ''}`}
+                  />
+                  <div className="absolute inset-0 bg-black/3 opacity-0 hover:opacity-100 transition-opacity pointer-events-none" />
+                </button>
               ))}
             </div>
 
-            <div className="relative w-full max-w-[280px] sm:max-w-[350px] lg:max-w-[500px] aspect-[3/4] flex items-center justify-center" style={{ transformStyle: 'preserve-3d' }}>
-              <div className="absolute inset-0 bg-gradient-to-tr from-accent/20 to-transparent blur-[80px] lg:blur-[120px] rounded-full pointer-events-none" style={{ transform: 'translateZ(-100px)' }} />
-              <motion.img
-                src={product.image}
-                alt={product.title}
-                animate={{ y: [0, -20, 0], rotateY: [0, 5, -5, 0] }}
-                transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-                fetchPriority="high"
-                loading="eager"
-                className="w-full h-full object-contain drop-shadow-[0_20px_40px_rgba(5,43,8,0.2)] lg:drop-shadow-[0_40px_80px_rgba(5,43,8,0.3)] z-50 mix-blend-multiply"
-                style={{ transformStyle: 'preserve-3d' }}
-              />
-            </div>
-          </motion.div>
+            {/* Main Interactive Image Frame */}
+            <motion.div 
+              onMouseMove={handleMouseMove} 
+              onMouseLeave={() => { mouseX.set(0); mouseY.set(0); }}
+              style={{ 
+                rotateX, 
+                rotateY, 
+                x: translateX,
+                y: translateY,
+                z: 200, 
+                transformStyle: 'preserve-3d',
+              }}
+              className="flex-1 h-full relative flex flex-col items-center justify-center perspective-2000 bg-white/20 rounded-[2.5rem] border border-[#052B08]/5 overflow-hidden p-6 md:p-10 select-none group shadow-xs hover:shadow-lg transition-shadow duration-500"
+            >
+              {/* Background Decorative Particles (only for transparent product jars) */}
+              {gallery[activeImageIndex].isTransparent && (
+                <div className="absolute inset-0 z-0 pointer-events-none opacity-40">
+                  {[...Array(6)].map((_, i) => (
+                    <FloatingDebris key={i} index={i} />
+                  ))}
+                </div>
+              )}              {/* Main Image View */}
+              <div className="relative w-full h-full flex items-center justify-center" style={{ transformStyle: 'preserve-3d' }}>
+                {gallery[activeImageIndex].isTransparent ? (
+                  <div className="absolute inset-0 bg-gradient-to-tr from-accent/20 to-transparent blur-[80px] lg:blur-[120px] rounded-full pointer-events-none" style={{ transform: 'translateZ(-100px)' }} />
+                ) : null}
+                
+                <AnimatePresence mode="wait">
+                  <motion.img
+                    key={activeImageIndex}
+                    src={gallery[activeImageIndex].src}
+                    alt={gallery[activeImageIndex].label}
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.95 }}
+                    transition={{ duration: 0.4 }}
+                    drag="x"
+                    dragConstraints={{ left: 0, right: 0 }}
+                    dragElastic={0.4}
+                    onDragEnd={(e, info) => {
+                      const swipeThreshold = 50;
+                      if (info.offset.x < -swipeThreshold) {
+                        setActiveImageIndex((prev) => (prev + 1) % gallery.length);
+                      } else if (info.offset.x > swipeThreshold) {
+                        setActiveImageIndex((prev) => (prev - 1 + gallery.length) % gallery.length);
+                      }
+                    }}
+                    className={`w-full h-full object-contain cursor-grab active:cursor-grabbing drop-shadow-[0_15px_30px_rgba(5,43,8,0.15)] z-50 ${gallery[activeImageIndex].isTransparent ? 'mix-blend-multiply' : 'rounded-3xl'}`}
+                    style={{ transformStyle: 'preserve-3d' }}
+                  />
+                </AnimatePresence>
+              </div>
+
+              {/* Left/Right manual click arrows */}
+              {gallery.length > 1 && (
+                <>
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setActiveImageIndex((prev) => (prev - 1 + gallery.length) % gallery.length);
+                    }}
+                    className="absolute left-4 top-1/2 -translate-y-1/2 z-[60] p-2.5 rounded-full bg-white/80 hover:bg-white text-[#052B08] border border-[#052B08]/10 shadow-md transition-all opacity-0 group-hover:opacity-100 hidden md:flex items-center justify-center cursor-pointer active:scale-95"
+                  >
+                    <ArrowLeft size={18} />
+                  </button>
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setActiveImageIndex((prev) => (prev + 1) % gallery.length);
+                    }}
+                    className="absolute right-4 top-1/2 -translate-y-1/2 z-[60] p-2.5 rounded-full bg-white/80 hover:bg-white text-[#052B08] border border-[#052B08]/10 shadow-md transition-all opacity-0 group-hover:opacity-100 hidden md:flex items-center justify-center cursor-pointer active:scale-95"
+                  >
+                    <ArrowRight size={18} />
+                  </button>
+                </>
+              )}
+ 
+              {/* Navigation Dots Overlay */}
+              <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-1.5 z-50 bg-[#052B08]/10 backdrop-blur-md px-3.5 py-1.5 rounded-full">
+                {gallery.map((_, idx) => (
+                  <button
+                    key={idx}
+                    onClick={() => setActiveImageIndex(idx)}
+                    className={`w-1.5 h-1.5 rounded-full transition-all duration-300 ${
+                      activeImageIndex === idx 
+                        ? 'bg-[#052B08] w-4' 
+                        : 'bg-[#052B08]/40 hover:bg-[#052B08]/70'
+                    }`}
+                  />
+                ))}
+              </div>
+            </motion.div>
+          </div>
 
           {/* Right: Product Info */}
           <motion.div 
@@ -250,30 +701,6 @@ export default function ProductDetailPage() {
               </div>
             </motion.div>
 
-            <motion.div 
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.5 }}
-              className="mb-10 lg:mb-14"
-            >
-              <h3 className="font-serif italic text-2xl lg:text-3xl text-[#052B08] mb-6 lg:mb-8 text-left">Botanical Alchemy</h3>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 lg:gap-6 text-left">
-                {product.ingredients.slice(0, 4).map((ing, i) => (
-                  <motion.div 
-                    key={i}
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.6 + (i * 0.1) }}
-                    className="p-4 lg:p-6 bg-white/60 hover:bg-white backdrop-blur-sm rounded-2xl shadow-sm hover:shadow-md border border-[#052B08]/5 transition-all duration-300 hover:-translate-y-1"
-                  >
-                    <Sparkles size={18} className="text-[#FF7B89] mb-3" />
-                    <h4 className="font-bold text-[#052B08] mb-1 lg:text-lg">{ing.name}</h4>
-                     <p className="text-xs lg:text-sm text-[#052B08]/60 uppercase tracking-wider">{ing.effect}</p>
-                  </motion.div>
-                ))}
-              </div>
-            </motion.div>
-
             <motion.button 
               onClick={handleAddToBag}
               initial={{ opacity: 0, y: 20 }}
@@ -289,64 +716,37 @@ export default function ProductDetailPage() {
         </div>
       </div>
 
-      {/* 3rd Efficacy, Benefits & Infographic Showcase */}
-      {product.additionalImage && (
-        <section className="py-20 lg:py-28 bg-white/60 backdrop-blur-md border-t border-[#052B08]/5">
-          <div className="max-w-6xl mx-auto px-6 md:px-12">
-            <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-20">
-              
-              {/* Left: Premium Infographic card */}
-              <motion.div
-                initial={{ opacity: 0, scale: 0.95 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-                className="w-full lg:w-1/2 rounded-[2.5rem] overflow-hidden shadow-2xl border border-[#052B08]/5 bg-white relative aspect-[4/5] flex items-center justify-center group"
-              >
-                <img
-                  src={product.additionalImage}
-                  alt={`${product.title} Benefits Showcase`}
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-102"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent pointer-events-none" />
-              </motion.div>
+      {/* 2. Benefits Section */}
+      <ProductBenefitsVisual productId={product.id} productImage={product.image} />
 
-              {/* Right: Detailed Efficacy Info */}
-              <div className="w-full lg:w-1/2 space-y-8 text-left">
-                <div>
-                  <span className="text-[10px] tracking-[0.35em] uppercase font-bold text-[#FF7B89] mb-2 block">Premium Efficacy</span>
-                  <h2 className="serif-title text-3xl md:text-5xl text-[#052B08] leading-tight">Key Benefits & Results</h2>
-                </div>
-
-                <div className="space-y-6">
-                  {product.benefits.map((benefit, i) => (
-                    <motion.div
-                      key={i}
-                      initial={{ opacity: 0, x: -10 }}
-                      whileInView={{ opacity: 1, x: 0 }}
-                      transition={{ delay: i * 0.1 }}
-                      viewport={{ once: true }}
-                      className="flex gap-4 items-start"
-                    >
-                      <span className="w-6 h-6 rounded-full bg-[#1A4B21]/10 flex items-center justify-center text-[#1A4B21] font-bold text-xs mt-1 shrink-0">✓</span>
-                      <div>
-                        <h4 className="font-bold text-lg text-[#052B08] leading-snug">{benefit}</h4>
-                        <p className="text-sm text-[#052B08]/70 mt-1">Our certified formulas are tailored for maximum hair & skin rejuvenation, matching advanced editorial standards.</p>
-                      </div>
-                    </motion.div>
-                  ))}
-                </div>
-
-                <div className="p-6 bg-white/80 rounded-2xl border border-[#052B08]/5 mt-4">
-                  <h4 className="font-serif italic text-xl text-[#052B08] mb-2">Proven Efficacy</h4>
-                  <p className="text-sm text-[#052B08]/80 leading-relaxed font-medium">{product.results}</p>
-                </div>
-              </div>
-
-            </div>
+      {/* 3. Ingredients Section (Botanical Alchemy) */}
+      <section className="py-24 bg-white border-t border-[#052B08]/5">
+        <div className="max-w-6xl mx-auto px-6">
+          <div className="text-center mb-16">
+            <span className="text-[10px] tracking-[0.35em] uppercase font-bold text-[#FF7B89] mb-2 block">Premium Ingredients</span>
+            <h2 className="serif-title text-4xl sm:text-5xl text-[#052B08]">Botanical Alchemy</h2>
           </div>
-        </section>
-      )}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-5xl mx-auto">
+            {product.ingredients.map((ing, i) => (
+              <motion.div 
+                key={i}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ delay: i * 0.1 }}
+                viewport={{ once: true }}
+                className="p-6 bg-[#FAF9F5] hover:bg-white backdrop-blur-sm rounded-3xl shadow-xs hover:shadow-md border border-[#052B08]/5 transition-all duration-300 hover:-translate-y-1 text-left"
+              >
+                <Sparkles size={18} className="text-[#FF7B89] mb-4" />
+                <h4 className="font-bold text-[#052B08] mb-1.5 text-lg leading-tight">{ing.name}</h4>
+                <p className="text-xs text-[#052B08]/60 uppercase tracking-wider leading-relaxed">{ing.effect}</p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* 4. How to Use Section */}
+      <ProductUsageSection productId={product.id} />
 
       {/* Comparison Section (only for Haircare products) */}
       {product.category === 'haircare' && (
@@ -355,6 +755,9 @@ export default function ProductDetailPage() {
           afterImage="/products/after_hair.png"
         />
       )}
+
+      {/* 5. Reviews Section */}
+      <ProductReviewsSection productId={product.id} />
 
       {/* Bottom Product Navigation */}
       <section className="py-20 lg:py-32 px-6 md:px-12 bg-white/40 backdrop-blur-md border-t border-[#052B08]/5">

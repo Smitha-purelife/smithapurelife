@@ -93,9 +93,9 @@ export default function ShopByConcern() {
   };
 
   return (
-    <section id="concerns" className="py-20 bg-[#C1CDBF] scroll-mt-24">
+    <section id="concerns" className="py-12 md:py-20 bg-[#C1CDBF] scroll-mt-24">
       <div className="max-w-7xl mx-auto px-6">
-        <div className="text-center mb-14">
+        <div className="text-center mb-8 md:mb-14">
           <motion.p
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
@@ -118,14 +118,14 @@ export default function ShopByConcern() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.1 }}
-            className="text-[#2D2A26]/60 mt-4 max-w-md mx-auto"
+            className="text-[#2D2A26]/60 mt-4 max-w-md mx-auto text-sm"
           >
             Every scalp is unique. Click on your concern below to view your personalized, clean botanical ritual.
           </motion.p>
         </div>
 
-        {/* Responsive concern grid that fits 7 concerns beautifully */}
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-7 gap-4">
+        {/* Responsive concern container: horizontal scroll on mobile/tablet, grid on desktop */}
+        <div className="flex items-stretch overflow-x-auto gap-4 pb-6 px-6 -mx-6 hide-scrollbar snap-x snap-mandatory lg:grid lg:grid-cols-7 lg:gap-4 lg:pb-0 lg:px-0 lg:mx-0 lg:overflow-x-visible">
           {concerns.map((concern, i) => {
             const firstProduct = products.find(p => concern.products.includes(p.id));
             return (
@@ -137,7 +137,7 @@ export default function ShopByConcern() {
                 transition={{ delay: i * 0.06 }}
                 whileHover={{ y: -6 }}
                 onClick={() => setSelectedConcern(concern)}
-                className="cursor-pointer"
+                className="cursor-pointer flex-shrink-0 w-[145px] sm:w-[165px] lg:w-auto snap-start"
               >
                 <div
                   className="rounded-2xl p-5 flex flex-col items-center justify-between gap-3 hover:shadow-lg transition-all duration-300 group h-full border border-black/5 bg-white/40"
@@ -145,7 +145,7 @@ export default function ShopByConcern() {
                 >
                   <div className="flex flex-col items-center gap-2">
                     <span className="text-3xl filter drop-shadow-sm mb-1">{concern.emoji}</span>
-                    <span className="text-xs font-bold text-[#2D2A26] text-center uppercase tracking-wider leading-snug group-hover:text-[#1A4B21] transition-colors">{concern.label}</span>
+                    <span className="text-[10px] sm:text-xs font-bold text-[#2D2A26] text-center uppercase tracking-wider leading-snug group-hover:text-[#1A4B21] transition-colors">{concern.label}</span>
                   </div>
                   {firstProduct && (
                     <div className="w-16 h-20 flex items-center justify-center p-1.5 rounded-xl bg-white/60 border border-black/5 shadow-2xs mt-2 overflow-hidden flex-shrink-0">
@@ -160,6 +160,12 @@ export default function ShopByConcern() {
               </motion.div>
             );
           })}
+        </div>
+
+        {/* Swipe hint on mobile/tablet */}
+        <div className="flex justify-center items-center gap-1.5 mt-3 lg:hidden text-[#2D2A26]/40 text-xs font-medium">
+          <span>Swipe to explore concerns</span>
+          <span className="animate-pulse">→</span>
         </div>
       </div>
 
@@ -182,16 +188,16 @@ export default function ShopByConcern() {
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 20 }}
               transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-              className="fixed inset-x-4 top-[10%] bottom-[10%] md:inset-x-auto md:left-1/2 md:-translate-x-1/2 md:w-[650px] md:max-w-full z-[999999] bg-[#FAF8F5] rounded-[2.5rem] shadow-2xl overflow-hidden flex flex-col border border-black/5"
+              className="fixed inset-x-4 top-[8%] bottom-[8%] md:top-[10%] md:bottom-[10%] md:inset-x-auto md:left-1/2 md:-translate-x-1/2 md:w-[650px] md:max-w-full z-[999999] bg-[#FAF8F5] rounded-[2rem] md:rounded-[2.5rem] shadow-2xl overflow-hidden flex flex-col border border-black/5"
             >
               {/* Modal Header */}
               <div 
-                className="p-6 md:p-8 flex justify-between items-center bg-white/70 backdrop-blur-md border-b border-[#2D2A26]/5"
+                className="p-5 md:p-8 flex justify-between items-center bg-white/70 backdrop-blur-md border-b border-[#2D2A26]/5"
                 style={{ backgroundColor: selectedConcern.color + '50' }}
               >
                 <div className="text-left">
                   <span className="text-[10px] tracking-[0.25em] uppercase font-bold text-[#FF7B89] block mb-1">Recommended Ritual</span>
-                  <h3 className="font-serif text-2xl md:text-3xl text-[#2D2A26] font-bold flex items-center gap-2.5">
+                  <h3 className="font-serif text-xl md:text-3xl text-[#2D2A26] font-bold flex items-center gap-2">
                     <span>{selectedConcern.emoji}</span> {selectedConcern.label}
                   </h3>
                 </div>
@@ -204,7 +210,7 @@ export default function ShopByConcern() {
               </div>
 
               {/* Modal Body / Recommended Products List */}
-              <div className="flex-1 overflow-y-auto p-6 md:p-8 space-y-4">
+              <div className="flex-1 overflow-y-auto p-5 md:p-8 space-y-4">
                 <p className="text-xs text-gray-400 font-semibold uppercase tracking-wider mb-2">Clean Botanical Recommendations ({selectedConcern.products.length}):</p>
                 
                 {selectedConcern.products.map((prodId) => {
@@ -214,10 +220,10 @@ export default function ShopByConcern() {
                   return (
                     <div 
                       key={prodId} 
-                      className="bg-white rounded-2xl p-4 shadow-sm border border-[#2D2A26]/5 flex gap-4 hover:border-[#1A4B21]/25 hover:shadow-md transition-all duration-300 relative group"
+                      className="bg-white rounded-2xl p-3 md:p-4 shadow-sm border border-[#2D2A26]/5 flex gap-3 md:gap-4 hover:border-[#1A4B21]/25 hover:shadow-md transition-all duration-300 relative group"
                     >
                       {/* Thumbnail */}
-                      <Link to={`/product/${prod.id}`} onClick={() => setSelectedConcern(null)} className="w-16 h-20 bg-[#FAF9F5] rounded-xl overflow-hidden flex-shrink-0 flex items-center justify-center p-2 border border-[#2D2A26]/5">
+                      <Link to={`/product/${prod.id}`} onClick={() => setSelectedConcern(null)} className="w-14 h-16 md:w-16 md:h-20 bg-[#FAF9F5] rounded-xl overflow-hidden flex-shrink-0 flex items-center justify-center p-1 md:p-2 border border-[#2D2A26]/5">
                         <img src={prod.image} alt={prod.title} className="w-full h-full object-contain mix-blend-multiply" />
                       </Link>
 
@@ -228,7 +234,7 @@ export default function ShopByConcern() {
                           <Link 
                             to={`/product/${prod.id}`} 
                             onClick={() => setSelectedConcern(null)} 
-                            className="font-serif text-base text-[#2D2A26] font-bold hover:text-[#1A4B21] transition-colors leading-tight"
+                            className="font-serif text-sm md:text-base text-[#2D2A26] font-bold hover:text-[#1A4B21] transition-colors leading-tight block"
                           >
                             {prod.title}
                           </Link>
@@ -236,22 +242,22 @@ export default function ShopByConcern() {
                         </div>
 
                         {/* Price & Add Button */}
-                        <div className="flex items-center justify-between mt-3">
-                          <span className="font-bold text-sm text-[#2D2A26] font-inter">
-                            ₹{prod.sizes[0].price} <span className="text-[10px] text-gray-400 font-normal uppercase font-body tracking-wider ml-1">({prod.sizes[0].size})</span>
+                        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mt-3">
+                          <span className="font-bold text-xs sm:text-sm text-[#2D2A26] font-inter">
+                            ₹{prod.sizes[0].price} <span className="text-[9px] sm:text-[10px] text-gray-400 font-normal uppercase font-body tracking-wider ml-1">({prod.sizes[0].size})</span>
                           </span>
 
-                          <div className="flex gap-2">
+                          <div className="flex gap-1.5 sm:gap-2">
                             <Link to={`/product/${prod.id}`} onClick={() => setSelectedConcern(null)}>
-                              <button className="flex items-center gap-1 bg-transparent hover:bg-black/5 text-[#2D2A26] px-3.5 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-wider transition-all border border-black/10">
-                                View Details <ArrowRight size={10} />
+                              <button className="flex items-center gap-1 bg-transparent hover:bg-black/5 text-[#2D2A26] px-2.5 sm:px-3.5 py-1.5 rounded-full text-[9px] sm:text-[10px] font-bold uppercase tracking-wider transition-all border border-black/10">
+                                Details
                               </button>
                             </Link>
                             <button 
                               onClick={() => handleAddProductToCart(prod.id)}
-                              className="flex items-center gap-1 bg-[#1A4B21] text-white px-4 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-wider hover:bg-[#0f2e14] transition-all shadow-xs active:scale-95"
+                              className="flex items-center gap-1 bg-[#1A4B21] text-white px-3 sm:px-4 py-1.5 rounded-full text-[9px] sm:text-[10px] font-bold uppercase tracking-wider hover:bg-[#0f2e14] transition-all shadow-xs active:scale-95 whitespace-nowrap"
                             >
-                              Add to Bag <ShoppingBag size={10} />
+                              Add <ShoppingBag size={10} />
                             </button>
                           </div>
                         </div>
@@ -262,7 +268,7 @@ export default function ShopByConcern() {
               </div>
 
               {/* Modal Footer */}
-              <div className="p-6 bg-white border-t border-[#2D2A26]/5 text-center flex justify-end gap-3.5">
+              <div className="p-5 md:p-6 bg-white border-t border-[#2D2A26]/5 text-center flex justify-end gap-3.5">
                 <button
                   onClick={() => setSelectedConcern(null)}
                   className="px-6 py-2.5 rounded-full text-xs font-bold uppercase tracking-wider text-gray-400 hover:bg-black/5 transition-colors"
