@@ -31,23 +31,25 @@ export interface Product {
 export const products: Product[] = [
   {
     id: "avosilk-bloom",
-    title: "Avosilky Bloom",
-    subtitle: "Avocado Hair Treatment",
-    description: "Nourish your hair with the rich goodness of Avocado. Designed for deep conditioning and silken texture.",
+    title: "Avosilk Bloom",
+    subtitle: "Avocado Rich Conditioner",
+    description: "Enriched with avocado goodness to deeply moisturize and nourish dry, rough, and frizzy hair. Helps improve hair softness, smoothness, and manageability while reducing tangles and breakage.",
     image: "/products/avosilk_bloom.png",
     lifestyleImage: "/products/media__1779362724448.png",
-    additionalImage: "/products/avosilk_bloom_benefits.png",
+    additionalImage: "/products/avosilk_bloom_benefits_v3.png",
     hasFullBanner: true,
     texture: "/products/avosilk_bloom_texture.png",
     accent: "#E9D5CA",
     bg: "#FDF9F6",
-    benefits: ["Deep Conditioning", "Silken Texture", "Vitamin E Rich"],
+    benefits: ["Hydrates Dry & Brittle Hair", "Strengthens & Softens", "Locks in Moisture", "Adds Shine & Tames Frizz", "Supports Hair Growth"],
     ingredients: [
-      { name: "Cold-Pressed Avocado Oil", effect: "Deep hydration and fatty acid replenishment" },
-      { name: "Organic Shea Butter", effect: "Seals moisture and prevents breakage" },
-      { name: "Vitamin E", effect: "Antioxidant protection for hair follicles" }
+      { name: "Avocado Extract", effect: "Deeply hydrates dry, brittle hair" },
+      { name: "Almond Oil", effect: "Strengthens and softens hair fibers" },
+      { name: "Organic Shea Butter", effect: "Locks in moisture to prevent dryness" },
+      { name: "Argan Oil", effect: "Adds shine, silkiness & tames frizz" },
+      { name: "Rosemary", effect: "Supports scalp health and hair growth" }
     ],
-    results: "Visible silken texture and reduced frizz within 3 uses. 95% of users reported deeper conditioning.",
+    results: "effortlessly detangles and softens your hair with your very first wash, secretly strengthening your hair!",
     sizes: [
       { size: "50ml", price: 650, originalPrice: 799 },
       { size: "100ml", price: 1200, originalPrice: 1499 }
@@ -57,22 +59,25 @@ export const products: Product[] = [
   {
     id: "radiance-oil",
     title: "Radiance Hair Oil",
-    subtitle: "Growth Revival Formula",
-    description: "2x Advance Growth Revival. Infused with Jojoba, Rosemary, and 20+ botanical extracts for intensive rescue.",
+    subtitle: "Herbal Radiance Advance 2x Growth Revival",
+    description: "A nourishing blend of natural oils and herbs that helps strengthen hair roots, reduce hair fall, improve scalp health, and support healthy hair growth. Regular use helps keep hair soft, shiny, and manageable.",
     image: "/products/herbal_radiance_hair_oil.png",
     lifestyleImage: "/products/media__1779362732647.png",
-    additionalImage: "/products/radiance_oil_benefits.png",
+    additionalImage: "/products/radiance_oil_benefits_v3.png",
     hasFullBanner: true,
     texture: "/products/radiance_oil_texture.png",
     accent: "#F9F3CC",
     bg: "#FFFBEB",
-    benefits: ["Intensive Rescue", ["Advance Growth"][0], "Natural Shine"],
+    benefits: ["Controls Hair Fall & Dandruff", "Boosts Growth & Root Strength", "Repairs Dry, Damaged Hair", "Natural Shine & Smoothness", "100% Handcrafted & Natural"],
     ingredients: [
-      { name: "Rosemary Extract", effect: "Stimulates scalp circulation for growth" },
-      { name: "Golden Jojoba Oil", effect: "Mimics natural scalp oils for balance" },
-      { name: "Castor Oil", effect: "Thickens hair strands and strengthens roots" }
+      { name: "Coconut Oil", effect: "Deep conditioning and fatty acid nourishment" },
+      { name: "Almond (Badam) Oil", effect: "Rich in Vitamin E for hair shine and repair" },
+      { name: "Castor & Jojoba Oil", effect: "Deeply locks moisture and thickens roots" },
+      { name: "Cedarwood & Vetiver", effect: "Calms scalp and stimulates hair follicles" },
+      { name: "Bhringraj, Amla & Brahmi", effect: "Ayurvedic herbs that boost growth & reduce fall" },
+      { name: "Curry Leaves & Hibiscus", effect: "Prevents graying and conditions hair lengths" }
     ],
-    results: "80% reduction in hair fall and noticeable regrowth in thinning areas after 4 weeks.",
+    results: "Controls hair fall and dandruff from the very first wash, while boosting hair growth and root strength.",
     sizes: [
       { size: "50ml", price: 850, originalPrice: 999 },
       { size: "100ml", price: 1450, originalPrice: 1699 }
@@ -81,22 +86,25 @@ export const products: Product[] = [
   },
   {
     id: "herbal-wash",
-    title: "Herbal Hair Wash",
-    subtitle: "Pure Therapy Powder",
-    description: "Nature's therapy in a powder. A traditional blend of Amla and Hibiscus for a pure, herbal cleanse.",
+    title: "Herbal Hair Wash Powder",
+    subtitle: "Nature's Therapy Herbal Hair Wash Powder",
+    description: "A gentle herbal cleansing powder made with traditional natural ingredients to cleanse the scalp without stripping away natural moisture. Helps reduce dandruff, control excess oil, and leave hair feeling fresh, soft, and healthy.",
     image: "/products/hair_wash_powder_v2.png",
     lifestyleImage: "/products/herbal_wash_hero_v2_png_1778593690717.png",
-    additionalImage: "/products/herbal_wash_benefits.png",
+    additionalImage: "/products/herbal_wash_benefits_v3.png",
     texture: "/products/herbal_wash_texture.png",
     accent: "#D4E2D4",
     bg: "#F0F7F0",
-    benefits: ["Herbal Cleanse", "Scalp Health", "Traditional Blend"],
+    benefits: ["Reduces Hair Fall in 40 Days", "Clears Dandruff in 1st Wash", "Makes Hair Silky & Strong", "No Sulfates or Parabens", "20+ Ayurvedic Herbs"],
     ingredients: [
-      { name: "Amla (Gooseberry)", effect: "Natural cleanser and source of Vitamin C" },
-      { name: "Hibiscus Petals", effect: "Conditions hair and prevents premature graying" },
-      { name: "Soapnut (Reetha)", effect: "Gentle natural lather without sulfates" }
+      { name: "Marshmallow Root", effect: "Soothes scalp irritation and provides natural slip" },
+      { name: "Orange & Hibiscus", effect: "Refreshes scalp and adds natural shine" },
+      { name: "Amla & Fenugreek", effect: "Cleanses scalp and reduces hair fall" },
+      { name: "Shikakai & Soapnut", effect: "Gentle natural lather without sulfates" },
+      { name: "Papaya & Curry Leaves", effect: "Enzyme scalp detox and prevents graying" },
+      { name: "Bhringraj & 28+ Herbs", effect: "Ayurvedic blend for overall scalp vitality" }
     ],
-    results: "A balanced, healthy scalp and natural shine. Free from chemical buildup.",
+    results: "Reduces hair fall in 40 days and clears dandruff from the 1st wash. Visible results in 3 months!",
     sizes: [
       { size: "70gm", price: 550, originalPrice: 699 },
       { size: "270gm", price: 999, originalPrice: 1199 }
@@ -105,22 +113,25 @@ export const products: Product[] = [
   },
   {
     id: "pro-repair-serum",
-    title: "Pro Repair Serum",
-    subtitle: "Silk Gloss Technology",
-    description: "Instant silk gloss with botanical repair technology. Restore natural vitality and overnight repair.",
+    title: "Pro Repair Hair Serum",
+    subtitle: "Silk Gloss Pro Repair Hair Serum",
+    description: "A lightweight hair serum designed to control frizz, add natural shine, and protect hair from dryness. Leaves hair silky smooth, soft to touch, and easier to style without feeling greasy.",
     image: "/products/silk_gloss_pro_repair_serum.png",
     lifestyleImage: "/products/pro_repair_serum_hero_v2_png_1778593726696.png",
-    additionalImage: "/products/pro_repair_serum_benefits.png",
+    additionalImage: "/products/pro_repair_serum_benefits_v3.png",
     texture: "/products/pro_repair_texture.png",
     accent: "#DBCDF0",
     bg: "#F5F0FA",
-    benefits: ["Instant Gloss", "Overnight Repair", "Botanical Tech"],
+    benefits: ["Instant Soft & Shiny Feel", "Repairs Damaged Split Ends", "Glossy & Frizz-Free Finish", "100% Natural Protective Coat", "Lightweight & Non-Sticky"],
     ingredients: [
-      { name: "Argan Oil", effect: "Instant shine and heat protection" },
-      { name: "Marshmallow Root", effect: "Provides slip and detangles instantly" },
-      { name: "Keratin Protein", effect: "Fills in hair cuticle damage" }
+      { name: "Grapeseed Oil", effect: "Lightweight moisture and heat protection" },
+      { name: "Golden Jojoba Oil", effect: "Balances natural oils and seals ends" },
+      { name: "Broccoli Seed Oil", effect: "Natural silicone alternative for smooth glaze" },
+      { name: "Argan Oil & Baobab Oil", effect: "Rich in antioxidants for deep damage repair" },
+      { name: "Fractionated Coconut Oil", effect: "Weightless conditioning and softness" },
+      { name: "Hemisqualane", effect: "Frizz control and weightless touch finish" }
     ],
-    results: "Immediate 70% increase in gloss and 2x easier detangling.",
+    results: "Gives an instant soft, shiny & spongy feel. You'll feel a silky smooth touch instantly!",
     sizes: [
       { size: "30ml", price: 690, originalPrice: 790 },
       { size: "50ml", price: 1150, originalPrice: 1350 }
@@ -129,22 +140,24 @@ export const products: Product[] = [
   },
   {
     id: "follicra-regrowth",
-    title: "Follicra Regrowth",
-    subtitle: "Advanced Scalp Ritual",
-    description: "Advanced hair regrowth therapy featuring Marshmallow root and Ayurvedic botanicals.",
+    title: "Follicra Regrowth Serum",
+    subtitle: "Follicra - Hair Regrowth Serum",
+    description: "A powerful scalp serum crafted with carefully selected natural ingredients to support healthy hair regrowth, strengthen hair roots, and nourish the scalp. Regular use helps improve the appearance of fuller, thicker, and healthier-looking hair.",
     image: "/products/follicra_proper.jpg",
     lifestyleImage: "/products/follicra_regrowth_hero.png",
-    additionalImage: "/products/follicra_regrowth_benefits.png",
+    additionalImage: "/products/follicra_regrowth_benefits_v3.png",
     texture: "/products/follicra_regrowth_texture.png",
     accent: "#DDF1E9",
     bg: "#F2FAF7",
-    benefits: ["Regrowth Therapy", "Ayurvedic Blend", "Root Strength"],
+    benefits: ["Activates Bald Area Regrowth", "Reduces Hair Fall Gradually", "Strengthens Weak Hair Roots", "Healthy & Nourished Scalp", "Thickens Thinning Hair Care"],
     ingredients: [
-      { name: "Marshmallow Root", effect: "Soothes scalp irritation" },
-      { name: "Bhringraj", effect: "The king of herbs for hair regrowth" },
-      { name: "Black Cumin Seed", effect: "Prevents hair thinning and scalp infections" }
+      { name: "Rosemary Extract", effect: "Boosts blood circulation & activates dormant follicles" },
+      { name: "Green Tea Extract", effect: "Antioxidant rich, helps control scalp damage" },
+      { name: "Larch Tree Extract", effect: "Supports new hair growth and density" },
+      { name: "Vegetable Glycerin", effect: "Deep hydration for a healthy scalp barrier" },
+      { name: "Castor Oil & Peppermint", effect: "Refreshes scalp, improves flow, thickens strands" }
     ],
-    results: "Clinically proven to increase hair density by 15% over 3 months.",
+    results: "Baby hairs may start appearing in bald & thinning areas with regular, consistent use.",
     sizes: [
       { size: "30ml", price: 1100, originalPrice: 1299 },
       { size: "50ml", price: 1800, originalPrice: 2099 }

@@ -4,6 +4,7 @@ import { useRef, useState, useEffect, memo } from 'react';
 import { products } from '../data/products';
 import { ArrowLeft, ArrowRight, Sparkles } from 'lucide-react';
 import ComparisonSection from './ComparisonSection';
+import TransformationsGallery from './TransformationsGallery';
 
 // Interactive Floating Particle Component
 const FloatingDebris = memo(({ index }: { index: number }) => {
@@ -37,67 +38,72 @@ const productDetailData: Record<string, {
 }> = {
   'avosilk-bloom': {
     benefits: [
-      'Deep Conditioning & Moisture',
-      'Restores Natural Elasticity',
-      'Intensive Frizz Control',
-      'Silken Shine Finish'
+      'Deeply Hydrates Dry & Brittle Hair (Avocado)',
+      'Strengthens and Softens Hair (Almond)',
+      'Locks in Deep Moisture (Shea Butter)',
+      'Adds Shine, Silkiness & Tames Frizz (Argan Oil)',
+      'Supports Healthy Hair Growth (Rosemary)'
     ],
     reviews: [
-      { name: 'Riya Sen', rating: 5, text: 'This avocado conditioner works wonders on my dry frizzy ends! I leave it on for 5 mins and my hair is incredibly smooth and detangled.', date: '2 weeks ago' },
-      { name: 'Kunal Kapoor', rating: 5, text: 'Amazing hydration without weighting my hair down. The scent is very premium and natural.', date: '1 month ago' },
-      { name: 'Pooja G.', rating: 4, text: 'Love the thick texture. My hair cuticles feel very sealed and protected.', date: '3 days ago' }
+      { name: 'R. S.', rating: 5, text: 'This avocado conditioner works wonders on my dry frizzy ends! I leave it on for 5 mins and my hair is incredibly smooth and detangled.', date: '2 weeks ago' },
+      { name: 'K. K.', rating: 5, text: 'Amazing hydration without weighting my hair down. The scent is very premium and natural.', date: '1 month ago' },
+      { name: 'P. G.', rating: 4, text: 'Love the thick texture. My hair cuticles feel very sealed and protected.', date: '3 days ago' }
     ]
   },
   'radiance-oil': {
     benefits: [
-      'Accelerates Hair Growth',
-      'Boosts Root Strength',
-      'Controls Excessive Hair Fall',
-      'Locks in Scalp Moisture'
+      'Controls Hair Fall & Dandruff in 1st Wash',
+      'Boosts Hair Growth & Root Strength',
+      'Repairs Dry, Damaged Hair',
+      'Adds Natural Shine & Smoothness',
+      '100% Natural, Handcrafted With Care'
     ],
     reviews: [
-      { name: 'Harpreet Singh', rating: 5, text: 'Visible hair fall reduction in 3 weeks! My scalp feels nourished and healthy. I massage it slightly warm as recommended.', date: '1 week ago' },
-      { name: 'Surbhi M.', rating: 5, text: 'Non-greasy but very deep action. Smells botanical and has definitely improved my hair density.', date: '3 weeks ago' },
-      { name: 'Aditya R.', rating: 5, text: 'Excellent oil. Reduces dryness and flaky scalp completely.', date: '2 months ago' }
+      { name: 'Verified Customer', rating: 5, text: 'Thank you so much sister.. it\'s a wow product really! I can see my hair development without dandruff and hairfall. This product perfectly suited to my hair and within 1 month I saw my hair\'s results. It was easy and smoothen to apply and has a lovely fragrance.', date: '1 month ago' },
+      { name: 'H. S.', rating: 5, text: 'Visible hair fall reduction in 3 weeks! My scalp feels nourished and healthy. I massage it slightly warm as recommended.', date: '1 week ago' },
+      { name: 'S. M.', rating: 5, text: 'Non-greasy but very deep action. Smells botanical and has definitely improved my hair density.', date: '3 weeks ago' },
+      { name: 'A. R.', rating: 5, text: 'Excellent oil. Reduces dryness and flaky scalp completely.', date: '2 months ago' }
     ]
   },
   'herbal-wash': {
     benefits: [
-      'Pure Herbal Cleanse',
-      'Scalp Detox & Freshness',
-      'Soothes Irritation & Dandruff',
-      'Prevents Premature Graying'
+      'Reduces Hair Fall in 40 Days',
+      'Clears Dandruff from the 1st Wash',
+      'Makes Hair Silky, Smooth & Strong',
+      '100% Natural & Handmade with 20+ Herbs'
     ],
     reviews: [
-      { name: 'Gayathri Krishnan', rating: 5, text: 'No chemicals, just pure natural therapy! Cleanses oily scalp completely and leaves a fresh natural bounce.', date: '5 days ago' },
-      { name: 'Nisha Patil', rating: 5, text: 'My dandruff is completely gone after 3 washes. I mix it with water to a paste. Love this traditional wash.', date: '1 month ago' },
-      { name: 'Vikram S.', rating: 4, text: 'Excellent natural alternative to chemical shampoos. Scalp feels very healthy.', date: '2 weeks ago' }
+      { name: 'G. K.', rating: 5, text: 'No chemicals, just pure natural therapy! Cleanses oily scalp completely and leaves a fresh natural bounce.', date: '5 days ago' },
+      { name: 'N. P.', rating: 5, text: 'My dandruff is completely gone after 3 washes. I mix it with water to a paste. Love this traditional wash.', date: '1 month ago' },
+      { name: 'V. S.', rating: 4, text: 'Excellent natural alternative to chemical shampoos. Scalp feels very healthy.', date: '2 weeks ago' }
     ]
   },
   'pro-repair-serum': {
     benefits: [
-      'Instant Silk Gloss Shine',
-      'Thermal Damage Protection',
-      'Smoothes Split Ends',
-      'Detangles Instantly'
+      'Gives Instant Soft, Shiny & Spongy Feel',
+      'Repairs Damaged Hair & Split Ends',
+      'Creates Smooth, Glossy & Frizz-Free Hair',
+      'Forms a 100% Natural Protective Coat',
+      'Lightweight, Non-Sticky Finish'
     ],
     reviews: [
-      { name: 'Sneha Patel', rating: 5, text: 'Just 2 drops after air-drying gives a gorgeous mirror shine! Frizz is completely gone.', date: 'Yesterday' },
-      { name: 'Megha Roy', rating: 5, text: 'Amazing slip! It makes combing through my damp hair so easy. Very lightweight.', date: '2 weeks ago' },
-      { name: 'Divya K.', rating: 5, text: 'Smells heavenly and works like magic on frizzy weather.', date: '1 month ago' }
+      { name: 'S. P.', rating: 5, text: 'Just 2 drops after air-drying gives a gorgeous mirror shine! Frizz is completely gone.', date: 'Yesterday' },
+      { name: 'M. R.', rating: 5, text: 'Amazing slip! It makes combing through my damp hair so easy. Very lightweight.', date: '2 weeks ago' },
+      { name: 'D. K.', rating: 5, text: 'Smells heavenly and works like magic on frizzy weather.', date: '1 month ago' }
     ]
   },
   'follicra-regrowth': {
     benefits: [
-      'Thickens Thinning Crown',
-      'Ayurvedic Follicle Stimulation',
-      'Combats Scalp Inflammation',
-      'Revitalizes Dormant Roots'
+      'Baby Hairs Start Appearing in Thinning Areas',
+      'Hair Fall Gradually Reduces',
+      'Weak Hair Roots Feel Stronger',
+      'Scalp Feels Healthier, Calmer & Nourished',
+      'Hair Looks Fuller and More Alive'
     ],
     reviews: [
-      { name: 'Dr. Shruti Bajaj', rating: 5, text: 'Highly recommend this Ayurvedic serum. Visible root activation on my crown within 2 months.', date: '1 month ago' },
-      { name: 'Rahul V.', rating: 5, text: 'Non-sticky formula that is easy to apply. Hair feels much stronger at the roots.', date: '3 weeks ago' },
-      { name: 'Preeti Sharma', rating: 5, text: 'Noticeable reduction in scalp showing. New baby hairs are growing.', date: '2 months ago' }
+      { name: 'S. B.', rating: 5, text: 'Highly recommend this Ayurvedic serum. Visible root activation on my crown within 2 months.', date: '1 month ago' },
+      { name: 'R. V.', rating: 5, text: 'Non-sticky formula that is easy to apply. Hair feels much stronger at the roots.', date: '3 weeks ago' },
+      { name: 'P. S.', rating: 5, text: 'Noticeable reduction in scalp showing. New baby hairs are growing.', date: '2 months ago' }
     ]
   },
   'satin-pillowcase': {
@@ -108,9 +114,9 @@ const productDetailData: Record<string, {
       'Retains Dermal Moisture'
     ],
     reviews: [
-      { name: 'Aparna Sen', rating: 5, text: 'My hair is so smooth in the morning! No more wake-up knots or frizz. Feels very cool to sleep on.', date: '3 days ago' },
-      { name: 'Jaya B.', rating: 5, text: 'My skin creases are gone! This is a must-have beauty accessory.', date: '1 month ago' },
-      { name: 'Shweta K.', rating: 5, text: 'Premium fabric, washes well and works perfectly for frizz control.', date: '2 weeks ago' }
+      { name: 'A. S.', rating: 5, text: 'My hair is so smooth in the morning! No more wake-up knots or frizz. Feels very cool to sleep on.', date: '3 days ago' },
+      { name: 'J. B.', rating: 5, text: 'My skin creases are gone! This is a must-have beauty accessory.', date: '1 month ago' },
+      { name: 'S. K.', rating: 5, text: 'Premium fabric, washes well and works perfectly for frizz control.', date: '2 weeks ago' }
     ]
   },
   'satin-scrunchies': {
@@ -121,9 +127,9 @@ const productDetailData: Record<string, {
       'Premium Satin Slip'
     ],
     reviews: [
-      { name: 'Ananya Panday', rating: 5, text: 'Super soft scrunchies that hold my bun perfectly without pulling. No headaches!', date: '1 week ago' },
-      { name: 'Ritu V.', rating: 5, text: 'Zero breakage when taking them out. Beautiful pastel shades.', date: '3 weeks ago' },
-      { name: 'Tanya S.', rating: 4, text: 'Very gentle hold, perfect for overnight hair protection.', date: '1 month ago' }
+      { name: 'A. P.', rating: 5, text: 'Super soft scrunchies that hold my bun perfectly without pulling. No headaches!', date: '1 week ago' },
+      { name: 'R. V.', rating: 5, text: 'Zero breakage when taking them out. Beautiful pastel shades.', date: '3 weeks ago' },
+      { name: 'T. S.', rating: 4, text: 'Very gentle hold, perfect for overnight hair protection.', date: '1 month ago' }
     ]
   }
 };
@@ -172,8 +178,8 @@ const ritualSteps = [
   },
   {
     step: 5,
-    title: 'Apply Hair Serum',
-    targetProducts: ['pro-repair-serum', 'follicra-regrowth'],
+    title: 'Apply Smooth Serum',
+    targetProducts: ['pro-repair-serum'],
     bulletPoints: [
       'Take 1-3 drops of serum.',
       'Rub the serum between your palms to warm it.',
@@ -181,10 +187,39 @@ const ritualSteps = [
       'Apply from mid-lengths to ends.',
       'Use a wide-tooth comb for even distribution.'
     ]
+  },
+  {
+    step: 6,
+    title: 'Apply Follicra Serum',
+    targetProducts: ['follicra-regrowth'],
+    bulletPoints: [
+      'Apply a few drops of Follicra serum directly to the scalp, focusing on thinning areas.',
+      'Massage gently with fingertips in circular motions for 2-3 minutes.',
+      'Do not rinse out; leave it on to stimulate hair follicles.',
+      'Use daily (preferably at night) for best results.'
+    ]
   }
 ];
 
-function ProductBenefitsVisual({ productId, productImage }: { productId: string; productImage: string }) {
+function ProductBenefitsVisual({ productId, productImage, additionalImage }: { productId: string; productImage: string; additionalImage?: string }) {
+  if (additionalImage) {
+    return (
+      <section className="py-24 bg-[#FAF9F5]/80 border-t border-[#052B08]/5 relative overflow-hidden">
+        <div className="max-w-5xl mx-auto px-6 flex flex-col items-center">
+          <h2 className="serif-title text-4xl sm:text-5xl lg:text-6xl text-[#052B08] mb-16 text-center">Benefits</h2>
+          <div className="w-full max-w-2xl rounded-[2.5rem] overflow-hidden shadow-xl border border-[#052B08]/5 bg-white p-2">
+            <img 
+              src={additionalImage} 
+              alt="Product Benefits Infographic" 
+              className="w-full h-auto object-contain rounded-2xl"
+              loading="lazy"
+            />
+          </div>
+        </div>
+      </section>
+    );
+  }
+
   const data = productDetailData[productId] || { benefits: ['Natural Sourcing', 'Premium Quality', 'Chemical Free', 'Scalp Safe'] };
   
   return (
@@ -257,7 +292,8 @@ function ProductUsageSection({ productId }: { productId: string }) {
   if (productId === 'radiance-oil') activeStepNum = 1;
   else if (productId === 'herbal-wash') activeStepNum = 2;
   else if (productId === 'avosilk-bloom') activeStepNum = 3;
-  else if (['pro-repair-serum', 'follicra-regrowth'].includes(productId)) activeStepNum = 5;
+  else if (productId === 'pro-repair-serum') activeStepNum = 5;
+  else if (productId === 'follicra-regrowth') activeStepNum = 6;
 
   const currentStep = ritualSteps.find(s => s.step === activeStepNum) || ritualSteps[3];
 
@@ -717,7 +753,7 @@ export default function ProductDetailPage() {
       </div>
 
       {/* 2. Benefits Section */}
-      <ProductBenefitsVisual productId={product.id} productImage={product.image} />
+      <ProductBenefitsVisual productId={product.id} productImage={product.image} additionalImage={product.additionalImage} />
 
       {/* 3. Ingredients Section (Botanical Alchemy) */}
       <section className="py-24 bg-white border-t border-[#052B08]/5">
@@ -754,6 +790,11 @@ export default function ProductDetailPage() {
           beforeImage="/products/before_hair.png"
           afterImage="/products/after_hair.png"
         />
+      )}
+
+      {/* Real Customer Before & Afters Evidence */}
+      {product.category === 'haircare' && (
+        <TransformationsGallery />
       )}
 
       {/* 5. Reviews Section */}

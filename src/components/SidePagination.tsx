@@ -1,5 +1,6 @@
 import { motion, useScroll, useSpring } from 'framer-motion';
 import { useEffect, useState } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 const sections = [
   { name: 'Hero', id: 'hero' },
@@ -13,6 +14,8 @@ const sections = [
 ];
 
 export default function SidePagination() {
+  const navigate = useNavigate();
+  const location = useLocation();
   const [activeSection, setActiveSection] = useState(0);
   const { scrollYProgress } = useScroll();
   const scaleY = useSpring(scrollYProgress, {
@@ -22,6 +25,11 @@ export default function SidePagination() {
   });
 
   useEffect(() => {
+    if (location.pathname !== '/') {
+      setActiveSection(-1);
+      return;
+    }
+
     const handleScroll = () => {
       const scrollPos = window.scrollY + window.innerHeight / 2;
       
@@ -37,15 +45,25 @@ export default function SidePagination() {
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll();
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  }, [location.pathname]);
 
   const scrollTo = (id: string) => {
-    const element = document.getElementById(id);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
+    if (location.pathname !== '/') {
+      navigate(`/#${id}`);
     } else {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      const element = document.getElementById(id);
+      if (element) {
+        const globalLenis = (window as any).lenis;
+        if (globalLenis) {
+          globalLenis.scrollTo(element, { offset: -96, duration: 1.5 });
+        } else {
+          element.scrollIntoView({ behavior: 'smooth' });
+        }
+      } else {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
     }
   };
 

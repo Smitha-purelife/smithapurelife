@@ -17,6 +17,7 @@ export default function Footer() {
       links: [
         { label: 'About Smitha', href: '/#story' },
         { label: 'Our Ingredients', href: '/#ingredients' },
+        { label: 'Rewards & Offers', href: '/rewards' },
       ],
     },
     {

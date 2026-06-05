@@ -20,10 +20,12 @@ const HairQuizCTA = lazy(() => import('./components/HairQuizCTA'));
 const IngredientsTransparency = lazy(() => import('./components/IngredientsTransparency'));
 const KBeautyTexture = lazy(() => import('./components/KBeautyTexture'));
 const TestimonialsGrid = lazy(() => import('./components/TestimonialsGrid'));
+const TransformationsGallery = lazy(() => import('./components/TransformationsGallery'));
 const FAQSection = lazy(() => import('./components/FAQSection'));
 const NewsletterVIP = lazy(() => import('./components/NewsletterVIP'));
 const ProductDetailPage = lazy(() => import('./components/ProductDetailPage'));
 const AboutPage = lazy(() => import('./components/AboutPage'));
+const RewardsPage = lazy(() => import('./components/RewardsPage'));
 
 function HomePage() {
   return (
@@ -51,6 +53,8 @@ function HomePage() {
         <KBeautyTexture />
         {/* 10. Customer Reviews Grid */}
         <TestimonialsGrid />
+        {/* Real Customer Before & Afters Evidence */}
+        <TransformationsGallery />
         {/* 11. FAQ Accordion */}
         <FAQSection />
         {/* 12. VIP Newsletter */}
@@ -85,6 +89,7 @@ export default function App() {
               <Route path="/" element={<HomePage />} />
               <Route path="/product/:id" element={<ProductDetailPage />} />
               <Route path="/about" element={<AboutPage />} />
+              <Route path="/rewards" element={<RewardsPage />} />
             </Routes>
           </Suspense>
         </div>

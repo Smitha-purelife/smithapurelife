@@ -6,6 +6,7 @@ import { products } from '../data/products';
 
 const navLinks = [
   { name: 'Shop All', href: '/' },
+  { name: 'Rewards', href: '/rewards' },
   { name: 'About Us', href: '/about' },
 ];
 
@@ -119,10 +120,10 @@ export default function Navbar() {
               <img 
                 src="/logo.png" 
                 alt="Smitha Purelife" 
-                className="hidden md:block h-8 md:h-9 lg:h-10 w-auto object-contain mix-blend-multiply filter contrast-[1.15] brightness-[1.08]" 
+                className="h-7 sm:h-8 md:h-9 lg:h-10 w-auto object-contain mix-blend-multiply filter contrast-[1.15] brightness-[1.08]" 
               />
               <span 
-                className="text-[20px] sm:text-2xl md:text-2xl lg:text-3xl tracking-[0.15em] sm:tracking-[0.2em] text-[#2D2A26] font-bold uppercase whitespace-nowrap"
+                className="text-[15px] sm:text-2xl md:text-2xl lg:text-3xl tracking-[0.12em] sm:tracking-[0.2em] text-[#2D2A26] font-bold uppercase whitespace-nowrap"
               >
                 Smitha Purelife
               </span>
@@ -297,6 +298,11 @@ export default function Navbar() {
                         else element.scrollIntoView({ behavior: 'smooth' });
                       }
                     }
+                  },
+                  {
+                    name: 'Rewards & Offers',
+                    badge: '15% Off',
+                    href: '/rewards'
                   },
                   {
                     name: 'Our Story & Philosophy',
