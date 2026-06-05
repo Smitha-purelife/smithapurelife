@@ -98,6 +98,9 @@ const resultsData: ResultCard[] = [
 
 export default function TransformationsGallery() {
   const [activePhoto, setActivePhoto] = useState<ResultCard | null>(null);
+  const [isExpanded, setIsExpanded] = useState(false);
+
+  const visibleReviews = isExpanded ? resultsData : resultsData.slice(0, 4);
 
   return (
     <section className="py-20 bg-[#FAF9F5]/70 border-t border-[#052B08]/5 scroll-mt-24">
@@ -114,7 +117,7 @@ export default function TransformationsGallery() {
 
         {/* Grid layout */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {resultsData.map((item, idx) => (
+          {visibleReviews.map((item, idx) => (
             <motion.div
               key={item.id}
               initial={{ opacity: 0, y: 20 }}
@@ -174,6 +177,18 @@ export default function TransformationsGallery() {
             </motion.div>
           ))}
         </div>
+
+        {/* View All Button */}
+        {resultsData.length > 4 && (
+          <div className="text-center mt-12">
+            <button
+              onClick={() => setIsExpanded(!isExpanded)}
+              className="px-8 py-3.5 bg-[#052B08] hover:bg-[#08400C] text-white border border-[#052B08]/20 rounded-full text-xs font-bold uppercase tracking-widest transition-all duration-300 shadow-xs hover:shadow-md hover:-translate-y-0.5 cursor-pointer inline-flex items-center gap-2"
+            >
+              {isExpanded ? 'View Less' : 'View All Proofs'}
+            </button>
+          </div>
+        )}
       </div>
 
       {/* Lightbox / Popup Modal */}

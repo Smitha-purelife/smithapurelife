@@ -13,6 +13,16 @@ const sections = [
   { name: 'Newsletter', id: 'newsletter' }
 ];
 
+const productItems = [
+  { name: "Avosilk Bloom", id: "avosilk-bloom" },
+  { name: "Radiance Hair Oil", id: "radiance-oil" },
+  { name: "Herbal Hair Wash", id: "herbal-wash" },
+  { name: "Pro Repair Serum", id: "pro-repair-serum" },
+  { name: "Follicra Regrowth", id: "follicra-regrowth" },
+  { name: "Satin Pillowcase", id: "satin-pillowcase" },
+  { name: "Satin Scrunchies", id: "satin-scrunchies" }
+];
+
 export default function SidePagination() {
   const navigate = useNavigate();
   const location = useLocation();
@@ -23,6 +33,9 @@ export default function SidePagination() {
     damping: 30,
     restDelta: 0.001
   });
+
+  const isProductPage = location.pathname.startsWith('/product/');
+  const currentProductId = isProductPage ? location.pathname.split('/product/')[1] : null;
 
   useEffect(() => {
     if (location.pathname !== '/') {
@@ -67,6 +80,14 @@ export default function SidePagination() {
     }
   };
 
+  const handleProductClick = (id: string) => {
+    navigate(`/product/${id}`);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  // Render product items on product pages, otherwise sections
+  const items = isProductPage ? productItems : sections;
+
   return (
     <div className="fixed right-6 top-1/2 -translate-y-1/2 z-[100] hidden lg:flex flex-col items-end gap-5">
       {/* Vertical Progress Bar */}
@@ -77,13 +98,15 @@ export default function SidePagination() {
         />
       </div>
 
-      {sections.map((section, i) => {
-        const isActive = activeSection === i;
+      {items.map((item, i) => {
+        const isActive = isProductPage 
+          ? item.id === currentProductId 
+          : activeSection === i;
         
         return (
           <button
-            key={section.id}
-            onClick={() => scrollTo(section.id)}
+            key={item.id}
+            onClick={() => isProductPage ? handleProductClick(item.id) : scrollTo(item.id)}
             className="group relative flex items-center gap-4 focus:outline-none h-6"
           >
             {/* Label - Only visible on Hover to prevent content overlap */}
@@ -92,7 +115,7 @@ export default function SidePagination() {
               opacity-0 translate-x-4 pointer-events-none group-hover:opacity-100 group-hover:translate-x-0
               text-[#052B08] whitespace-nowrap bg-[#FDF9F6]/80 px-2 py-1 rounded-sm
             `}>
-              {section.name}
+              {item.name}
             </span>
 
             {/* Dot Indicator */}
