@@ -210,7 +210,7 @@ export default function TransformationsGallery() {
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 30 }}
               transition={{ type: 'spring', damping: 25, stiffness: 220 }}
-              className="fixed inset-x-4 top-[8%] bottom-[8%] md:inset-x-auto md:left-1/2 md:-translate-x-1/2 md:w-[850px] md:max-w-full z-[9999999] bg-white rounded-[2.5rem] shadow-2xl overflow-hidden flex flex-col md:flex-row border border-black/5"
+              className="fixed inset-x-4 top-[8%] bottom-[8%] md:inset-x-auto md:left-1/2 md:-translate-x-1/2 md:w-[850px] md:max-w-full z-[9999999] bg-white rounded-[2.5rem] shadow-2xl overflow-y-auto md:overflow-hidden flex flex-col md:flex-row border border-black/5"
             >
               {/* Left Side: Photo Frame */}
               <div className="w-full md:w-1/2 bg-[#C1CDBF]/10 relative flex items-center justify-center p-4 min-h-[300px] md:min-h-0 border-b md:border-b-0 md:border-r border-black/5 overflow-hidden">

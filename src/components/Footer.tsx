@@ -36,13 +36,29 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8">
           {/* Brand Column */}
           <div className="lg:col-span-2">
-            <div className="mb-4">
-              <img
-                src="/logo.png"
-                alt="Smitha Purelife"
-                className="h-10 w-auto object-contain"
-                style={{ filter: 'brightness(10)' }}
-              />
+            <div className="mb-4 flex items-center justify-start">
+              <div className="flex items-center gap-3">
+                {/* Stylized Leaf S Icon Container */}
+                <div className="w-11 h-11 rounded-xl bg-white flex items-center justify-center p-1.5 shadow-xs shrink-0 select-none">
+                  <img 
+                    src="/logo_icon_transparent.png" 
+                    alt="Smitha Purelife Logo" 
+                    className="w-full h-full object-contain brightness-[0.98] contrast-[1.02]"
+                  />
+                </div>
+                {/* Branding text */}
+                <div className="flex flex-col text-left leading-none justify-center">
+                  <span 
+                    className="text-xl sm:text-2xl tracking-[0.12em] font-medium text-[#F8CD71] uppercase leading-none"
+                    style={{ fontFamily: "'GFS Didot', 'Cormorant Garamond', serif" }}
+                  >
+                    SMITHA
+                  </span>
+                  <span className="font-body text-[8px] sm:text-[9.5px] tracking-[0.18em] text-white/80 font-bold mt-1.5 uppercase">
+                    Purelife • Natural Care
+                  </span>
+                </div>
+              </div>
             </div>
             <p className="text-white/50 text-xs leading-relaxed mb-4 max-w-xs">
               India's leading botanical haircare brand. Crafted with 35+ pure herbs and zero harmful chemicals for hair that truly thrives.

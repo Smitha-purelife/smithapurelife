@@ -188,7 +188,7 @@ export default function ShopByConcern() {
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 20 }}
               transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-              className="fixed inset-x-4 top-[8%] bottom-[8%] md:top-[10%] md:bottom-[10%] md:inset-x-auto md:left-1/2 md:-translate-x-1/2 md:w-[650px] md:max-w-full z-[999999] bg-[#FAF8F5] rounded-[2rem] md:rounded-[2.5rem] shadow-2xl overflow-hidden flex flex-col border border-black/5"
+              className="fixed inset-x-4 top-[8%] bottom-[8%] md:top-[10%] md:bottom-[10%] md:inset-x-auto md:left-1/2 md:-translate-x-1/2 md:w-[650px] md:max-w-full z-[999999] bg-[#FAF8F5] rounded-[2rem] md:rounded-[2.5rem] shadow-2xl overflow-y-auto md:overflow-hidden flex flex-col border border-black/5"
             >
               {/* Modal Header */}
               <div 

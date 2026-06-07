@@ -51,8 +51,8 @@ export const products: Product[] = [
     ],
     results: "effortlessly detangles and softens your hair with your very first wash, secretly strengthening your hair!",
     sizes: [
-      { size: "50ml", price: 650, originalPrice: 799 },
-      { size: "100ml", price: 1200, originalPrice: 1499 }
+      { size: "50ml", price: 146, originalPrice: 175 },
+      { size: "100ml", price: 288, originalPrice: 349 }
     ],
     category: 'haircare'
   },
@@ -79,8 +79,8 @@ export const products: Product[] = [
     ],
     results: "Controls hair fall and dandruff from the very first wash, while boosting hair growth and root strength.",
     sizes: [
-      { size: "50ml", price: 850, originalPrice: 999 },
-      { size: "100ml", price: 1450, originalPrice: 1699 }
+      { size: "100ml", price: 249, originalPrice: 289 },
+      { size: "200ml", price: 499, originalPrice: 560 }
     ],
     category: 'haircare'
   },
@@ -90,7 +90,7 @@ export const products: Product[] = [
     subtitle: "Nature's Therapy Herbal Hair Wash Powder",
     description: "A gentle herbal cleansing powder made with traditional natural ingredients to cleanse the scalp without stripping away natural moisture. Helps reduce dandruff, control excess oil, and leave hair feeling fresh, soft, and healthy.",
     image: "/products/hair_wash_powder_v2.png",
-    lifestyleImage: "/products/herbal_wash_hero_v2_png_1778593690717.png",
+    lifestyleImage: "/products/herbal_wash_hero.png",
     additionalImage: "/products/herbal_wash_benefits_v3.png",
     texture: "/products/herbal_wash_texture.png",
     accent: "#D4E2D4",
@@ -106,8 +106,8 @@ export const products: Product[] = [
     ],
     results: "Reduces hair fall in 40 days and clears dandruff from the 1st wash. Visible results in 3 months!",
     sizes: [
-      { size: "70gm", price: 550, originalPrice: 699 },
-      { size: "270gm", price: 999, originalPrice: 1199 }
+      { size: "70gm", price: 142, originalPrice: 175 },
+      { size: "270gm", price: 539, originalPrice: 569 }
     ],
     category: 'haircare'
   },
@@ -133,8 +133,7 @@ export const products: Product[] = [
     ],
     results: "Gives an instant soft, shiny & spongy feel. You'll feel a silky smooth touch instantly!",
     sizes: [
-      { size: "30ml", price: 690, originalPrice: 790 },
-      { size: "50ml", price: 1150, originalPrice: 1350 }
+      { size: "30ml", price: 399, originalPrice: 489 }
     ],
     category: 'haircare'
   },
@@ -159,8 +158,7 @@ export const products: Product[] = [
     ],
     results: "Baby hairs may start appearing in bald & thinning areas with regular, consistent use.",
     sizes: [
-      { size: "30ml", price: 1100, originalPrice: 1299 },
-      { size: "50ml", price: 1800, originalPrice: 2099 }
+      { size: "30ml", price: 699, originalPrice: 762 }
     ],
     category: 'haircare'
   },
@@ -183,8 +181,7 @@ export const products: Product[] = [
     ],
     results: "90% of users noticed smoother hair and reduced morning skin creases in 1 week.",
     sizes: [
-      { size: "1 Unit", price: 799, originalPrice: 999 },
-      { size: "Set of 2", price: 1499, originalPrice: 1899 }
+      { size: "1 pc", price: 69, originalPrice: 69 }
     ],
     category: 'accessories'
   },
@@ -206,83 +203,148 @@ export const products: Product[] = [
     ],
     results: "Zero morning creasing and maximum style protection overnight.",
     sizes: [
-      { size: "Set of 3", price: 199, originalPrice: 299 },
-      { size: "Set of 5", price: 299, originalPrice: 399 }
+      { size: "1 pc", price: 29, originalPrice: 29 }
     ],
     category: 'accessories'
   }
 ];
 
-export interface Combo {
-  id: string;
-  title: string;
+export interface ComboVariant {
+  sizeName: string;
   subtitle: string;
-  description: string;
-  image: string;
-  includedProducts: string[];
+  includedSizes: string[];
   comboPrice: number;
   originalTotal: number;
   savings: number;
   badge: string;
+}
+
+export interface Combo {
+  id: string;
+  title: string;
+  description: string;
+  image: string;
+  includedProducts: string[];
+  variants: ComboVariant[];
   bg: string;
   accent: string;
 }
 
 export const comboProducts: Combo[] = [
   {
-    id: "haircare-trio",
-    title: "Haircare Trio",
-    subtitle: "Wash + Oil + Conditioner",
-    description: "The ultimate haircare trio — cleanse with Nature's Therapy, nourish with Herbal Radiance Oil, and seal with Avosilky Bloom conditioner.",
-    image: "/products/media__1779362732647.png",
-    includedProducts: ["herbal-wash", "radiance-oil", "avosilk-bloom"],
-    comboPrice: 799,
-    originalTotal: 930,
-    savings: 131,
-    badge: "Most Popular",
+    id: "daily-3step",
+    title: "Daily 3-Step Hair Care Combo",
+    description: "Perfect starting kit or complete value set for your daily natural haircare ritual. Cleanse with Herbal Hair Wash Powder, Nourish with Radiance Hair Oil, and Condition with Avosilk Conditioner.",
+    image: "/products/combo_daily_3step.jpg",
+    includedProducts: ["radiance-oil", "herbal-wash", "avosilk-bloom"],
     bg: "#F0F7F0",
-    accent: "#2D7A3A"
+    accent: "#2D7A3A",
+    variants: [
+      {
+        sizeName: "Small Pack",
+        subtitle: "100ml Oil + 70gm Powder + 50ml Conditioner",
+        includedSizes: ["100ml", "70gm", "50ml"],
+        comboPrice: 537,
+        originalTotal: 537,
+        savings: 0,
+        badge: "Daily Ritual"
+      },
+      {
+        sizeName: "Large Pack",
+        subtitle: "200ml Oil + 270gm Powder + 100ml Conditioner",
+        includedSizes: ["200ml", "270gm", "100ml"],
+        comboPrice: 1326,
+        originalTotal: 1326,
+        savings: 0,
+        badge: "Best Value"
+      }
+    ]
   },
   {
-    id: "regrowth-power-pack",
-    title: "Regrowth Power Pack",
-    subtitle: "Oil + Follicra Serum",
-    description: "Intensive regrowth duo — Herbal Radiance Oil to strengthen roots plus Follicra serum for advanced hair regrowth therapy.",
-    image: "/products/follicra_proper.jpg",
-    includedProducts: ["radiance-oil", "follicra-regrowth"],
-    comboPrice: 899,
-    originalTotal: 948,
-    savings: 49,
-    badge: "Growth Booster",
-    bg: "#F2FAF7",
-    accent: "#1A5B4B"
-  },
-  {
-    id: "silk-repair-combo",
-    title: "Silk & Repair Combo",
-    subtitle: "Pro Repair Serum + Conditioner",
-    description: "Instant silk gloss and deep conditioning — Pro Repair Serum for shine plus Avosilky Bloom for lasting softness.",
-    image: "/products/pro_repair_serum_hero_v2_png_1778593726696.png",
-    includedProducts: ["pro-repair-serum", "avosilk-bloom"],
-    comboPrice: 499,
-    originalTotal: 545,
-    savings: 46,
-    badge: "Shine Bundle",
+    id: "complete-haircare",
+    title: "Complete Hair Care Combo",
+    description: "Deep nutrition and frizz control for healthier, shinier hair. Includes Radiance Hair Oil, Herbal Hair Wash Powder, Avosilk Conditioner, and Pro Repair Hair Serum.",
+    image: "/products/combo_complete_haircare.jpg",
+    includedProducts: ["radiance-oil", "herbal-wash", "avosilk-bloom", "pro-repair-serum"],
     bg: "#F5F0FA",
-    accent: "#6B4C8B"
+    accent: "#6C5B7B",
+    variants: [
+      {
+        sizeName: "Small Combo",
+        subtitle: "100ml Oil + 70gm Powder + 50ml Conditioner + 30ml Serum",
+        includedSizes: ["100ml", "70gm", "50ml", "30ml"],
+        comboPrice: 936,
+        originalTotal: 936,
+        savings: 0,
+        badge: "Complete Care"
+      },
+      {
+        sizeName: "Large Combo",
+        subtitle: "200ml Oil + 270gm Powder + 100ml Conditioner + 30ml Serum",
+        includedSizes: ["200ml", "270gm", "100ml", "30ml"],
+        comboPrice: 1725,
+        originalTotal: 1725,
+        savings: 0,
+        badge: "Complete Care Value"
+      }
+    ]
   },
   {
-    id: "full-routine-bundle",
-    title: "Full Routine Bundle",
-    subtitle: "All 5 Core Products",
-    description: "Everything you need for a complete haircare transformation — Hair Wash, Hair Oil, Conditioner, Follicra Serum & Pro Repair Serum.",
-    image: "/products/media__1779362724448.png",
-    includedProducts: ["herbal-wash", "radiance-oil", "avosilk-bloom", "follicra-regrowth", "pro-repair-serum"],
-    comboPrice: 1699,
-    originalTotal: 1877,
-    savings: 178,
-    badge: "Best Value",
-    bg: "#FFFBEB",
-    accent: "#B8860B"
+    id: "smooth-silky",
+    title: "Smooth & Silky Hair Duo",
+    description: "Softens, detangles, and tames frizz for a glass-like shine. Includes Avosilk Conditioner and Pro Repair Hair Serum.",
+    image: "/products/combo_smooth_silky.png",
+    includedProducts: ["avosilk-bloom", "pro-repair-serum"],
+    bg: "#FAF9F5",
+    accent: "#8E8D8A",
+    variants: [
+      {
+        sizeName: "Small Pack",
+        subtitle: "50ml Conditioner + 30ml Serum",
+        includedSizes: ["50ml", "30ml"],
+        comboPrice: 545,
+        originalTotal: 664,
+        savings: 119,
+        badge: "Frizz Defense"
+      },
+      {
+        sizeName: "Large Pack",
+        subtitle: "100ml Conditioner + 30ml Serum",
+        includedSizes: ["100ml", "30ml"],
+        comboPrice: 687,
+        originalTotal: 838,
+        savings: 151,
+        badge: "Frizz Defense Value"
+      }
+    ]
+  },
+  {
+    id: "transformation",
+    title: "Complete Hair Transformation Combo",
+    description: "The ultimate haircare regime for full length restoration, regrowth activation, and satin protective sleep. Includes Radiance Oil, Wash Powder, Conditioner, Pro Repair Serum, Follicra Regrowth Serum, Satin Pillowcase, and Satin Scrunchies.",
+    image: "/products/combo_complete_transformation.jpg",
+    includedProducts: ["radiance-oil", "herbal-wash", "avosilk-bloom", "pro-repair-serum", "follicra-regrowth", "satin-pillowcase", "satin-scrunchies"],
+    bg: "#DDF1E9",
+    accent: "#1A5235",
+    variants: [
+      {
+        sizeName: "Small Combo",
+        subtitle: "Oil 100ml + Powder 70g + Cond 50ml + Serums + Satin Set",
+        includedSizes: ["100ml", "70gm", "50ml", "30ml", "30ml", "1 pc", "1 pc"],
+        comboPrice: 1685,
+        originalTotal: 1735,
+        savings: 50,
+        badge: "Save ₹50 Extra"
+      },
+      {
+        sizeName: "Large Combo",
+        subtitle: "Oil 200ml + Powder 270g + Cond 100ml + Serums + Satin Set",
+        includedSizes: ["200ml", "270gm", "100ml", "30ml", "30ml", "1 pc", "1 pc"],
+        comboPrice: 2424,
+        originalTotal: 2524,
+        savings: 100,
+        badge: "Save ₹100 Extra"
+      }
+    ]
   }
 ];

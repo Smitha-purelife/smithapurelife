@@ -115,18 +115,30 @@ export default function Navbar() {
             {/* Logo */}
             <Link
               to="/"
-              className="flex-1 flex items-center md:justify-center gap-2 md:gap-3 transition-opacity hover:opacity-90 duration-300"
+              className="flex-1 flex items-center justify-start md:justify-center transition-all hover:opacity-90 duration-300 py-1"
             >
-              <img 
-                src="/logo.png" 
-                alt="Smitha Purelife" 
-                className="h-7 sm:h-8 md:h-9 lg:h-10 w-auto object-contain mix-blend-multiply filter contrast-[1.15] brightness-[1.08]" 
-              />
-              <span 
-                className="text-[15px] sm:text-2xl md:text-2xl lg:text-3xl tracking-[0.12em] sm:tracking-[0.2em] text-[#2D2A26] font-bold uppercase whitespace-nowrap"
-              >
-                Smitha Purelife
-              </span>
+              <div className="flex items-center gap-3">
+                {/* Stylized Leaf S Icon Container */}
+                <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-white flex items-center justify-center p-1.5 sm:p-2 border border-[#052B08]/10 shadow-xs shrink-0 select-none">
+                  <img 
+                    src="/logo_icon_transparent.png" 
+                    alt="Smitha Purelife Logo" 
+                    className="w-full h-full object-contain brightness-[0.98] contrast-[1.02]"
+                  />
+                </div>
+                {/* Branding text */}
+                <div className="flex flex-col text-left leading-none justify-center">
+                  <span 
+                    className="text-xl sm:text-[26px] tracking-[0.12em] font-medium text-[#052B08] uppercase leading-none"
+                    style={{ fontFamily: "'GFS Didot', 'Cormorant Garamond', serif" }}
+                  >
+                    SMITHA
+                  </span>
+                  <span className="font-body text-[8px] sm:text-[9.5px] tracking-[0.18em] text-[#052B08] font-bold mt-1.5 uppercase">
+                    Purelife • Natural Care
+                  </span>
+                </div>
+              </div>
             </Link>
 
             {/* Right Nav Links & Cart Icon */}
@@ -301,7 +313,7 @@ export default function Navbar() {
                   },
                   {
                     name: 'Rewards & Offers',
-                    badge: '15% Off',
+                    badge: 'Up to 25% Off',
                     href: '/rewards'
                   },
                   {
@@ -485,7 +497,7 @@ export default function Navbar() {
                         {/* Remove Button */}
                         <button
                           onClick={() => removeItem(item.cartId)}
-                          className="absolute top-4 right-4 text-gray-300 hover:text-red-500 transition-colors opacity-0 group-hover:opacity-100 focus:opacity-100 p-1 rounded-lg"
+                          className="absolute top-4 right-4 text-gray-400 hover:text-red-500 transition-colors opacity-100 md:opacity-0 md:group-hover:opacity-100 focus:opacity-100 p-1 rounded-lg"
                         >
                           <Trash2 size={16} />
                         </button>

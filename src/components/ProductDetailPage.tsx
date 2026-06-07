@@ -455,23 +455,6 @@ export default function ProductDetailPage() {
   if (product.additionalImage) {
     gallery.push({ src: product.additionalImage, label: 'Benefits Info', isTransparent: false });
   }
-  if (product.texture) {
-    gallery.push({ src: product.texture, label: 'Sensory Texture', isTransparent: false });
-  }
-
-  // Inject relevant combos based on the product ID
-  if (['avosilk-bloom', 'radiance-oil', 'herbal-wash'].includes(product.id)) {
-    gallery.push({ src: '/products/combo_daily_3step.jpg', label: 'Daily 3-Step Combo', isTransparent: false });
-  }
-  if (['avosilk-bloom', 'radiance-oil', 'herbal-wash', 'pro-repair-serum'].includes(product.id)) {
-    gallery.push({ src: '/products/combo_complete_haircare.jpg', label: 'Complete Hair Care Combo', isTransparent: false });
-  }
-  if (['avosilk-bloom', 'pro-repair-serum'].includes(product.id)) {
-    gallery.push({ src: '/products/combo_smooth_silky.png', label: 'Smooth & Silky Duo', isTransparent: false });
-  }
-  if (['avosilk-bloom', 'radiance-oil', 'herbal-wash', 'pro-repair-serum', 'follicra-regrowth', 'satin-pillowcase', 'satin-scrunchies'].includes(product.id)) {
-    gallery.push({ src: '/products/combo_complete_transformation.jpg', label: 'Complete Hair Transformation Combo', isTransparent: false });
-  }
 
   // Add to Bag action handler
   const handleAddToBag = () => {
@@ -541,10 +524,10 @@ export default function ProductDetailPage() {
         <div className="flex flex-col lg:flex-row gap-16 lg:gap-24 items-center">
           
           {/* Left: 3D Interactive Product Image + Gallery Carousel */}
-          <div className="w-full lg:w-1/2 flex flex-row gap-4 items-start h-[50vh] sm:h-[60vh] lg:h-[80vh] relative min-h-[350px]">
+          <div className="w-full lg:w-1/2 flex flex-col-reverse sm:flex-row gap-4 items-start h-[50vh] sm:h-[60vh] lg:h-[80vh] relative min-h-[350px]">
             
-            {/* Gallery Thumbnails (Vertical Stack on the left) */}
-            <div className="flex flex-col gap-2.5 overflow-y-auto pr-1 select-none hide-scrollbar max-h-full scroll-smooth shrink-0 py-2 w-12 sm:w-16 md:w-20">
+            {/* Gallery Thumbnails (Horizontal on mobile, Vertical Stack on sm+) */}
+            <div className="flex flex-row sm:flex-col gap-2.5 overflow-x-auto sm:overflow-y-auto pr-1 select-none hide-scrollbar max-w-full sm:max-h-full scroll-smooth shrink-0 py-2 w-full sm:w-16 md:w-20">
               {gallery.map((img, idx) => (
                 <button
                   key={idx}

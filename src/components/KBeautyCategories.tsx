@@ -66,7 +66,7 @@ export default function KBeautyCategories() {
               >
                 {/* Premium Round Container */}
                 <div 
-                  className="w-24 h-24 md:w-28 md:h-28 rounded-full flex items-center justify-center overflow-hidden transition-all duration-500 group-hover:scale-105 border border-[#2D2A26]/5 shadow-sm group-hover:shadow-md relative bg-white"
+                  className="w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 rounded-full flex items-center justify-center overflow-hidden transition-all duration-500 group-hover:scale-105 border border-[#2D2A26]/5 shadow-sm group-hover:shadow-md relative bg-white"
                 >
                   <img 
                     src={cat.image} 

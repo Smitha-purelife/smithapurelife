@@ -24,7 +24,7 @@ export default function RewardsPage() {
 
   // Handle Copy Referral Link
   const handleCopyLink = () => {
-    navigator.clipboard.writeText('https://smithapurelife.com/ref?code=PURELOVE15');
+    navigator.clipboard.writeText('https://smithapurelife.com/ref?code=PURELOVE5_10');
     setCopiedLink(true);
     setTimeout(() => setCopiedLink(false), 2000);
   };
@@ -40,8 +40,8 @@ export default function RewardsPage() {
   const steps: RewardStep[] = [
     {
       title: 'Refer a Friend',
-      offer: '15% OFF',
-      description: 'Invite your friends to experience Smitha Purelife. They get 15% off, and you get 15% off when they order!',
+      offer: '5% / 10% OFF',
+      description: 'Invite your friends to experience Smitha Purelife. They get 5% off, and you get 10% off when they order!',
       actionLabel: copiedLink ? 'Copied Link!' : 'Copy Referral Link',
       icon: Users,
       color: '#EEF7EE',
@@ -276,7 +276,7 @@ export default function RewardsPage() {
               initial={{ opacity: 0, scale: 0.95, y: 30 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 30 }}
-              className="fixed inset-x-4 top-[15%] md:top-[20%] md:inset-x-auto md:left-1/2 md:-translate-x-1/2 md:w-[500px] z-[9999999] bg-white p-6 md:p-8 rounded-[2rem] border border-black/5 shadow-2xl flex flex-col text-left"
+              className="fixed inset-x-4 top-[15%] md:top-[20%] md:inset-x-auto md:left-1/2 md:-translate-x-1/2 md:w-[500px] z-[9999999] bg-white p-6 md:p-8 rounded-[2rem] border border-black/5 shadow-2xl flex flex-col text-left max-h-[75vh] overflow-y-auto"
             >
               <div className="flex justify-between items-start mb-6">
                 <div>
@@ -356,7 +356,7 @@ export default function RewardsPage() {
               initial={{ opacity: 0, scale: 0.95, y: 30 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 30 }}
-              className="fixed inset-x-4 top-[15%] md:top-[20%] md:inset-x-auto md:left-1/2 md:-translate-x-1/2 md:w-[500px] z-[9999999] bg-white p-6 md:p-8 rounded-[2rem] border border-black/5 shadow-2xl flex flex-col text-left"
+              className="fixed inset-x-4 top-[15%] md:top-[20%] md:inset-x-auto md:left-1/2 md:-translate-x-1/2 md:w-[500px] z-[9999999] bg-white p-6 md:p-8 rounded-[2rem] border border-black/5 shadow-2xl flex flex-col text-left max-h-[75vh] overflow-y-auto"
             >
               <div className="flex justify-between items-start mb-6">
                 <div>

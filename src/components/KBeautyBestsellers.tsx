@@ -1,6 +1,6 @@
-import { products, comboProducts, Combo } from '../data/products';
+import { products, comboProducts, Combo, ComboVariant } from '../data/products';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ShoppingBag, ArrowRight, Search, SlidersHorizontal, Check } from 'lucide-react';
+import { ShoppingBag, ArrowRight, Search, SlidersHorizontal, Check, Star } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
@@ -74,6 +74,11 @@ const cardConfig: Record<string, {
 // ─── Self-contained Premium Combo Card Component (Horizontal Split Screen) ─────────────────────────────
 function ComboCard({ combo, index }: { combo: Combo; index: number }) {
   const [activeTab, setActiveTab] = useState<'included' | 'ritual'>('included');
+  const [selectedVariant, setSelectedVariant] = useState<ComboVariant>(combo.variants[0]);
+
+  useEffect(() => {
+    setSelectedVariant(combo.variants[0]);
+  }, [combo]);
 
   // Trigger add combo to bag
   const handleAddComboToBag = () => {
@@ -81,10 +86,11 @@ function ComboCard({ combo, index }: { combo: Combo; index: number }) {
       const existing = localStorage.getItem('smitha_purelife_cart');
       let cart = existing ? JSON.parse(existing) : [];
 
-      combo.includedProducts.forEach(prodId => {
+      combo.includedProducts.forEach((prodId, idx) => {
         const prod = products.find(p => p.id === prodId);
         if (prod) {
-          const sizeObj = prod.sizes[0];
+          const targetSize = selectedVariant.includedSizes[idx];
+          const sizeObj = prod.sizes.find(s => s.size === targetSize) || prod.sizes[0];
           const cartId = `${prod.id}-${sizeObj.size}`;
           const existingIndex = cart.findIndex((item: any) => item.cartId === cartId);
           if (existingIndex > -1) {
@@ -117,69 +123,38 @@ function ComboCard({ combo, index }: { combo: Combo; index: number }) {
       viewport={{ once: true }}
       className="bg-white rounded-[2.5rem] border border-[#2D2A26]/5 shadow-sm hover:shadow-xl transition-all duration-500 flex flex-col md:flex-row overflow-hidden group h-full"
     >
-      {/* Left Pedestal Column */}
+      {/* Left Product Photo Column */}
       <div 
-        className="w-full md:w-[42%] aspect-[4/3] md:aspect-auto min-h-[240px] flex flex-col justify-between p-6 relative border-b md:border-b-0 md:border-r border-[#2D2A26]/5 overflow-hidden flex-shrink-0"
-        style={{ backgroundColor: combo.bg }}
+        className="w-full md:w-[42%] aspect-[4/3] md:aspect-auto min-h-[260px] relative border-b md:border-b-0 md:border-r border-[#2D2A26]/5 overflow-hidden flex-shrink-0"
       >
-        {/* Ambient colored glow */}
-        <div 
-          className="absolute w-40 h-40 rounded-full blur-3xl opacity-25 group-hover:scale-125 transition-transform duration-700 pointer-events-none -top-10 -left-10"
-          style={{ backgroundColor: combo.accent }}
+        {/* Full combo product photo */}
+        <img
+          src={combo.image}
+          alt={combo.title}
+          className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
         />
 
-        {/* Top Badges */}
-        <div className="flex justify-between items-center z-10 w-full relative">
-          <span className="text-[9px] font-bold uppercase tracking-widest px-3 py-1.5 rounded-full bg-white/90 border border-black/5 text-[#2D2A26]">
-            {combo.badge}
+        {/* Subtle dark gradient at bottom for readability */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none" />
+
+        {/* Top Badges overlay */}
+        <div className="absolute top-4 left-4 right-4 flex justify-between items-center z-10">
+          <span className="text-[9px] font-bold uppercase tracking-widest px-3 py-1.5 rounded-full bg-white/90 backdrop-blur-sm border border-black/5 text-[#2D2A26] shadow-xs">
+            {selectedVariant.badge}
           </span>
-          <span 
-            className="text-[9px] font-bold uppercase tracking-widest px-3 py-1.5 rounded-full text-white shadow-xs"
-            style={{ backgroundColor: combo.accent }}
-          >
-            Save ₹{combo.savings}
-          </span>
+          {selectedVariant.savings > 0 && (
+            <span 
+              className="text-[9px] font-bold uppercase tracking-widest px-3 py-1.5 rounded-full text-white shadow-xs backdrop-blur-sm"
+              style={{ backgroundColor: combo.accent }}
+            >
+              Save ₹{selectedVariant.savings}
+            </span>
+          )}
         </div>
 
-        {/* Floating animated stack in the center */}
-        <div className="flex items-center justify-center gap-1.5 my-8 z-10 relative">
-          {combo.includedProducts.map((prodId, idx) => {
-            const prod = products.find(p => p.id === prodId);
-            if (!prod) return null;
-
-            return (
-              <motion.div
-                key={prodId}
-                animate={{ 
-                  y: [0, -3, 0],
-                  rotate: idx % 2 === 0 ? -1.5 : 1.5
-                }}
-                transition={{ 
-                  duration: 4.5 + idx, 
-                  repeat: Infinity, 
-                  ease: "easeInOut" 
-                }}
-                whileHover={{ 
-                  y: -14,
-                  scale: 1.1,
-                  z: 50
-                }}
-                className="w-12 sm:w-16 aspect-[3/4] rounded-xl overflow-hidden border border-white/80 shadow-md bg-white p-1.5 relative flex items-center justify-center -ml-3.5 first:ml-0 transition-all duration-300"
-                style={{ zIndex: 10 + idx }}
-              >
-                <img
-                  src={prod.image}
-                  alt={prod.title}
-                  className="w-[90%] h-[90%] object-contain mix-blend-multiply"
-                />
-              </motion.div>
-            );
-          })}
-        </div>
-
-        {/* Bottom checklist label */}
-        <div className="text-left z-10 mt-auto relative">
-          <span className="text-[8px] font-bold tracking-[0.2em] text-[#2D2A26]/40 uppercase block">Includes {combo.includedProducts.length} Clean Formulas</span>
+        {/* Bottom label overlay */}
+        <div className="absolute bottom-4 left-4 z-10">
+          <span className="text-[8px] font-bold tracking-[0.2em] text-white/80 uppercase block drop-shadow">Includes {combo.includedProducts.length} Clean Formulas</span>
         </div>
       </div>
 
@@ -187,7 +162,7 @@ function ComboCard({ combo, index }: { combo: Combo; index: number }) {
       <div className="p-6 md:p-8 flex-1 flex flex-col justify-between text-left">
         <div>
           <span className="text-[9px] tracking-[0.2em] uppercase font-bold text-[#1A4B21] block mb-1">
-            {combo.subtitle}
+            {selectedVariant.subtitle}
           </span>
           <h3 className="font-serif text-2xl text-[#2D2A26] font-bold leading-tight group-hover:text-[#1A4B21] transition-colors mb-3">
             {combo.title}
@@ -195,6 +170,26 @@ function ComboCard({ combo, index }: { combo: Combo; index: number }) {
           <p className="text-xs text-[#2D2A26]/70 leading-relaxed mb-6">
             {combo.description}
           </p>
+
+          {/* Combo Variant Selector */}
+          <div className="mb-6 text-left">
+            <span className="text-[9px] uppercase tracking-wider font-bold text-[#2D2A26]/40 block mb-2">Select Combo Variant</span>
+            <div className="flex gap-2.5">
+              {combo.variants.map((v) => (
+                <button
+                  key={v.sizeName}
+                  onClick={() => setSelectedVariant(v)}
+                  className={`flex-1 py-2.5 px-3 rounded-2xl border text-center text-[10px] font-bold uppercase tracking-wider transition-all duration-300 cursor-pointer ${
+                    selectedVariant.sizeName === v.sizeName
+                      ? 'border-[#1A4B21] bg-[#1A4B21] text-white shadow-xs'
+                      : 'border-black/10 bg-[#FAF9F5]/40 hover:bg-[#FAF9F5] text-[#2D2A26]'
+                  }`}
+                >
+                  {v.sizeName}
+                </button>
+              ))}
+            </div>
+          </div>
 
           {/* Sliding tab switcher */}
           <div className="flex border-b border-[#2D2A26]/5 mb-4 relative">
@@ -226,9 +221,10 @@ function ComboCard({ combo, index }: { combo: Combo; index: number }) {
           <div className="min-h-[120px] mb-5">
             {activeTab === 'included' ? (
               <div className="grid grid-cols-1 gap-2">
-                {combo.includedProducts.map((prodId) => {
+                {combo.includedProducts.map((prodId, idx) => {
                   const prod = products.find(p => p.id === prodId);
                   if (!prod) return null;
+                  const displaySize = selectedVariant.includedSizes[idx];
 
                   return (
                     <div key={prodId} className="flex items-center gap-2.5 bg-[#FAF9F5] rounded-xl p-2.5 border border-[#2D2A26]/5 transition-colors hover:bg-neutral-50">
@@ -237,7 +233,7 @@ function ComboCard({ combo, index }: { combo: Combo; index: number }) {
                       </div>
                       <div className="text-left flex-1 min-w-0">
                         <h4 className="font-bold text-[11px] sm:text-xs text-[#2D2A26] truncate">{prod.title}</h4>
-                        <p className="text-[9px] text-gray-400 uppercase tracking-widest">{prod.sizes[0].size} • {prod.benefits[0]}</p>
+                        <p className="text-[9px] text-gray-400 uppercase tracking-widest">{displaySize} • {prod.benefits[0]}</p>
                       </div>
                     </div>
                   );
@@ -270,11 +266,13 @@ function ComboCard({ combo, index }: { combo: Combo; index: number }) {
             <span className="text-[8px] font-bold text-gray-400 uppercase tracking-widest block">Special Bundle Price</span>
             <div className="flex items-baseline gap-1.5">
               <span className="font-bold text-xl text-[#2D2A26]" style={{ fontFamily: "'Inter', sans-serif" }}>
-                ₹{combo.comboPrice.toLocaleString()}
+                ₹{selectedVariant.comboPrice.toLocaleString()}
               </span>
-              <span className="text-[10px] line-through text-gray-400">
-                ₹{combo.originalTotal.toLocaleString()}
-              </span>
+              {selectedVariant.originalTotal > selectedVariant.comboPrice && (
+                <span className="text-[10px] line-through text-gray-400">
+                  ₹{selectedVariant.originalTotal.toLocaleString()}
+                </span>
+              )}
             </div>
           </div>
 
@@ -291,7 +289,6 @@ function ComboCard({ combo, index }: { combo: Combo; index: number }) {
 }
 
 export default function KBeautyBestsellers() {
-  const [showAll, setShowAll] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<'all' | 'haircare' | 'accessories' | 'combos'>('all');
   const [selectedConcern, setSelectedConcern] = useState<string>('all');
@@ -317,7 +314,7 @@ export default function KBeautyBestsellers() {
         if (searchQuery.trim() !== '') {
           const query = searchQuery.toLowerCase();
           const matchTitle = combo.title.toLowerCase().includes(query);
-          const matchSubtitle = combo.subtitle.toLowerCase().includes(query);
+          const matchSubtitle = combo.variants.some(v => v.subtitle.toLowerCase().includes(query));
           const matchDesc = combo.description.toLowerCase().includes(query);
           return matchTitle || matchSubtitle || matchDesc;
         }
@@ -359,7 +356,7 @@ export default function KBeautyBestsellers() {
         return true;
       });
 
-  const visibleProducts = showAll ? filteredProducts : filteredProducts.slice(0, 4);
+  const visibleProducts = filteredProducts;
 
   return (
     <section id="trending" className="py-20 bg-[#F5F7F5] scroll-mt-24">
@@ -375,12 +372,6 @@ export default function KBeautyBestsellers() {
               Trending Now
             </h2>
           </div>
-          <button
-            onClick={() => setShowAll(!showAll)}
-            className="text-xs font-bold text-[#1A4B21] border-2 border-[#1A4B21] px-6 py-2.5 rounded-full hover:bg-[#1A4B21] hover:text-white transition-all duration-300"
-          >
-            {showAll ? 'View Less' : 'View All Products'}
-          </button>
         </div>
 
         {/* ─── Premium Search & Filter Panel ─── */}
@@ -499,14 +490,14 @@ export default function KBeautyBestsellers() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             <AnimatePresence mode="popLayout">
               {visibleProducts.map((product, i) => {
-                const isCombo = 'comboPrice' in product;
+                const isCombo = 'variants' in product;
                 const cfg = isCombo
                   ? {
                       shopImage: (product as any).image,
                       objectFit: 'cover' as const,
                       bgColor: (product as any).bg,
-                      price: `₹${(product as any).comboPrice}`,
-                      badge: (product as any).badge || 'Bundle',
+                      price: `₹${(product as any).variants[0].comboPrice}`,
+                      badge: (product as any).variants[0].badge || 'Bundle',
                       badgeColor: (product as any).accent || '#FF7B89',
                     }
                   : (cardConfig[product.id] ?? {
@@ -523,7 +514,7 @@ export default function KBeautyBestsellers() {
                       const p = products.find(prod => prod.id === pId);
                       return p ? p.title : pId;
                     })
-                  : product.benefits;
+                  : (product as any).benefits;
 
                 const handleBuyClick = (e: React.MouseEvent) => {
                   if (isCombo) {
@@ -531,11 +522,12 @@ export default function KBeautyBestsellers() {
                     try {
                       const existing = localStorage.getItem('smitha_purelife_cart');
                       let cart = existing ? JSON.parse(existing) : [];
-                      (product as any).includedProducts.forEach((prodId: string) => {
+                      (product as any).includedProducts.forEach((prodId: string, idx: number) => {
                         const prod = products.find(p => p.id === prodId);
                         if (prod) {
-                          const defaultSize = prod.sizes[0];
-                          const cartId = `${prod.id}-${defaultSize.size}`;
+                          const targetSize = (product as any).variants[0].includedSizes[idx];
+                          const sizeObj = prod.sizes.find(s => s.size === targetSize) || prod.sizes[0];
+                          const cartId = `${prod.id}-${sizeObj.size}`;
                           const existingIndex = cart.findIndex((item: any) => item.cartId === cartId);
                           if (existingIndex > -1) {
                             cart[existingIndex].quantity += 1;
@@ -543,8 +535,8 @@ export default function KBeautyBestsellers() {
                             cart.push({
                               cartId,
                               productId: prod.id,
-                              size: defaultSize.size,
-                              price: defaultSize.price,
+                              size: sizeObj.size,
+                              price: sizeObj.price,
                               quantity: 1
                             });
                           }
@@ -613,7 +605,7 @@ export default function KBeautyBestsellers() {
                       <div>
                         {/* Subtitle */}
                         <p className="text-[9px] font-bold text-gray-400 uppercase tracking-widest mb-1.5 text-left">
-                          {product.subtitle || 'Smitha Purelife'}
+                          {isCombo ? (product as any).variants[0].subtitle : (product as any).subtitle || 'Smitha Purelife'}
                         </p>
                         
                         {/* Title & Price */}
