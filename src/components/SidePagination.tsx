@@ -85,8 +85,10 @@ export default function SidePagination() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  // Render product items on product pages, otherwise sections
-  const items = isProductPage ? productItems : sections;
+  // Hide SidePagination completely on product pages to avoid overlap with Next/Prev product arrows
+  if (isProductPage) return null;
+
+  const items = sections;
 
   return (
     <div className="fixed right-6 top-1/2 -translate-y-1/2 z-[100] hidden lg:flex flex-col items-end gap-5">

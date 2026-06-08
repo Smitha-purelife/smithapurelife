@@ -816,6 +816,9 @@ export default function ProductDetailPage() {
   if (product.additionalImage) {
     gallery.push({ src: product.additionalImage, label: 'Benefits Info', isTransparent: false });
   }
+  if (product.ingredientsImage) {
+    gallery.push({ src: product.ingredientsImage, label: 'Ingredients Info', isTransparent: false });
+  }
 
   // Add to Bag action handler
   const handleAddToBag = () => {
@@ -1117,16 +1120,29 @@ export default function ProductDetailPage() {
         </div>
       </div>
 
-      {/* 2. Benefits Section */}
-      <ProductBenefitsVisual productId={product.id} productImage={product.image} additionalImage={product.additionalImage} />
-
-      {/* 3. Ingredients Section (Botanical Alchemy) */}
+      {/* 2. Ingredients Section (Botanical Alchemy) */}
       <section className="py-24 bg-white border-t border-[#052B08]/5">
         <div className="max-w-6xl mx-auto px-6">
           <div className="text-center mb-16">
             <span className="text-[10px] tracking-[0.35em] uppercase font-bold text-[#FF7B89] mb-2 block">Premium Ingredients</span>
             <h2 className="serif-title text-4xl sm:text-5xl text-[#052B08]">Botanical Alchemy</h2>
           </div>
+
+          {product.ingredientsImage && (
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="max-w-3xl mx-auto mb-20 rounded-[2.5rem] overflow-hidden shadow-2xl border border-[#052B08]/5 bg-white"
+            >
+              <img 
+                src={product.ingredientsImage} 
+                alt={`${product.title} detailed ingredients`} 
+                className="w-full h-auto object-contain"
+              />
+            </motion.div>
+          )}
+
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-5xl mx-auto">
             {product.ingredients.map((ing, i) => (
               <motion.div 
@@ -1146,20 +1162,21 @@ export default function ProductDetailPage() {
         </div>
       </section>
 
+      {/* 3. Benefits Section */}
+      <ProductBenefitsVisual productId={product.id} productImage={product.image} additionalImage={product.additionalImage} />
+
       {/* 4. How to Use Section */}
       <ProductUsageSection productId={product.id} />
 
-      {/* Comparison Section (only for Haircare products) */}
+      {/* Comparison / Results Section - same interactive slider, different images per product */}
       {product.category === 'haircare' && (
-        <ComparisonSection 
-          beforeImage="/products/before_hair.png"
-          afterImage="/products/after_hair.png"
-        />
-      )}
-
-      {/* Real Customer Before & Afters Evidence */}
-      {product.category === 'haircare' && (
-        <TransformationsGallery />
+        <>
+          <ComparisonSection 
+            beforeImage={product.beforeImage || "/products/before_hair.png"}
+            afterImage={product.afterImage || "/products/after_hair.png"}
+          />
+          <TransformationsGallery />
+        </>
       )}
 
       {/* 5. Reviews Section */}

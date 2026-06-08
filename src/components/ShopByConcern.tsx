@@ -153,11 +153,11 @@ export default function ShopByConcern() {
                   <div className="flex flex-col items-center gap-2">
                     <span className="text-[10px] sm:text-xs font-bold text-[#2D2A26] text-center uppercase tracking-wider leading-snug group-hover:text-[#1A4B21] transition-colors">{concern.label}</span>
                   </div>
-                  <div className="w-16 h-16 sm:w-20 sm:h-20 flex items-center justify-center rounded-full bg-white/60 border border-black/5 shadow-2xs mt-2 overflow-hidden flex-shrink-0">
+                  <div className="w-16 h-16 sm:w-20 sm:h-20 flex items-center justify-center rounded-full bg-white border border-black/5 shadow-2xs mt-2 overflow-hidden flex-shrink-0 relative">
                     <img
                       src={concern.image}
                       alt={concern.label}
-                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                      className="absolute inset-0 w-full h-full object-cover scale-[1.4] origin-top group-hover:scale-[1.5] transition-transform duration-500"
                     />
                   </div>
                 </div>

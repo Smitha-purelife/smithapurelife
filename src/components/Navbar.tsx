@@ -118,7 +118,7 @@ export default function Navbar() {
           <div className="flex items-center justify-between">
             {/* Left Nav Links */}
             <div className="hidden md:flex items-center gap-8 flex-1">
-              {navLinks.slice(0, 1).map((link) => (
+              {navLinks.slice(0, 2).map((link) => (
                 <Link
                   key={link.name}
                   to={link.href}
@@ -132,18 +132,31 @@ export default function Navbar() {
             {/* Logo */}
             <Link
               to="/"
-              className="flex-1 flex items-center justify-start md:justify-center transition-all hover:opacity-90 duration-300 py-1"
+              className="flex-1 flex items-center justify-start md:justify-center gap-3 transition-all hover:opacity-90 duration-300 py-2"
             >
-              <img 
-                src="/logo.jpg" 
-                alt="Smitha Purelife Logo" 
-                className="h-14 sm:h-[72px] w-auto object-contain rounded-xl shadow-md brightness-110 contrast-105"
-              />
+              {/* S Icon Box */}
+              <div className="w-10 h-10 sm:w-12 sm:h-12 bg-white rounded-xl shadow-sm flex items-center justify-center border border-black/5 flex-shrink-0 overflow-hidden">
+                <img 
+                  src="/logo_icon_transparent.png" 
+                  alt="S Icon" 
+                  className="w-[85%] h-[85%] object-contain"
+                />
+              </div>
+              
+              {/* Text Layout */}
+              <div className="flex flex-col justify-center">
+                <span className="font-serif font-bold text-xl sm:text-2xl tracking-[0.1em] text-[#052B08] uppercase leading-none mb-1">
+                  SMITHA
+                </span>
+                <span className="font-body font-bold text-[10px] sm:text-[11px] text-[#052B08]/80 whitespace-nowrap leading-none tracking-wide">
+                  Purelife - natural care
+                </span>
+              </div>
             </Link>
 
             {/* Right Nav Links & Cart Icon */}
             <div className="hidden md:flex items-center justify-end gap-8 flex-1">
-              {navLinks.slice(1, 2).map((link) => (
+              {navLinks.slice(2).map((link) => (
                 <Link
                   key={link.name}
                   to={link.href}

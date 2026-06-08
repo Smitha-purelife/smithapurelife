@@ -17,6 +17,9 @@ export interface Product {
   image: string;
   lifestyleImage: string;
   additionalImage?: string;
+  ingredientsImage?: string;
+  beforeImage?: string;
+  afterImage?: string;
   hasFullBanner?: boolean;
   texture: string;
   accent: string;
@@ -37,6 +40,7 @@ export const products: Product[] = [
     image: "/products/avosilk_bloom.png",
     lifestyleImage: "/products/media__1779362724448.png",
     additionalImage: "/products/avosilk_bloom_benefits_v3.png",
+    ingredientsImage: "/products/avosilk_bloom_ingredients.png",
     hasFullBanner: true,
     texture: "/products/avosilk_bloom_texture.png",
     accent: "#E9D5CA",
@@ -64,6 +68,9 @@ export const products: Product[] = [
     image: "/products/herbal_radiance_hair_oil.png",
     lifestyleImage: "/products/media__1779362732647.png",
     additionalImage: "/products/radiance_oil_benefits_v4.png",
+    ingredientsImage: "/products/radiance_oil_ingredients.png",
+    beforeImage: "/products/before_hair_fall.png",
+    afterImage: "/products/after_hair_fall.png",
     hasFullBanner: true,
     texture: "/products/radiance_oil_texture.png",
     accent: "#F9F3CC",
@@ -92,6 +99,10 @@ export const products: Product[] = [
     image: "/products/hair_wash_powder_v2.png",
     lifestyleImage: "/products/herbal_wash_lifestyle_grandma.jpg",
     additionalImage: "/products/herbal_wash_benefits_v3.png",
+    ingredientsImage: "/products/herbal_wash_ingredients.png",
+    beforeImage: "/products/before_dandruff.png",
+    afterImage: "/products/after_clean_scalp.png",
+    hasFullBanner: true,
     texture: "/products/herbal_wash_texture_jars.png",
     accent: "#D4E2D4",
     bg: "#F0F7F0",
@@ -119,6 +130,9 @@ export const products: Product[] = [
     image: "/products/silk_gloss_pro_repair_serum.png",
     lifestyleImage: "/products/pro_repair_serum_hero_real.png",
     additionalImage: "/products/pro_repair_serum_benefits_v4.png",
+    ingredientsImage: "/products/pro_repair_serum_ingredients.png",
+    beforeImage: "/products/before_damaged_hair.png",
+    afterImage: "/products/after_repaired_hair.png",
     texture: "/products/pro_repair_texture.png",
     accent: "#DBCDF0",
     bg: "#F5F0FA",
@@ -145,6 +159,9 @@ export const products: Product[] = [
     image: "/products/follicra_proper.jpg",
     lifestyleImage: "/products/follicra_regrowth_hero_real.png",
     additionalImage: "/products/follicra_regrowth_benefits_v4.png",
+    ingredientsImage: "/products/follicra_regrowth_ingredients.png",
+    beforeImage: "/products/before_hair_thinning.png",
+    afterImage: "/products/after_hair_regrowth.png",
     texture: "/products/follicra_regrowth_texture.png",
     accent: "#DDF1E9",
     bg: "#F2FAF7",
