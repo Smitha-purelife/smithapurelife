@@ -2,7 +2,7 @@ import React from 'react';
 import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, Leaf, Droplets, Sparkles, ShieldCheck } from 'lucide-react';
+import { ArrowRight, Leaf, Droplets, Sparkles, ShieldCheck, ShoppingBag } from 'lucide-react';
 import { products } from '../data/products';
 
 // ─── Unified Product Card Config ──────────────────────────────────────────
@@ -76,6 +76,37 @@ const shopConfig: Record<string, {
 export default function ProductShowcase() {
   const sectionRef = useRef(null);
   const titleInView = useInView(sectionRef, { once: true, amount: 0.1 });
+
+  const handleAddProductToBag = (productId: string) => {
+    const prod = products.find(p => p.id === productId);
+    if (!prod) return;
+
+    const defaultSize = prod.sizes[0];
+    const cartId = `${prod.id}-${defaultSize.size}`;
+    const cartItem = {
+      cartId,
+      productId: prod.id,
+      size: defaultSize.size,
+      price: defaultSize.price,
+      quantity: 1
+    };
+
+    try {
+      const existing = localStorage.getItem('smitha_purelife_cart');
+      let cart = existing ? JSON.parse(existing) : [];
+      const existingIndex = cart.findIndex((item: any) => item.cartId === cartId);
+      if (existingIndex > -1) {
+        cart[existingIndex].quantity += 1;
+      } else {
+        cart.push(cartItem);
+      }
+      localStorage.setItem('smitha_purelife_cart', JSON.stringify(cart));
+      localStorage.setItem('smitha_purelife_cart_auto_open', 'true');
+      window.dispatchEvent(new Event('cart-updated'));
+    } catch (e) {
+      console.error("Cart addition failed:", e);
+    }
+  };
 
   return (
     <section ref={sectionRef} id="shop" className="py-16 md:py-24 bg-[#F5F2EE] scroll-mt-20">
@@ -185,12 +216,20 @@ export default function ProductShowcase() {
                     </div>
                   </div>
 
-                  {/* Shop Now Button */}
-                  <Link to={`/product/${product.id}`} className="block w-full">
-                    <button className="w-full flex items-center justify-center gap-2 bg-[#1A4B21] text-white py-3 rounded-full text-[10px] font-bold uppercase tracking-widest hover:bg-[#0f2e14] transition-all shadow-xs active:scale-95">
-                      Shop Now <ArrowRight size={12} />
+                  {/* Actions Bar */}
+                  <div className="flex gap-2 w-full">
+                    <button 
+                      onClick={() => handleAddProductToBag(product.id)}
+                      className="flex-1 flex items-center justify-center gap-1.5 bg-[#1A4B21] text-white py-3 px-2 rounded-full text-[9px] font-bold uppercase tracking-wider hover:bg-[#0f2e14] transition-all shadow-xs active:scale-95 cursor-pointer"
+                    >
+                      Add to Cart <ShoppingBag size={11} />
                     </button>
-                  </Link>
+                    <Link to={`/product/${product.id}`} className="w-[38%] shrink-0">
+                      <button className="w-full flex items-center justify-center gap-1 bg-[#F5F2EE] border border-black/5 text-[#2D2A26] py-3 rounded-full text-[9px] font-bold uppercase tracking-wider hover:bg-[#FAF9F5] transition-all shadow-xs active:scale-95">
+                        View <ArrowRight size={11} />
+                      </button>
+                    </Link>
+                  </div>
                 </div>
               </motion.div>
             );

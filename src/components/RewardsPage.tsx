@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Gift, Heart, Send, Copy, Check, Users, MessageSquare, Instagram, Award, Sparkles, X } from 'lucide-react';
+import { Gift, Heart, Send, Copy, Check, Users, MessageSquare, Instagram, Facebook, Award, Sparkles, X } from 'lucide-react';
 import Footer from './Footer';
 
 interface RewardStep {
@@ -62,14 +62,14 @@ export default function RewardsPage() {
     },
     {
       title: 'Post & Tag Us',
-      offer: '25% OFF',
+      offer: '15% OFF',
       description: 'Post a dedicated photo/video on your profile feed highlighting your Smitha Purelife ritual and tag us.',
-      actionLabel: 'Claim 25% Off Code',
+      actionLabel: 'Claim 15% Off Code',
       icon: Award,
       color: '#E9D5CA',
       accent: '#B85C38',
       onAction: () => {
-        window.open('https://wa.me/919999999999?text=Hi! I created a post tagging you on social media. I would love to claim my 25% discount code.', '_blank');
+        window.open('https://wa.me/919999999999?text=Hi! I created a post tagging you on social media. I would love to claim my 15% discount code.', '_blank');
       },
     },
     {
@@ -183,6 +183,56 @@ export default function RewardsPage() {
               </motion.div>
             );
           })}
+
+          {/* Static Social Media Links Card */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.4 }}
+            className="bg-white/80 backdrop-blur-sm rounded-3xl p-6 border border-black/5 shadow-xs hover:shadow-lg transition-all duration-300 flex flex-col justify-between text-left group"
+          >
+            <div>
+              <div className="flex justify-between items-start mb-6">
+                <div 
+                  className="w-12 h-12 rounded-2xl flex items-center justify-center text-white"
+                  style={{ backgroundColor: '#1877F2' }}
+                >
+                  <Facebook size={22} />
+                </div>
+                <span 
+                  className="text-xs font-bold px-3 py-1.5 rounded-full font-inter"
+                  style={{ backgroundColor: '#EAF4F4', color: '#1877F2' }}
+                >
+                  CONNECT
+                </span>
+              </div>
+
+              <h3 className="font-serif text-xl text-[#052B08] font-bold mb-2.5 leading-tight">Join Our Community</h3>
+              <p className="text-xs text-[#052B08]/75 leading-relaxed font-medium mb-6">Connect with us on social media for botanical hair care tips, exclusive community updates, and to chat with our support team!</p>
+            </div>
+
+            <div className="flex gap-2 mt-auto">
+              <a
+                href="https://www.instagram.com/smitha_purelife?igsh=MWd1cjgyeWp3eG0wdw==" target="_blank" rel="noopener noreferrer"
+                className="flex-1 py-3 bg-[#FAF3EE] hover:bg-[#833AB4] text-[#833AB4] hover:text-white font-bold text-[10px] uppercase tracking-wider rounded-xl transition-all shadow-xs duration-300 active:scale-97 flex items-center justify-center"
+              >
+                Instagram
+              </a>
+              <a
+                href="https://www.facebook.com/share/1HJQ6T762s/" target="_blank" rel="noopener noreferrer"
+                className="flex-1 py-3 bg-[#EAF4F4] hover:bg-[#1877F2] text-[#1877F2] hover:text-white font-bold text-[10px] uppercase tracking-wider rounded-xl transition-all shadow-xs duration-300 active:scale-97 flex items-center justify-center"
+              >
+                Facebook
+              </a>
+              <a
+                href="https://wa.me/916385338676?text=Hi! I'm interested in Smitha Purelife products." target="_blank" rel="noopener noreferrer"
+                className="flex-1 py-3 bg-[#EEF7EE] hover:bg-[#25D366] text-[#25D366] hover:text-white font-bold text-[10px] uppercase tracking-wider rounded-xl transition-all shadow-xs duration-300 active:scale-97 flex items-center justify-center"
+              >
+                WhatsApp
+              </a>
+            </div>
+          </motion.div>
         </div>
       </section>
 
@@ -201,7 +251,7 @@ export default function RewardsPage() {
                 <span className="text-3xl filter drop-shadow-sm mb-2 block">🎂</span>
                 <h3 className="font-serif text-2xl sm:text-3xl text-[#052B08] font-bold mb-3">Birthday Month Celebration</h3>
                 <p className="text-xs sm:text-sm text-[#052B08]/75 leading-relaxed font-medium">
-                  It's your day, and we're happy to celebrate it with you! 🎉 Tell us what you'd love to receive—a special gift or an exclusive offer—and if it's something we can do, we'll be happy to make it happen for you. We'll make your birthday month even more special. Because we care about our customers and love making them feel special. 💚🌿
+                  It's your day, and we're happy to celebrate it with you! 🎉 Tell us what you'd love to receive a special gift or an exclusive offer, and if it's something we can do, we'll be happy to make it happen for you. We'll make your birthday month even more special. Because we care about our customers and love making them feel special. 💚🌿
                 </p>
               </div>
               <div className="lg:w-1/3 w-full shrink-0">

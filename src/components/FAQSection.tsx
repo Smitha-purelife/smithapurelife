@@ -19,10 +19,7 @@ const faqs = [
     q: 'Can I use multiple Smitha Purelife products together?',
     a: 'Absolutely! Our products are formulated to work synergistically as a complete haircare ritual. For example, combining the Herbal Hair Wash with the Radiance Hair Oil and Avosilky Bloom creates a comprehensive care routine addressing cleansing, nourishment, and growth.',
   },
-  {
-    q: 'What is your shipping and return policy?',
-    a: 'We offer free standard shipping on orders above ₹499 across all of India. Orders are dispatched within 1–2 business days and typically arrive in 3–5 business days. We have a hassle-free 30-day return policy — if you are not completely satisfied, we will arrange a pickup and process your refund within 5 business days.',
-  },
+
   {
     q: 'Are the products safe to use during pregnancy?',
     a: 'Our products are made from natural, botanical ingredients and are generally considered safe. However, we always recommend consulting your gynaecologist or healthcare provider before starting any new hair or skincare routine during pregnancy as a precaution.',

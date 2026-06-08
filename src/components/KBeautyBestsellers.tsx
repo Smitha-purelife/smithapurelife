@@ -125,13 +125,14 @@ function ComboCard({ combo, index }: { combo: Combo; index: number }) {
     >
       {/* Left Product Photo Column */}
       <div 
-        className="w-full md:w-[42%] aspect-[4/3] md:aspect-auto min-h-[260px] relative border-b md:border-b-0 md:border-r border-[#2D2A26]/5 overflow-hidden flex-shrink-0"
+        className="w-full md:w-[42%] aspect-[4/3] md:aspect-auto min-h-[260px] relative border-b md:border-b-0 md:border-r border-[#2D2A26]/5 overflow-hidden flex-shrink-0 flex items-center justify-center p-4"
+        style={{ backgroundColor: combo.bg }}
       >
         {/* Full combo product photo */}
         <img
           src={combo.image}
           alt={combo.title}
-          className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+          className="w-full h-full object-contain transition-transform duration-700 group-hover:scale-105"
         />
 
         {/* Subtle dark gradient at bottom for readability */}
@@ -292,6 +293,37 @@ export default function KBeautyBestsellers() {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<'all' | 'haircare' | 'accessories' | 'combos'>('all');
   const [selectedConcern, setSelectedConcern] = useState<string>('all');
+
+  const handleAddProductToBag = (productId: string) => {
+    const prod = products.find(p => p.id === productId);
+    if (!prod) return;
+
+    const defaultSize = prod.sizes[0];
+    const cartId = `${prod.id}-${defaultSize.size}`;
+    const cartItem = {
+      cartId,
+      productId: prod.id,
+      size: defaultSize.size,
+      price: defaultSize.price,
+      quantity: 1
+    };
+
+    try {
+      const existing = localStorage.getItem('smitha_purelife_cart');
+      let cart = existing ? JSON.parse(existing) : [];
+      const existingIndex = cart.findIndex((item: any) => item.cartId === cartId);
+      if (existingIndex > -1) {
+        cart[existingIndex].quantity += 1;
+      } else {
+        cart.push(cartItem);
+      }
+      localStorage.setItem('smitha_purelife_cart', JSON.stringify(cart));
+      localStorage.setItem('smitha_purelife_cart_auto_open', 'true');
+      window.dispatchEvent(new Event('cart-updated'));
+    } catch (e) {
+      console.error("Cart addition failed:", e);
+    }
+  };
 
   // Synchronize category bubble scrolls & localStorage events
   useEffect(() => {
@@ -494,7 +526,7 @@ export default function KBeautyBestsellers() {
                 const cfg = isCombo
                   ? {
                       shopImage: (product as any).image,
-                      objectFit: 'cover' as const,
+                      objectFit: 'contain' as const,
                       bgColor: (product as any).bg,
                       price: `₹${(product as any).variants[0].comboPrice}`,
                       badge: (product as any).variants[0].badge || 'Bundle',
@@ -647,11 +679,19 @@ export default function KBeautyBestsellers() {
                           Add Bundle <ShoppingBag size={12} />
                         </button>
                       ) : (
-                        <Link to={`/product/${product.id}`} className="block w-full">
-                          <button className="w-full flex items-center justify-center gap-2 bg-[#1A4B21] text-white py-3 rounded-full text-[10px] font-bold uppercase tracking-widest hover:bg-[#0f2e14] transition-all shadow-xs active:scale-95">
-                            Shop Now <ArrowRight size={12} />
+                        <div className="flex gap-2 w-full">
+                          <button 
+                            onClick={() => handleAddProductToBag(product.id)}
+                            className="flex-1 flex items-center justify-center gap-1.5 bg-[#1A4B21] text-white py-3 px-2 rounded-full text-[9px] font-bold uppercase tracking-wider hover:bg-[#0f2e14] transition-all shadow-xs active:scale-95 cursor-pointer"
+                          >
+                            Add to Cart <ShoppingBag size={11} />
                           </button>
-                        </Link>
+                          <Link to={`/product/${product.id}`} className="w-[38%] shrink-0">
+                            <button className="w-full flex items-center justify-center gap-1 bg-[#F5F2EE] border border-black/5 text-[#2D2A26] py-3 rounded-full text-[9px] font-bold uppercase tracking-wider hover:bg-[#FAF9F5] transition-all shadow-xs active:scale-95">
+                              View <ArrowRight size={11} />
+                            </button>
+                          </Link>
+                        </div>
                       )}
                     </div>
                   </motion.div>

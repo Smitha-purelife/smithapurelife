@@ -9,9 +9,10 @@ import SmoothScroll from './components/SmoothScroll';
 import SidePagination from './components/SidePagination';
 import ScrollToHash from './components/ScrollToHash';
 
+
 const HeroSlider = lazy(() => import('./components/HeroSlider'));
 const KBeautyCategories = lazy(() => import('./components/KBeautyCategories'));
-const WhyUsStrip = lazy(() => import('./components/WhyUsStrip'));
+
 const StorySection = lazy(() => import('./components/StorySection'));
 const KBeautyFeatures = lazy(() => import('./components/KBeautyFeatures'));
 const ShopByConcern = lazy(() => import('./components/ShopByConcern'));
@@ -39,8 +40,7 @@ function HomePage() {
         <KBeautyBestsellers />
         {/* 4. Shop by Hair Concern */}
         <ShopByConcern />
-        {/* 2. Why Us — Trust Building Strip */}
-        <WhyUsStrip />
+
         {/* 2b. Our Story Section */}
         <StorySection />
         {/* 3. Brand Promise Feature Cards */}
@@ -51,10 +51,10 @@ function HomePage() {
         <IngredientsTransparency />
         {/* 9. Sensory Textures section */}
         <KBeautyTexture />
-        {/* 10. Customer Reviews Grid */}
-        <TestimonialsGrid />
         {/* Real Customer Before & Afters Evidence */}
         <TransformationsGallery />
+        {/* 10. Customer Reviews Grid */}
+        <TestimonialsGrid />
         {/* 11. FAQ Accordion */}
         <FAQSection />
         {/* 12. VIP Newsletter */}
@@ -78,6 +78,7 @@ export default function App() {
     <Router>
       <ScrollToHash />
       <Navbar />
+
       <SidePagination />
       <SmoothScroll>
         <div className="bg-[#C1CDBF] min-h-screen selection:bg-[#FF7B89] selection:text-white relative">

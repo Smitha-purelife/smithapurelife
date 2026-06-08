@@ -6,7 +6,7 @@ export default function NewsletterVIP() {
   const [email, setEmail] = useState('');
   const [submitted, setSubmitted] = useState(false);
   const [copied, setCopied] = useState(false);
-  const code = 'PURE15';
+  const code = 'PURE10';
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -41,7 +41,7 @@ export default function NewsletterVIP() {
           className="text-4xl md:text-5xl font-serif text-white mb-4"
           style={{ fontFamily: "'Playfair Display', serif" }}
         >
-          Get 15% off your<br />
+          Get 10% off your<br />
           <span className="italic text-[#F8CD71]">first order</span>
         </motion.h2>
         <motion.p

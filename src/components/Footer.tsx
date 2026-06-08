@@ -1,4 +1,5 @@
-import { Instagram, Facebook, Youtube, Phone, Mail, MapPin } from 'lucide-react';
+import { Instagram, Facebook, Youtube, Phone, Mail, MessageCircle } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 export default function Footer() {
   const columns = [
@@ -37,28 +38,13 @@ export default function Footer() {
           {/* Brand Column */}
           <div className="lg:col-span-2">
             <div className="mb-4 flex items-center justify-start">
-              <div className="flex items-center gap-3">
-                {/* Stylized Leaf S Icon Container */}
-                <div className="w-11 h-11 rounded-xl bg-white flex items-center justify-center p-1.5 shadow-xs shrink-0 select-none">
-                  <img 
-                    src="/logo_icon_transparent.png" 
-                    alt="Smitha Purelife Logo" 
-                    className="w-full h-full object-contain brightness-[0.98] contrast-[1.02]"
-                  />
-                </div>
-                {/* Branding text */}
-                <div className="flex flex-col text-left leading-none justify-center">
-                  <span 
-                    className="text-xl sm:text-2xl tracking-[0.12em] font-medium text-[#F8CD71] uppercase leading-none"
-                    style={{ fontFamily: "'GFS Didot', 'Cormorant Garamond', serif" }}
-                  >
-                    SMITHA
-                  </span>
-                  <span className="font-body text-[8px] sm:text-[9.5px] tracking-[0.18em] text-white/80 font-bold mt-1.5 uppercase">
-                    Purelife • Natural Care
-                  </span>
-                </div>
-              </div>
+              <Link to="/" className="hover:opacity-90 transition-opacity">
+                <img 
+                  src="/logo.jpg" 
+                  alt="Smitha Purelife Logo" 
+                  className="h-11 w-auto object-contain rounded-lg shadow-sm"
+                />
+              </Link>
             </div>
             <p className="text-white/50 text-xs leading-relaxed mb-4 max-w-xs">
               India's leading botanical haircare brand. Crafted with 35+ pure herbs and zero harmful chemicals for hair that truly thrives.
@@ -66,25 +52,25 @@ export default function Footer() {
 
             {/* Contact Info */}
             <div className="space-y-2 mb-4">
-              <a href="tel:+919876543210" className="flex items-center gap-2.5 text-white/50 hover:text-[#F8CD71] transition-colors text-xs group">
+              <a href="tel:+916385338676" className="flex items-center gap-2.5 text-white/50 hover:text-[#F8CD71] transition-colors text-xs group">
                 <Phone size={14} className="text-[#F8CD71]/60 group-hover:text-[#F8CD71]" />
-                +91 98765 43210
+                +91 63853 38676
+              </a>
+              <a href="https://wa.me/916385338676?text=Hi! I'm interested in Smitha Purelife products." target="_blank" rel="noopener noreferrer" className="flex items-center gap-2.5 text-white/50 hover:text-[#25D366] transition-colors text-xs group">
+                <MessageCircle size={14} className="text-[#25D366]/80 group-hover:text-[#25D366]" />
+                WhatsApp: +91 63853 38676
               </a>
               <a href="mailto:support@smithapurelife.com" className="flex items-center gap-2.5 text-white/50 hover:text-[#F8CD71] transition-colors text-xs group">
                 <Mail size={14} className="text-[#F8CD71]/60 group-hover:text-[#F8CD71]" />
                 support@smithapurelife.com
               </a>
-              <div className="flex items-start gap-2.5 text-white/50 text-xs">
-                <MapPin size={14} className="text-[#F8CD71]/60 flex-shrink-0 mt-0.5" />
-                <span>123 Botanical Gardens Road,<br />Bangalore, Karnataka 560001</span>
-              </div>
             </div>
 
             {/* Social Icons */}
             <div className="flex gap-3">
               {[
                 { Icon: Instagram, href: 'https://www.instagram.com/smitha_purelife?igsh=MWd1cjgyeWp3eG0wdw==', label: 'Instagram' },
-                { Icon: Facebook, href: '#', label: 'Facebook' },
+                { Icon: Facebook, href: 'https://www.facebook.com/share/1HJQ6T762s/', label: 'Facebook' },
                 { Icon: Youtube, href: '#', label: 'YouTube' },
               ].map(({ Icon, href, label }) => (
                 <a

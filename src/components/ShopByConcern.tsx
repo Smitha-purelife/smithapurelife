@@ -9,6 +9,7 @@ interface Concern {
   emoji: string;
   color: string;
   products: string[];
+  image: string;
 }
 
 const concerns: Concern[] = [
@@ -16,43 +17,50 @@ const concerns: Concern[] = [
     label: 'Dry & Frizzy Hair', 
     emoji: '💧', 
     color: '#D4E2D4', 
-    products: ['avosilk-bloom', 'pro-repair-serum'] 
+    products: ['avosilk-bloom', 'pro-repair-serum'],
+    image: '/products/concern_1.jpg'
   },
   { 
     label: 'Excessive Hair Fall', 
     emoji: '🍂', 
     color: '#FAF3EE', 
-    products: ['radiance-oil', 'herbal-wash', 'avosilk-bloom', 'follicra-regrowth'] 
+    products: ['radiance-oil', 'herbal-wash', 'avosilk-bloom', 'follicra-regrowth'],
+    image: '/products/concern_2.jpg'
   },
   { 
     label: 'Hair Growth & Thickness', 
     emoji: '✨', 
     color: '#F9F3CC', 
-    products: ['radiance-oil', 'follicra-regrowth', 'herbal-wash'] 
+    products: ['radiance-oil', 'follicra-regrowth', 'herbal-wash'],
+    image: '/products/concern_3.jpg'
   },
   { 
     label: 'Dandruff & Scalp Care', 
     emoji: '🌿', 
     color: '#EEF7EE', 
-    products: ['herbal-wash', 'radiance-oil'] 
+    products: ['herbal-wash', 'radiance-oil'],
+    image: '/products/concern_4.jpg'
   },
   { 
     label: 'Damaged Hair Repair', 
     emoji: '🌸', 
     color: '#DBCDF0', 
-    products: ['avosilk-bloom', 'pro-repair-serum', 'radiance-oil'] 
+    products: ['avosilk-bloom', 'pro-repair-serum', 'radiance-oil'],
+    image: '/products/concern_5.jpg'
   },
   { 
     label: 'Early Signs of Baldness', 
     emoji: '🍃', 
     color: '#DDF1E9', 
-    products: ['follicra-regrowth', 'radiance-oil'] 
+    products: ['follicra-regrowth', 'radiance-oil'],
+    image: '/products/concern_6.jpg'
   },
   { 
     label: 'Natural & Healthy Hair Maintenance', 
     emoji: '🧴', 
-    color: '#EBF3EB', 
-    products: ['radiance-oil', 'herbal-wash', 'avosilk-bloom', 'pro-repair-serum', 'follicra-regrowth'] 
+    color: '#EFE7DF', 
+    products: ['radiance-oil', 'herbal-wash', 'avosilk-bloom', 'pro-repair-serum', 'follicra-regrowth'],
+    image: '/products/concern_7.jpg'
   },
 ];
 
@@ -127,7 +135,6 @@ export default function ShopByConcern() {
         {/* Responsive concern container: horizontal scroll on mobile/tablet, grid on desktop */}
         <div className="flex items-stretch overflow-x-auto gap-4 pb-6 px-6 -mx-6 hide-scrollbar snap-x snap-mandatory lg:grid lg:grid-cols-7 lg:gap-4 lg:pb-0 lg:px-0 lg:mx-0 lg:overflow-x-visible">
           {concerns.map((concern, i) => {
-            const firstProduct = products.find(p => concern.products.includes(p.id));
             return (
               <motion.div
                 key={i}
@@ -144,18 +151,15 @@ export default function ShopByConcern() {
                   style={{ backgroundColor: concern.color }}
                 >
                   <div className="flex flex-col items-center gap-2">
-                    <span className="text-3xl filter drop-shadow-sm mb-1">{concern.emoji}</span>
                     <span className="text-[10px] sm:text-xs font-bold text-[#2D2A26] text-center uppercase tracking-wider leading-snug group-hover:text-[#1A4B21] transition-colors">{concern.label}</span>
                   </div>
-                  {firstProduct && (
-                    <div className="w-16 h-20 flex items-center justify-center p-1.5 rounded-xl bg-white/60 border border-black/5 shadow-2xs mt-2 overflow-hidden flex-shrink-0">
-                      <img
-                        src={firstProduct.image}
-                        alt={concern.label}
-                        className="w-full h-full object-contain group-hover:scale-108 transition-transform duration-500 mix-blend-multiply"
-                      />
-                    </div>
-                  )}
+                  <div className="w-16 h-16 sm:w-20 sm:h-20 flex items-center justify-center rounded-full bg-white/60 border border-black/5 shadow-2xs mt-2 overflow-hidden flex-shrink-0">
+                    <img
+                      src={concern.image}
+                      alt={concern.label}
+                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                    />
+                  </div>
                 </div>
               </motion.div>
             );
@@ -198,7 +202,7 @@ export default function ShopByConcern() {
                 <div className="text-left">
                   <span className="text-[10px] tracking-[0.25em] uppercase font-bold text-[#FF7B89] block mb-1">Recommended Ritual</span>
                   <h3 className="font-serif text-xl md:text-3xl text-[#2D2A26] font-bold flex items-center gap-2">
-                    <span>{selectedConcern.emoji}</span> {selectedConcern.label}
+                    {selectedConcern.label}
                   </h3>
                 </div>
                 <button

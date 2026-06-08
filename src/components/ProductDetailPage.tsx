@@ -1,8 +1,8 @@
 import { useParams, Link } from 'react-router-dom';
 import { motion, useTransform, useMotionValue, useSpring, AnimatePresence } from 'framer-motion';
-import { useRef, useState, useEffect, memo } from 'react';
+import { useRef, useState, useEffect, memo, useCallback } from 'react';
 import { products } from '../data/products';
-import { ArrowLeft, ArrowRight, Sparkles } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Sparkles, Camera, X, Star, Check, ChevronDown, ChevronUp } from 'lucide-react';
 import ComparisonSection from './ComparisonSection';
 import TransformationsGallery from './TransformationsGallery';
 
@@ -32,9 +32,20 @@ const FloatingDebris = memo(({ index }: { index: number }) => {
   );
 });
 
+// ─── Customer Review Types ──────────────────────────────────────────────────
+interface CustomerReview {
+  id?: string;
+  name: string;
+  rating: number;
+  text: string;
+  date: string;
+  photos?: string[]; // base64 data URLs
+  verified?: boolean;
+}
+
 const productDetailData: Record<string, {
   benefits: string[];
-  reviews: { name: string; rating: number; text: string; date: string }[];
+  reviews: CustomerReview[];
 }> = {
   'avosilk-bloom': {
     benefits: [
@@ -183,9 +194,10 @@ const ritualSteps = [
     bulletPoints: [
       'Take 1-3 drops of serum.',
       'Rub the serum between your palms to warm it.',
-      'Apply on clean, damp hair (70% dry).',
+      'Apply to dry or damp hair (about 70-75% dry).',
       'Apply from mid-lengths to ends.',
-      'Use a wide-tooth comb for even distribution.'
+      'Use a wide-tooth comb for even distribution.',
+      'Also use at night before bedtime for best results and wake up with smoother, silkier, healthier-looking hair.'
     ]
   },
   {
@@ -197,6 +209,22 @@ const ritualSteps = [
       'Massage gently with fingertips in circular motions for 2-3 minutes.',
       'Do not rinse out; leave it on to stimulate hair follicles.',
       'Use daily (preferably at night) for best results.'
+    ]
+  },
+  {
+    step: 7,
+    title: 'Use Satin Scrunchie',
+    targetProducts: ['satin-scrunchies'],
+    bulletPoints: [
+      'Gently tie your hair with the satin scrunchie to help reduce friction, breakage, and hair damage.'
+    ]
+  },
+  {
+    step: 8,
+    title: 'Use Satin Pillow Cover',
+    targetProducts: ['satin-pillowcase'],
+    bulletPoints: [
+      'Use as your regular pillow cover and sleep on it every night for smoother, less frizzy, healthier-looking hair.'
     ]
   }
 ];
@@ -355,53 +383,386 @@ function ProductUsageSection({ productId }: { productId: string }) {
           </ul>
         </div>
 
+        {/* General Hair Care Tips Panel */}
+        <div className="max-w-2xl mx-auto mt-8 bg-[#EEF7EE] border border-[#2D7A3A]/20 rounded-[2.5rem] p-8 md:p-12 shadow-sm">
+          <div className="text-left mb-6 flex items-center gap-3">
+            <span className="text-[28px]">💡</span>
+            <h3 className="font-serif text-xl text-[#052B08] font-bold uppercase tracking-widest">General Hair Care Tips</h3>
+          </div>
+          
+          <ul className="space-y-4 text-left">
+            {[
+              { icon: '🔸', text: 'Avoid harsh chemical-based hair products whenever possible and choose natural hair care alternatives.' },
+              { icon: '❯', text: 'Drink enough water daily.' },
+              { icon: '❯', text: 'Sleep 7–8 hours every night.' },
+              { icon: '❱', text: 'Eat protein-rich foods regularly.' },
+              { icon: '❱', text: 'Include iron-rich foods in your diet.' },
+              { icon: '➤', text: 'Manage stress for healthier hair.' },
+              { icon: '➤', text: 'Trim split ends regularly.' },
+              { icon: '➟', text: 'Avoid excessive heat styling.' },
+              { icon: '➟', text: 'Keep your scalp clean and healthy.' },
+              { icon: '➲', text: 'Protect your hair from excessive sun exposure.' },
+              { icon: '➲', text: 'Be gentle while detangling wet hair.' },
+              { icon: '⟢', text: 'Consistency is key — regular hair care gives the best long-term results.' },
+            ].map((tip, idx) => (
+              <li key={idx} className="flex gap-4 items-start text-sm text-[#052B08]/80 leading-relaxed font-medium">
+                <span className="text-[#2D7A3A] font-bold shrink-0 text-[12px] mt-0.5">{tip.icon}</span>
+                <span>{tip.text}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+
       </div>
     </section>
   );
 }
 
-function ProductReviewsSection({ productId }: { productId: string }) {
-  const data = productDetailData[productId] || { reviews: [] };
-  
+function StarRatingInput({ value, onChange }: { value: number; onChange: (v: number) => void }) {
+  const [hovered, setHovered] = useState(0);
   return (
-    <section className="py-24 bg-[#FAF9F5]/50 border-t border-[#052B08]/5">
-      <div className="max-w-6xl mx-auto px-6">
-        <div className="text-center mb-16">
-          <span className="text-[10px] tracking-[0.35em] uppercase font-bold text-[#052B08]/40 mb-2 block">Verified Feedback</span>
-          <h2 className="serif-title text-4xl sm:text-5xl text-[#052B08]">Customer Reviews</h2>
+    <div className="flex gap-1">
+      {[1,2,3,4,5].map(star => (
+        <button
+          key={star}
+          type="button"
+          onClick={() => onChange(star)}
+          onMouseEnter={() => setHovered(star)}
+          onMouseLeave={() => setHovered(0)}
+          className="text-2xl transition-transform hover:scale-110 active:scale-95"
+          aria-label={`Rate ${star} stars`}
+        >
+          <Star
+            size={28}
+            className="transition-colors duration-150"
+            fill={(hovered || value) >= star ? '#F8CD71' : 'none'}
+            stroke={(hovered || value) >= star ? '#F8CD71' : '#D1D5DB'}
+            strokeWidth={1.5}
+          />
+        </button>
+      ))}
+    </div>
+  );
+}
+
+function ReviewPhotoGrid({ photos }: { photos: string[] }) {
+  const [lightbox, setLightbox] = useState<string | null>(null);
+  if (!photos || photos.length === 0) return null;
+  return (
+    <>
+      <div className="flex flex-wrap gap-2 mt-4">
+        {photos.map((src, i) => (
+          <button
+            key={i}
+            onClick={() => setLightbox(src)}
+            className="w-16 h-16 sm:w-20 sm:h-20 rounded-xl overflow-hidden border border-black/10 hover:scale-105 transition-transform duration-200 flex-shrink-0"
+          >
+            <img src={src} alt={`Review photo ${i+1}`} className="w-full h-full object-cover" />
+          </button>
+        ))}
+      </div>
+      <AnimatePresence>
+        {lightbox && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setLightbox(null)}
+            className="fixed inset-0 z-[999999] bg-black/90 flex items-center justify-center p-4"
+          >
+            <button onClick={() => setLightbox(null)} className="absolute top-4 right-4 text-white/80 hover:text-white">
+              <X size={28} />
+            </button>
+            <img src={lightbox} alt="Full size review photo" className="max-w-full max-h-[90vh] rounded-2xl object-contain" />
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </>
+  );
+}
+
+function ProductReviewsSection({ productId }: { productId: string }) {
+  const staticData = productDetailData[productId] || { reviews: [] };
+  const storageKey = `smitha_reviews_${productId}`;
+
+  // Load persisted customer reviews from localStorage
+  const [customerReviews, setCustomerReviews] = useState<CustomerReview[]>(() => {
+    try {
+      const stored = localStorage.getItem(storageKey);
+      return stored ? JSON.parse(stored) : [];
+    } catch { return []; }
+  });
+
+  // Form state
+  const [showForm, setShowForm] = useState(false);
+  const [formName, setFormName] = useState('');
+  const [formRating, setFormRating] = useState(0);
+  const [formText, setFormText] = useState('');
+  const [formPhotos, setFormPhotos] = useState<string[]>([]);
+  const [submitted, setSubmitted] = useState(false);
+  const [errors, setErrors] = useState<{rating?: string; text?: string}>({});
+  const fileRef = useRef<HTMLInputElement>(null);
+
+  // Combine static + customer reviews, showing customer first
+  const allReviews: CustomerReview[] = [
+    ...customerReviews,
+    ...staticData.reviews.map(r => ({ ...r, id: r.name + r.date, verified: true }))
+  ];
+
+  const avgRating = allReviews.length > 0
+    ? Math.round((allReviews.reduce((a, r) => a + r.rating, 0) / allReviews.length) * 10) / 10
+    : 0;
+
+  const handlePhotoUpload = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = Array.from(e.target.files || []);
+    files.slice(0, 3 - formPhotos.length).forEach(file => {
+      const reader = new FileReader();
+      reader.onload = (ev) => {
+        if (ev.target?.result) {
+          setFormPhotos(prev => [...prev, ev.target!.result as string]);
+        }
+      };
+      reader.readAsDataURL(file);
+    });
+    // reset input so same file can be re-selected
+    if (fileRef.current) fileRef.current.value = '';
+  }, [formPhotos.length]);
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    const newErrors: {rating?: string; text?: string} = {};
+    if (formRating === 0) newErrors.rating = 'Please select a star rating.';
+    if (formText.trim().length < 10) newErrors.text = 'Please write at least 10 characters.';
+    if (Object.keys(newErrors).length > 0) { setErrors(newErrors); return; }
+
+    const newReview: CustomerReview = {
+      id: Date.now().toString(),
+      name: formName.trim() || 'Anonymous',
+      rating: formRating,
+      text: formText.trim(),
+      date: 'Just now',
+      photos: formPhotos,
+      verified: false,
+    };
+
+    const updated = [newReview, ...customerReviews];
+    setCustomerReviews(updated);
+    try { localStorage.setItem(storageKey, JSON.stringify(updated)); } catch {}
+
+    // Reset form
+    setFormName('');
+    setFormRating(0);
+    setFormText('');
+    setFormPhotos([]);
+    setErrors({});
+    setSubmitted(true);
+    setTimeout(() => { setSubmitted(false); setShowForm(false); }, 3000);
+  };
+
+  return (
+    <section className="py-16 md:py-24 bg-[#FAF9F5]/50 border-t border-[#052B08]/5">
+      <div className="max-w-6xl mx-auto px-4 md:px-6">
+        {/* Header */}
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-6 mb-12">
+          <div>
+            <span className="text-[10px] tracking-[0.35em] uppercase font-bold text-[#052B08]/40 mb-2 block">Verified Feedback</span>
+            <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl text-[#052B08]">Customer Reviews</h2>
+            {allReviews.length > 0 && (
+              <div className="flex items-center gap-2 mt-2">
+                <div className="flex gap-0.5">
+                  {[1,2,3,4,5].map(s => (
+                    <Star key={s} size={14}
+                      fill={avgRating >= s ? '#F8CD71' : avgRating >= s - 0.5 ? '#F8CD71' : 'none'}
+                      stroke="#F8CD71" strokeWidth={1.5}
+                    />
+                  ))}
+                </div>
+                <span className="text-sm font-bold text-[#052B08]">{avgRating}</span>
+                <span className="text-xs text-gray-400">({allReviews.length} reviews)</span>
+              </div>
+            )}
+          </div>
+          <button
+            onClick={() => setShowForm(v => !v)}
+            className="flex items-center gap-2 bg-[#052B08] text-white px-5 sm:px-6 py-3 rounded-full text-xs font-bold uppercase tracking-widest hover:bg-[#1A4B21] transition-all shadow-sm active:scale-95 shrink-0"
+          >
+            Write a Review
+            {showForm ? <ChevronUp size={14} /> : <ChevronDown size={14} />}
+          </button>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
-          {data.reviews.map((rev, idx) => (
-            <div key={idx} className="bg-white rounded-3xl p-6 border border-black/5 hover:shadow-lg transition-shadow duration-300 flex flex-col justify-between h-full text-left">
-              <div>
-                <div className="flex items-center justify-between mb-4">
-                  <div className="flex gap-0.5 text-[#F8CD71]">
-                    {[...Array(rev.rating)].map((_, i) => (
-                      <svg key={i} className="w-4 h-4 fill-current" viewBox="0 0 20 20">
-                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                      </svg>
-                    ))}
-                  </div>
-                  <span className="text-[10px] text-gray-400 font-bold uppercase tracking-wider">{rev.date}</span>
-                </div>
-                <p className="text-sm text-[#052B08]/80 leading-relaxed italic mb-6">"{rev.text}"</p>
+        {/* Write a Review Form */}
+        <AnimatePresence>
+          {showForm && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: 'auto' }}
+              exit={{ opacity: 0, height: 0 }}
+              transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+              className="overflow-hidden mb-10"
+            >
+              <div className="bg-white rounded-[2rem] border border-[#052B08]/8 shadow-sm p-6 sm:p-8">
+                {submitted ? (
+                  <motion.div
+                    initial={{ scale: 0.9, opacity: 0 }}
+                    animate={{ scale: 1, opacity: 1 }}
+                    className="flex flex-col items-center gap-3 py-8 text-center"
+                  >
+                    <div className="w-14 h-14 rounded-full bg-[#EEF7EE] flex items-center justify-center">
+                      <Check size={24} className="text-[#2D7A3A]" />
+                    </div>
+                    <h3 className="font-serif text-xl text-[#052B08]">Thank you for your review!</h3>
+                    <p className="text-sm text-gray-400">Your feedback helps other customers make better choices.</p>
+                  </motion.div>
+                ) : (
+                  <form onSubmit={handleSubmit} className="space-y-6">
+                    <h3 className="font-serif text-xl sm:text-2xl text-[#052B08] font-bold mb-1">Share Your Experience</h3>
+                    <p className="text-xs text-gray-400 -mt-4">Your honest review helps others make informed decisions.</p>
+
+                    {/* Star Rating */}
+                    <div>
+                      <label className="text-[10px] font-bold uppercase tracking-widest text-[#052B08]/60 block mb-2">Your Rating *</label>
+                      <StarRatingInput value={formRating} onChange={v => { setFormRating(v); setErrors(e => ({...e, rating: undefined})); }} />
+                      {errors.rating && <p className="text-red-500 text-xs mt-1">{errors.rating}</p>}
+                    </div>
+
+                    {/* Name */}
+                    <div>
+                      <label className="text-[10px] font-bold uppercase tracking-widest text-[#052B08]/60 block mb-2">Your Name (optional)</label>
+                      <input
+                        type="text"
+                        value={formName}
+                        onChange={e => setFormName(e.target.value)}
+                        placeholder="e.g. Priya S."
+                        maxLength={60}
+                        className="w-full sm:w-72 px-4 py-3 bg-[#F5F7F5] border border-black/8 rounded-full text-sm text-[#052B08] focus:outline-none focus:border-[#052B08]/40 focus:ring-1 focus:ring-[#052B08]/10 placeholder:text-gray-400"
+                      />
+                    </div>
+
+                    {/* Review Text */}
+                    <div>
+                      <label className="text-[10px] font-bold uppercase tracking-widest text-[#052B08]/60 block mb-2">Your Review *</label>
+                      <textarea
+                        value={formText}
+                        onChange={e => { setFormText(e.target.value); setErrors(e2 => ({...e2, text: undefined})); }}
+                        placeholder="Tell us what you love about this product, any results you noticed, or tips for using it..."
+                        rows={4}
+                        maxLength={800}
+                        className="w-full px-4 py-3 bg-[#F5F7F5] border border-black/8 rounded-2xl text-sm text-[#052B08] focus:outline-none focus:border-[#052B08]/40 focus:ring-1 focus:ring-[#052B08]/10 placeholder:text-gray-400 resize-none"
+                      />
+                      <div className="flex justify-between mt-1">
+                        {errors.text ? <p className="text-red-500 text-xs">{errors.text}</p> : <span />}
+                        <span className="text-[10px] text-gray-300">{formText.length}/800</span>
+                      </div>
+                    </div>
+
+                    {/* Photo Upload */}
+                    <div>
+                      <label className="text-[10px] font-bold uppercase tracking-widest text-[#052B08]/60 block mb-2">Add Photos (optional, max 3)</label>
+                      <div className="flex flex-wrap gap-3 items-center">
+                        {formPhotos.map((src, i) => (
+                          <div key={i} className="relative w-20 h-20 rounded-xl overflow-hidden border border-black/10 group">
+                            <img src={src} alt={`Preview ${i+1}`} className="w-full h-full object-cover" />
+                            <button
+                              type="button"
+                              onClick={() => setFormPhotos(prev => prev.filter((_, j) => j !== i))}
+                              className="absolute top-1 right-1 w-5 h-5 rounded-full bg-black/60 text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
+                            >
+                              <X size={10} />
+                            </button>
+                          </div>
+                        ))}
+                        {formPhotos.length < 3 && (
+                          <button
+                            type="button"
+                            onClick={() => fileRef.current?.click()}
+                            className="w-20 h-20 rounded-xl border-2 border-dashed border-[#052B08]/20 hover:border-[#052B08]/50 flex flex-col items-center justify-center gap-1 text-[#052B08]/40 hover:text-[#052B08]/70 transition-all"
+                          >
+                            <Camera size={20} />
+                            <span className="text-[9px] font-bold uppercase tracking-wider">Add Photo</span>
+                          </button>
+                        )}
+                      </div>
+                      <input
+                        ref={fileRef}
+                        type="file"
+                        accept="image/*"
+                        multiple
+                        onChange={handlePhotoUpload}
+                        className="hidden"
+                      />
+                      <p className="text-[10px] text-gray-400 mt-1.5">JPG, PNG, WEBP supported. Max 3 photos.</p>
+                    </div>
+
+                    {/* Submit */}
+                    <div className="flex gap-3 pt-2">
+                      <button
+                        type="submit"
+                        className="flex items-center gap-2 bg-[#052B08] text-white px-6 sm:px-8 py-3.5 rounded-full text-xs font-bold uppercase tracking-widest hover:bg-[#1A4B21] transition-all shadow-sm active:scale-95"
+                      >
+                        Submit Review
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setShowForm(false)}
+                        className="px-5 sm:px-6 py-3.5 rounded-full text-xs font-bold uppercase tracking-widest text-gray-400 hover:bg-black/5 transition-all"
+                      >
+                        Cancel
+                      </button>
+                    </div>
+                  </form>
+                )}
               </div>
-              
-              <div className="flex items-center gap-3 border-t border-black/5 pt-4">
-                <div className="w-8 h-8 rounded-full bg-[#052B08] text-white font-bold text-xs flex items-center justify-center">
-                  {rev.name.charAt(0)}
-                </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        {/* Reviews Grid */}
+        {allReviews.length === 0 ? (
+          <div className="text-center py-16 bg-white rounded-[2rem] border border-[#052B08]/5">
+            <p className="text-gray-400 font-bold uppercase tracking-widest text-xs mb-2">No reviews yet</p>
+            <p className="text-sm text-[#052B08]/50">Be the first to share your experience!</p>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 xl:gap-6">
+            {allReviews.map((rev, idx) => (
+              <div key={rev.id || idx} className="bg-white rounded-3xl p-5 sm:p-6 border border-black/5 hover:shadow-lg transition-shadow duration-300 flex flex-col justify-between h-full text-left">
                 <div>
-                  <h4 className="text-xs font-bold text-[#052B08]">{rev.name}</h4>
-                  <span className="text-[9px] text-[#2D7A3A] font-bold uppercase tracking-wider flex items-center gap-1">
-                    <span className="text-[10px]">✓</span> Verified Buyer
-                  </span>
+                  <div className="flex items-center justify-between mb-3">
+                    <div className="flex gap-0.5">
+                      {[1,2,3,4,5].map(s => (
+                        <Star key={s} size={14}
+                          fill={rev.rating >= s ? '#F8CD71' : 'none'}
+                          stroke={rev.rating >= s ? '#F8CD71' : '#E5E7EB'}
+                          strokeWidth={1.5}
+                        />
+                      ))}
+                    </div>
+                    <span className="text-[10px] text-gray-400 font-bold uppercase tracking-wider">{rev.date}</span>
+                  </div>
+                  <p className="text-sm text-[#052B08]/80 leading-relaxed italic mb-4">"{rev.text}"</p>
+                  {/* Review Photos */}
+                  {rev.photos && rev.photos.length > 0 && (
+                    <ReviewPhotoGrid photos={rev.photos} />
+                  )}
+                </div>
+
+                <div className="flex items-center gap-3 border-t border-black/5 pt-4 mt-4">
+                  <div className="w-8 h-8 rounded-full bg-[#052B08] text-white font-bold text-xs flex items-center justify-center flex-shrink-0">
+                    {(rev.name || 'A').charAt(0).toUpperCase()}
+                  </div>
+                  <div>
+                    <h4 className="text-xs font-bold text-[#052B08]">{rev.name || 'Anonymous'}</h4>
+                    <span className="text-[9px] font-bold uppercase tracking-wider flex items-center gap-1" style={{color: rev.verified ? '#2D7A3A' : '#888'}}>
+                      <span className="text-[10px]">{rev.verified ? '✓' : '●'}</span>
+                      {rev.verified ? 'Verified Buyer' : 'Customer Review'}
+                    </span>
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        )}
       </div>
     </section>
   );
@@ -487,6 +848,27 @@ export default function ProductDetailPage() {
 
   return (
     <div className="bg-[#C1CDBF] min-h-screen selection:bg-accent selection:text-bg overflow-x-hidden pt-[76px]">
+      
+      {/* Floating Pagination Arrows */}
+      {productIndex > 0 && (
+        <Link 
+          to={`/product/${products[productIndex - 1].id}`}
+          className="fixed left-2 md:left-6 top-1/2 -translate-y-1/2 z-[90] w-10 h-10 md:w-14 md:h-14 rounded-full bg-white/80 backdrop-blur shadow-[0_4px_20px_rgba(0,0,0,0.08)] border border-[#052B08]/5 flex items-center justify-center text-[#052B08] hover:bg-[#052B08] hover:text-white transition-all duration-300 group"
+          aria-label="Previous Product"
+        >
+          <ArrowLeft size={20} className="group-hover:-translate-x-1 transition-transform" />
+        </Link>
+      )}
+      
+      {productIndex < products.length - 1 && (
+        <Link 
+          to={`/product/${products[productIndex + 1].id}`}
+          className="fixed right-2 md:right-6 top-1/2 -translate-y-1/2 z-[90] w-10 h-10 md:w-14 md:h-14 rounded-full bg-white/80 backdrop-blur shadow-[0_4px_20px_rgba(0,0,0,0.08)] border border-[#052B08]/5 flex items-center justify-center text-[#052B08] hover:bg-[#052B08] hover:text-white transition-all duration-300 group"
+          aria-label="Next Product"
+        >
+          <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
+        </Link>
+      )}
       
       {/* Full-width Lifestyle Hero Banner */}
       <div className="w-full h-[calc(100svh-76px)] min-h-[500px] relative mb-16 lg:mb-24 flex flex-col">

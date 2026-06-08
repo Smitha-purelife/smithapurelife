@@ -76,6 +76,23 @@ export default function Navbar() {
     window.dispatchEvent(new Event('cart-updated'));
   };
 
+  // Update item size
+  const updateSize = (cartId: string, newSize: string) => {
+    const updated = cartItems.map(item => {
+      if (item.cartId === cartId) {
+        const productDetails = products.find(p => p.id === item.productId);
+        const newSizeObj = productDetails?.sizes?.find(s => s.size === newSize);
+        if (newSizeObj) {
+          return { ...item, size: newSizeObj.size, price: newSizeObj.price };
+        }
+      }
+      return item;
+    });
+    localStorage.setItem('smitha_purelife_cart', JSON.stringify(updated));
+    setCartItems(updated);
+    window.dispatchEvent(new Event('cart-updated'));
+  };
+
   // Remove item from cart
   const removeItem = (cartId: string) => {
     const filtered = cartItems.filter(item => item.cartId !== cartId);
@@ -117,28 +134,11 @@ export default function Navbar() {
               to="/"
               className="flex-1 flex items-center justify-start md:justify-center transition-all hover:opacity-90 duration-300 py-1"
             >
-              <div className="flex items-center gap-3">
-                {/* Stylized Leaf S Icon Container */}
-                <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-white flex items-center justify-center p-1.5 sm:p-2 border border-[#052B08]/10 shadow-xs shrink-0 select-none">
-                  <img 
-                    src="/logo_icon_transparent.png" 
-                    alt="Smitha Purelife Logo" 
-                    className="w-full h-full object-contain brightness-[0.98] contrast-[1.02]"
-                  />
-                </div>
-                {/* Branding text */}
-                <div className="flex flex-col text-left leading-none justify-center">
-                  <span 
-                    className="text-xl sm:text-[26px] tracking-[0.12em] font-medium text-[#052B08] uppercase leading-none"
-                    style={{ fontFamily: "'GFS Didot', 'Cormorant Garamond', serif" }}
-                  >
-                    SMITHA
-                  </span>
-                  <span className="font-body text-[8px] sm:text-[9.5px] tracking-[0.18em] text-[#052B08] font-bold mt-1.5 uppercase">
-                    Purelife • Natural Care
-                  </span>
-                </div>
-              </div>
+              <img 
+                src="/logo.jpg" 
+                alt="Smitha Purelife Logo" 
+                className="h-14 sm:h-[72px] w-auto object-contain rounded-xl shadow-md brightness-110 contrast-105"
+              />
             </Link>
 
             {/* Right Nav Links & Cart Icon */}
@@ -464,9 +464,23 @@ export default function Navbar() {
                           <div>
                             <span className="text-[9px] font-bold text-gray-400 uppercase tracking-widest block mb-0.5">{productDetails.subtitle}</span>
                             <span className="font-serif text-base text-[#2D2A26] font-bold block leading-tight">{productDetails.title}</span>
-                            <span className="inline-block bg-[#F5F2EE] text-[#2D2A26]/60 text-[10px] font-semibold px-2 py-0.5 rounded-md mt-1">
-                              Size: {item.size}
-                            </span>
+                            {productDetails.sizes && productDetails.sizes.length > 1 ? (
+                              <div className="mt-1">
+                                <select
+                                  value={item.size}
+                                  onChange={(e) => updateSize(item.cartId, e.target.value)}
+                                  className="bg-[#F5F2EE] text-[#2D2A26] text-[10px] font-semibold px-2 py-0.5 rounded-md border-0 focus:ring-0 cursor-pointer outline-none"
+                                >
+                                  {productDetails.sizes.map(s => (
+                                    <option key={s.size} value={s.size}>{s.size}</option>
+                                  ))}
+                                </select>
+                              </div>
+                            ) : (
+                              <span className="inline-block bg-[#F5F2EE] text-[#2D2A26]/60 text-[10px] font-semibold px-2 py-0.5 rounded-md mt-1">
+                                Size: {item.size}
+                              </span>
+                            )}
                           </div>
 
                           <div className="flex items-center justify-between mt-3">
