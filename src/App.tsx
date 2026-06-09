@@ -6,8 +6,8 @@ import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import Loader from './components/Loader';
 import SmoothScroll from './components/SmoothScroll';
-import SidePagination from './components/SidePagination';
 import ScrollToHash from './components/ScrollToHash';
+import FloatingWhatsApp from './components/FloatingWhatsApp';
 
 
 const HeroSlider = lazy(() => import('./components/HeroSlider'));
@@ -25,6 +25,7 @@ const TransformationsGallery = lazy(() => import('./components/TransformationsGa
 const FAQSection = lazy(() => import('./components/FAQSection'));
 const NewsletterVIP = lazy(() => import('./components/NewsletterVIP'));
 const ProductDetailPage = lazy(() => import('./components/ProductDetailPage'));
+const ComboDetailPage = lazy(() => import('./components/ComboDetailPage'));
 const AboutPage = lazy(() => import('./components/AboutPage'));
 const RewardsPage = lazy(() => import('./components/RewardsPage'));
 
@@ -78,8 +79,7 @@ export default function App() {
     <Router>
       <ScrollToHash />
       <Navbar />
-
-      <SidePagination />
+      <FloatingWhatsApp />
       <SmoothScroll>
         <div className="bg-[#C1CDBF] min-h-screen selection:bg-[#FF7B89] selection:text-white relative">
           <AnimatePresence mode="wait">
@@ -89,6 +89,7 @@ export default function App() {
             <Routes>
               <Route path="/" element={<HomePage />} />
               <Route path="/product/:id" element={<ProductDetailPage />} />
+              <Route path="/combo/:id" element={<ComboDetailPage />} />
               <Route path="/about" element={<AboutPage />} />
               <Route path="/rewards" element={<RewardsPage />} />
             </Routes>

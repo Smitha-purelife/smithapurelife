@@ -60,9 +60,9 @@ export default function Footer() {
                 <MessageCircle size={14} className="text-[#25D366]/80 group-hover:text-[#25D366]" />
                 WhatsApp: +91 63853 38676
               </a>
-              <a href="mailto:support@smithapurelife.com" className="flex items-center gap-2.5 text-white/50 hover:text-[#F8CD71] transition-colors text-xs group">
-                <Mail size={14} className="text-[#F8CD71]/60 group-hover:text-[#F8CD71]" />
-                support@smithapurelife.com
+              <a href="mailto:smithapurelife3@gmail.com" className="flex items-center gap-2.5 text-white/50 hover:text-[#F8CD71] transition-colors text-xs group">
+                <Mail size={14} className="text-white/30 group-hover:text-[#F8CD71] transition-colors" />
+                smithapurelife3@gmail.com
               </a>
             </div>
 

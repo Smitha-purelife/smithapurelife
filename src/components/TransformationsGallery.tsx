@@ -10,6 +10,7 @@ interface ResultCard {
   description: string;
   reviewText?: string;
   reviewer?: string;
+  targetProducts?: string[];
 }
 
 const resultsData: ResultCard[] = [
@@ -20,7 +21,8 @@ const resultsData: ResultCard[] = [
     image: '/products/results_braid_growth.png',
     description: '1 month transformation showing noticeable braid density and length development without hairfall.',
     reviewer: 'Verified Customer chat',
-    reviewText: 'Thank you so much sister.. it\'s a wow product really I can see my hair development without dandruff and hairfall. This product perfectly suited to my hair and within 1 month I saw my hair\'s result. It was easy and smoothen to apply and has a lovely fragrance. And at last it was an good and amazing product.. Thank you for your recommendation..'
+    reviewText: 'Thank you so much sister.. it\'s a wow product really I can see my hair development without dandruff and hairfall. This product perfectly suited to my hair and within 1 month I saw my hair\'s result. It was easy and smoothen to apply and has a lovely fragrance. And at last it was an good and amazing product.. Thank you for your recommendation..',
+    targetProducts: ['radiance-oil', 'herbal-wash', 'avosilk-bloom', 'complete-hair-kit']
   },
   {
     id: 'dandruff-control',
@@ -29,7 +31,8 @@ const resultsData: ResultCard[] = [
     image: '/products/results_dandruff.jpg',
     description: 'Before & After scalp view showing complete reduction of dandruff flakes and dry patch clearance.',
     reviewer: 'Scalp Treatment User',
-    reviewText: 'My dandruff flakes are completely gone after just 3 washes with the Herbal Hair Wash powder paste. My scalp doesn\'t itch anymore and feels extremely clean and refreshed!'
+    reviewText: 'My dandruff flakes are completely gone after just 3 washes with the Herbal Hair Wash powder paste. My scalp doesn\'t itch anymore and feels extremely clean and refreshed!',
+    targetProducts: ['herbal-wash', 'radiance-oil', 'complete-hair-kit']
   },
   {
     id: 'comb-hairfall',
@@ -38,7 +41,8 @@ const resultsData: ResultCard[] = [
     image: '/products/results_comb_hairfall.png',
     description: 'Significant decrease in daily hair breakage and loss on comb after 4 weeks of Radiance Hair Oil massage.',
     reviewer: 'Verified Buyer',
-    reviewText: 'Look at the difference on my comb! I used to lose a handful of hair every time I combed. Now, after using the Radiance Hair Oil for a few weeks, my hair breakage is almost zero. Highly recommended!'
+    reviewText: 'Look at the difference on my comb! I used to lose a handful of hair every time I combed. Now, after using the Radiance Hair Oil for a few weeks, my hair breakage is almost zero. Highly recommended!',
+    targetProducts: ['radiance-oil', 'complete-hair-kit']
   },
   {
     id: 'palm-hairfall',
@@ -47,7 +51,8 @@ const resultsData: ResultCard[] = [
     image: '/products/results_hairfall_palm.png',
     description: 'Daily hairfall reduction verified from actual customer progress, showing root strengthening results.',
     reviewer: 'Customer review chat',
-    reviewText: 'Thank you so much mam! The hair fall has reduced by 85% in just two weeks of applying the oil warm. The roots feel so much stronger and my hair texture has improved.'
+    reviewText: 'Thank you so much mam! The hair fall has reduced by 85% in just two weeks of applying the oil warm. The roots feel so much stronger and my hair texture has improved.',
+    targetProducts: ['radiance-oil', 'complete-hair-kit']
   },
   {
     id: 'nivetha-oil-conditioner',
@@ -56,7 +61,8 @@ const resultsData: ResultCard[] = [
     image: '/products/results_nivetha_chat.png',
     description: 'Customer feedback verifying significant hairfall reduction and avocado conditioner fragrance.',
     reviewer: 'Verified Buyer',
-    reviewText: 'Hii mam unga hair oil romba nallarukku En hair fall nallave reduce agiduchi i loved it 🥰 ennala nambave mudiyala mam and avacado conditioner really super fregrance romba nallarukku mam. 1/2 litre bottle available irukka'
+    reviewText: 'Hii mam unga hair oil romba nallarukku En hair fall nallave reduce agiduchi i loved it 🥰 ennala nambave mudiyala mam and avacado conditioner really super fregrance romba nallarukku mam. 1/2 litre bottle available irukka',
+    targetProducts: ['radiance-oil', 'avosilk-bloom', 'complete-hair-kit']
   },
   {
     id: 'instagram-comb-test',
@@ -65,7 +71,8 @@ const resultsData: ResultCard[] = [
     image: '/products/results_instagram_comb.png',
     description: 'Daily hair fall control progress showing strong, healthy hair and comb test results.',
     reviewer: 'Verified Buyer',
-    reviewText: 'Gud afternoon mam After just 7 washes I saw visible hair fall reduction . I am so happy because before using this product I couldn\'t even comb my hair properly ena avlo hair fall irundhuchu 😢. But once I left chemicals and started using your natural products, I feel a big difference .sathiyama Now my hair feels healthy and strong. Romba happy ah iruku... thank you mam keep on doing.'
+    reviewText: 'Gud afternoon mam After just 7 washes I saw visible hair fall reduction . I am so happy because before using this product I couldn\'t even comb my hair properly ena avlo hair fall irundhuchu 😢. But once I left chemicals and started using your natural products, I feel a big difference .sathiyama Now my hair feels healthy and strong. Romba happy ah iruku... thank you mam keep on doing.',
+    targetProducts: ['radiance-oil', 'herbal-wash', 'complete-hair-kit']
   },
   {
     id: 'altogether-wash-powder',
@@ -74,7 +81,8 @@ const resultsData: ResultCard[] = [
     image: '/products/results_altogether_wash.png',
     description: 'Wholesome, frizz-free and soft hair transformation after a single wash.',
     reviewer: 'Verified Buyer',
-    reviewText: 'Altogether in one wash itself was wholesome sooo good frizz free and so soft .many asked about it they liked this ingredients and product just by seeing its ingredients itself many orders are awaiting for you soon will say you🥰🫶. Just loved it 😻'
+    reviewText: 'Altogether in one wash itself was wholesome sooo good frizz free and so soft .many asked about it they liked this ingredients and product just by seeing its ingredients itself many orders are awaiting for you soon will say you🥰🫶. Just loved it 😻',
+    targetProducts: ['herbal-wash', 'complete-hair-kit']
   },
   {
     id: 'complete-haircare-kit',
@@ -83,7 +91,8 @@ const resultsData: ResultCard[] = [
     image: '/products/results_haircare_kit.png',
     description: 'Visible hair fall and dandruff reduction with natural scent addiction.',
     reviewer: 'Verified Buyer',
-    reviewText: 'Hai mam I purchased hair care kit from you it\'s really awesome result and I\'m completely love with natureee 💯 my hair is too strong and healthy now , i saw my visible hair fall redhction and dandruff. Your condtiner is next level mam I\'m just addicted to thta natural smell 😍🥰'
+    reviewText: 'Hai mam I purchased hair care kit from you it\'s really awesome result and I\'m completely love with natureee 💯 my hair is too strong and healthy now , i saw my visible hair fall redhction and dandruff. Your condtiner is next level mam I\'m just addicted to thta natural smell 😍🥰',
+    targetProducts: ['radiance-oil', 'herbal-wash', 'avosilk-bloom', 'complete-hair-kit']
   },
   {
     id: 'nafia-smoothness-dandruff',
@@ -92,15 +101,34 @@ const resultsData: ResultCard[] = [
     image: '/products/results_nafia_chat.png',
     description: 'Smooth hair feel and dandruff clearance from the first wash.',
     reviewer: 'Verified Buyer',
-    reviewText: 'Actual from the first use itself i feel my hair become so smooth. And how to use that shampoo. I just take some amount and mix with water and applied. And i feel like dandruff also gone. I really liked i will inform my journey. And will stay connect with u'
+    reviewText: 'Actual from the first use itself i feel my hair become so smooth. And how to use that shampoo. I just take some amount and mix with water and applied. And i feel like dandruff also gone. I really liked i will inform my journey. And will stay connect with u',
+    targetProducts: ['herbal-wash', 'complete-hair-kit']
   }
 ];
 
-export default function TransformationsGallery() {
+export default function TransformationsGallery({ productId }: { productId?: string }) {
   const [activePhoto, setActivePhoto] = useState<ResultCard | null>(null);
   const [isExpanded, setIsExpanded] = useState(false);
 
-  const visibleReviews = isExpanded ? resultsData : resultsData.slice(0, 4);
+  const filteredData = productId ? resultsData.filter(r => {
+    if (!r.targetProducts) return true;
+    if (productId === 'daily-3step') {
+      return r.targetProducts.some(p => ['radiance-oil', 'herbal-wash', 'avosilk-bloom', 'complete-hair-kit'].includes(p));
+    }
+    if (productId === 'complete-haircare') {
+      return r.targetProducts.some(p => ['radiance-oil', 'herbal-wash', 'avosilk-bloom', 'pro-repair-serum', 'complete-hair-kit'].includes(p));
+    }
+    if (productId === 'smooth-silky') {
+      return r.targetProducts.some(p => ['avosilk-bloom', 'pro-repair-serum', 'complete-hair-kit'].includes(p));
+    }
+    if (productId === 'transformation') {
+      return true; // The full combo matches all reviews
+    }
+    return r.targetProducts.includes(productId);
+  }) : resultsData;
+  const visibleReviews = isExpanded ? filteredData : filteredData.slice(0, 4);
+
+  if (filteredData.length === 0) return null;
 
   return (
     <section className="py-20 bg-[#FAF9F5]/70 border-t border-[#052B08]/5 scroll-mt-24">

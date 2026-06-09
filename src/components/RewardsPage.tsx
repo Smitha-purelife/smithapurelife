@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Gift, Heart, Send, Copy, Check, Users, MessageSquare, Instagram, Facebook, Award, Sparkles, X } from 'lucide-react';
 import Footer from './Footer';
+import NewsletterVIP from './NewsletterVIP';
 
 interface RewardStep {
   title: string;
@@ -34,7 +35,7 @@ export default function RewardsPage() {
     const text = encodeURIComponent(
       "Hi Smitha Purelife, I'm interested in designing a customized natural care gift pack. My budget is around ₹____ and the occasion is _____. Please guide me!"
     );
-    window.open(`https://wa.me/919999999999?text=${text}`, '_blank');
+    window.open(`https://wa.me/916385338676?text=${text}`, '_blank');
   };
 
   const steps: RewardStep[] = [
@@ -57,7 +58,7 @@ export default function RewardsPage() {
       color: '#FAF3EE',
       accent: '#D4A373',
       onAction: () => {
-        window.open('https://wa.me/919999999999?text=Hi! I shared a story tagging you. Here is my screenshot proof: ', '_blank');
+        window.open('https://wa.me/916385338676?text=Hi! I shared a story tagging you. Here is my screenshot proof: ', '_blank');
       },
     },
     {
@@ -69,31 +70,19 @@ export default function RewardsPage() {
       color: '#E9D5CA',
       accent: '#B85C38',
       onAction: () => {
-        window.open('https://wa.me/919999999999?text=Hi! I created a post tagging you on social media. I would love to claim my 15% discount code.', '_blank');
+        window.open('https://wa.me/916385338676?text=Hi! I created a post tagging you on social media. I would love to claim my 15% discount code.', '_blank');
       },
     },
     {
       title: 'Leave a Social Review',
       offer: '5% OFF',
-      description: 'Leave an honest review on our Facebook Page or Google Listing about your botanical experience.',
+      description: 'Leave an honest review on our social media pages (Facebook, Instagram, Google & other social media platforms) and share your botanical experience with us. ✨',
       actionLabel: 'Send Review Proof',
       icon: MessageSquare,
       color: '#DBCDF0',
       accent: '#6B4C8B',
       onAction: () => {
-        window.open('https://wa.me/919999999999?text=Hi! I just left a review on your social page. Here is my proof to claim my 5% off code: ', '_blank');
-      },
-    },
-    {
-      title: 'Refer 3 Friends',
-      offer: 'FREE PRODUCT',
-      description: 'Successfully refer 3 friends who make a purchase, and receive a free core product of your choice!',
-      actionLabel: 'Check My Referrals',
-      icon: Gift,
-      color: '#F9F3CC',
-      accent: '#B8860B',
-      onAction: () => {
-        alert("Please contact our customer support via WhatsApp or email to verify your 3 successful referrals and select your free botanical product!");
+        window.open('https://wa.me/916385338676?text=Hi! I just left a review on your social page. Here is my proof to claim my 5% off code: ', '_blank');
       },
     }
   ];
@@ -101,36 +90,72 @@ export default function RewardsPage() {
   return (
     <div className="bg-[#C1CDBF] min-h-screen pt-[76px] overflow-x-hidden text-[#2D2A26]">
       
-      {/* Hero Banner */}
-      <section className="relative py-24 bg-[#052B08] text-white overflow-hidden">
-        {/* Subtle Background Pattern */}
-        <div className="absolute inset-0 opacity-10 pointer-events-none bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-green-300 via-green-900 to-black" />
-        
-        <div className="max-w-5xl mx-auto px-6 text-center relative z-10">
-          <motion.span 
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="text-[10px] sm:text-xs tracking-[0.4em] uppercase font-bold text-[#FF7B89] mb-4 block"
-          >
-            Smitha Purelife Loyalty Program
-          </motion.span>
-          <motion.h1 
-            initial={{ opacity: 0, y: 15 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 }}
-            className="font-serif text-4xl sm:text-5xl md:text-7xl font-bold leading-tight"
-            style={{ fontFamily: "'Playfair Display', serif" }}
-          >
-            Rewards & Experience
-          </motion.h1>
-          <motion.p 
-            initial={{ opacity: 0, y: 15 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
-            className="text-white/70 text-sm sm:text-base max-w-xl mx-auto mt-6 leading-relaxed"
-          >
-            Earn generous discounts, customized gifts, and exclusive botanical rewards by sharing your natural hair journey with our family.
-          </motion.p>
+      {/* Hero Banner (Redesigned) */}
+      <section className="relative pt-12 pb-20 bg-white overflow-hidden">
+        <div className="max-w-6xl mx-auto px-6 lg:px-8">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-12">
+            
+            {/* Left Content */}
+            <div className="flex-1 text-center md:text-left pt-10 md:pt-0">
+              <motion.span 
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="text-[11px] sm:text-xs tracking-[0.2em] font-bold text-[#556B47] uppercase mb-4 block"
+              >
+                Smitha Purelife Loyalty Program
+              </motion.span>
+              <motion.h1 
+                initial={{ opacity: 0, y: 15 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.1 }}
+                className="font-serif text-5xl sm:text-6xl md:text-7xl font-bold leading-[1.1] text-[#2C4A22]"
+                style={{ fontFamily: "'Playfair Display', serif" }}
+              >
+                Rewards &<br/>Experience
+              </motion.h1>
+              
+              {/* Divider */}
+              <motion.div 
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.2 }}
+                className="flex items-center justify-center md:justify-start my-8"
+              >
+                <div className="h-[1px] w-24 bg-[#556B47]/40"></div>
+                <div className="mx-4 text-[#556B47]">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 22C12 22 12 16 12 14M12 14C12 14 8 15 6 12C4 9 6 6 12 6C12 6 14 5 16 7C18 9 17 13 12 14ZM12 14C12 14 16 15 18 12C20 9 18 6 12 6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                </div>
+                <div className="h-[1px] w-24 bg-[#556B47]/40"></div>
+              </motion.div>
+
+              <motion.p 
+                initial={{ opacity: 0, y: 15 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.3 }}
+                className="text-[#4A4A4A] text-base sm:text-lg max-w-lg mx-auto md:mx-0 leading-relaxed font-medium"
+              >
+                Earn generous discounts, customized gifts, and exclusive botanical rewards by sharing your natural hair journey with our family.
+              </motion.p>
+            </div>
+
+            {/* Right Image */}
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.4, duration: 0.6 }}
+              className="flex-1 relative flex justify-center md:justify-end"
+            >
+              <img 
+                src="/rewards_hero_gift.png" 
+                alt="Smitha Purelife Rewards Gift Box" 
+                className="w-full max-w-[450px] h-auto object-contain drop-shadow-sm"
+                style={{ mixBlendMode: 'multiply' }}
+              />
+            </motion.div>
+            
+          </div>
         </div>
       </section>
 
@@ -379,7 +404,7 @@ export default function RewardsPage() {
                   const text = encodeURIComponent(
                     `Hi Smitha Purelife, I'd love to request a birthday gift! My Name: ${birthdayName}, Email: ${birthdayEmail}, Wish: ${birthdayWish}`
                   );
-                  window.open(`https://wa.me/919999999999?text=${text}`, '_blank');
+                  window.open(`https://wa.me/916385338676?text=${text}`, '_blank');
                   setShowBirthdayModal(false);
                 }}
                 className="mt-6 w-full py-4.5 bg-[#FF7B89] hover:bg-[#E05C6B] text-white font-bold text-xs uppercase tracking-widest rounded-full transition-all duration-300 shadow-md cursor-pointer flex items-center justify-center gap-2"
@@ -430,7 +455,7 @@ export default function RewardsPage() {
                   const text = encodeURIComponent(
                     "Hi! I'm a content creator interested in collaborating with Smitha Purelife for testimonial videos and influencer rewards. Here is my profile handle: @____"
                   );
-                  window.open(`https://wa.me/919999999999?text=${text}`, '_blank');
+                  window.open(`https://wa.me/916385338676?text=${text}`, '_blank');
                   setShowInfluencerModal(false);
                 }}
                 className="mt-8 w-full py-4.5 bg-[#052B08] hover:bg-[#FF7B89] text-white font-bold text-xs uppercase tracking-widest rounded-full transition-all duration-300 shadow-md cursor-pointer flex items-center justify-center gap-2"
@@ -441,6 +466,9 @@ export default function RewardsPage() {
           </>
         )}
       </AnimatePresence>
+
+      {/* Newsletter */}
+      <NewsletterVIP />
 
       {/* Footer */}
       <Footer />

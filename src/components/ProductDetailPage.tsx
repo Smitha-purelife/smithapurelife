@@ -810,15 +810,48 @@ export default function ProductDetailPage() {
   if (!product || !selectedSize) return <div className="h-screen flex items-center justify-center font-display text-2xl">Product not found</div>;
 
   // Dynamic list of gallery images for each product page
-  const gallery: { src: string; label: string; isTransparent: boolean }[] = [
-    { src: product.image, label: 'Main View', isTransparent: true },
-  ];
-  if (product.additionalImage) {
-    gallery.push({ src: product.additionalImage, label: 'Benefits Info', isTransparent: false });
-  }
-  if (product.ingredientsImage) {
-    gallery.push({ src: product.ingredientsImage, label: 'Ingredients Info', isTransparent: false });
-  }
+  const getProductGallery = (prod: any) => {
+    const list: { src: string; label: string; isTransparent: boolean }[] = [
+      { src: prod.image, label: 'Main View', isTransparent: true },
+    ];
+
+    if (prod.id === 'avosilk-bloom') {
+      list.push({ src: '/products/avosilk_bloom_new.jpg', label: 'Alternate View', isTransparent: false });
+      list.push({ src: '/products/avosilk_bloom_texture.png', label: 'Texture View', isTransparent: false });
+      list.push({ src: '/products/avosilk_bloom_benefits_carousel.png', label: 'Benefits', isTransparent: false });
+      list.push({ src: '/products/avosilk_bloom_review.jpg', label: 'Customer Results', isTransparent: false });
+    } else if (prod.id === 'radiance-oil') {
+      list.push({ src: '/products/radiance_oil_new.png', label: 'Alternate View', isTransparent: false });
+      list.push({ src: '/products/radiance_oil_texture.png', label: 'Texture View', isTransparent: false });
+      list.push({ src: '/products/radiance_oil_benefits_carousel.png', label: 'Benefits', isTransparent: false });
+      list.push({ src: '/products/radiance_oil_review.jpg', label: 'Customer Results', isTransparent: false });
+    } else if (prod.id === 'herbal-wash') {
+      list.push({ src: '/products/hair_wash_powder_new.jpg', label: 'Alternate View', isTransparent: false });
+      list.push({ src: '/products/herbal_wash_texture_jars.png', label: 'Texture View', isTransparent: false });
+      list.push({ src: '/products/herbal_wash_benefits_carousel.png', label: 'Benefits', isTransparent: false });
+      list.push({ src: '/products/herbal_wash_review.jpg', label: 'Customer Results 1', isTransparent: false });
+      list.push({ src: '/products/herbal_wash_review_2.png', label: 'Customer Results 2', isTransparent: false });
+    } else if (prod.id === 'pro-repair-serum') {
+      list.push({ src: '/products/pro_repair_serum_new.png', label: 'Alternate View', isTransparent: false });
+      list.push({ src: '/products/pro_repair_texture.png', label: 'Texture View', isTransparent: false });
+      list.push({ src: '/products/pro_repair_serum_benefits_carousel.png', label: 'Benefits', isTransparent: false });
+    } else if (prod.id === 'follicra-regrowth') {
+      list.push({ src: '/products/follicra_regrowth_hero_v3.png', label: 'Alternate View', isTransparent: false });
+      list.push({ src: '/products/follicra_regrowth_texture.png', label: 'Texture View', isTransparent: false });
+      list.push({ src: '/products/follicra_benefits_carousel.png', label: 'Benefits', isTransparent: false });
+      list.push({ src: '/products/follicra_review_4.jpg', label: 'Customer Results', isTransparent: false });
+    } else if (prod.id === 'satin-pillowcase') {
+      list.push({ src: '/products/satin_pillowcase_benefits.png', label: 'Benefits', isTransparent: false });
+      list.push({ src: '/products/pillowcase_review.jpg', label: 'Customer Results', isTransparent: false });
+    } else if (prod.id === 'satin-scrunchies') {
+      list.push({ src: '/products/satin_scrunchies_benefits.png', label: 'Benefits', isTransparent: false });
+      list.push({ src: '/products/scrunchies_review.png', label: 'Customer Results', isTransparent: false });
+    }
+
+    return list;
+  };
+
+  const gallery = getProductGallery(product);
 
   // Add to Bag action handler
   const handleAddToBag = () => {
@@ -1175,7 +1208,7 @@ export default function ProductDetailPage() {
             beforeImage={product.beforeImage || "/products/before_hair.png"}
             afterImage={product.afterImage || "/products/after_hair.png"}
           />
-          <TransformationsGallery />
+          <TransformationsGallery productId={product.id} />
         </>
       )}
 

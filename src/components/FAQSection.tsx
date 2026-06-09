@@ -30,7 +30,19 @@ const faqs = [
   },
   {
     q: 'Do you offer bulk or wholesale pricing?',
-    a: 'Yes! We offer special wholesale and bulk pricing for salons, wellness centres, and corporate gifting. Contact us at support@smithapurelife.com or WhatsApp us at +91-9876543210 for a custom quote.',
+    a: 'Yes! We offer special wholesale and bulk pricing for salons, wellness centres, and corporate gifting. Contact us at smithapurelife3@gmail.com or WhatsApp us at +91-9876543210 for a custom quote.',
+  },
+  {
+    q: 'Why did hair fall increase after using your natural products?',
+    a: "Some customers may notice temporary hair shedding in the first few weeks. This can happen when weak, old hairs that were already in the shedding phase fall out, making way for healthier new hair growth. Many people stop using the product at this stage, thinking it's causing hair fall. However, customers who continued using it often experienced reduced hair fall, healthier hair growth, and improved hair thickness over time. Trust the process sometimes old, weak hairs need to shed before stronger, healthier hair can grow. 🌱 Results may vary depending on individual hair and scalp conditions.",
+  },
+  {
+    q: 'How should I use the conditioner?',
+    a: 'After shampooing, gently squeeze out excess water from your hair (must). Apply the conditioner only to the mid-lengths and ends (avoid the scalp). Leave it on for 3–5 minutes, then rinse thoroughly with water.',
+  },
+  {
+    q: 'How long does delivery take?',
+    a: 'Orders are dispatched within 1-2 business days and typically arrive in 3-5 business days across all of India.',
   },
 ];
 

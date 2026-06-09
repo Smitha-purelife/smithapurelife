@@ -63,7 +63,7 @@ const cardConfig: Record<string, {
   },
   'satin-scrunchies': {
     shopImage: '/products/satin_scrunchies_proper.jpg',
-    objectFit: 'cover',
+    objectFit: 'contain',
     bgColor: '#FAF9F5',
     price: '₹299',
     badge: 'Anti-Crease',
@@ -86,26 +86,20 @@ function ComboCard({ combo, index }: { combo: Combo; index: number }) {
       const existing = localStorage.getItem('smitha_purelife_cart');
       let cart = existing ? JSON.parse(existing) : [];
 
-      combo.includedProducts.forEach((prodId, idx) => {
-        const prod = products.find(p => p.id === prodId);
-        if (prod) {
-          const targetSize = selectedVariant.includedSizes[idx];
-          const sizeObj = prod.sizes.find(s => s.size === targetSize) || prod.sizes[0];
-          const cartId = `${prod.id}-${sizeObj.size}`;
-          const existingIndex = cart.findIndex((item: any) => item.cartId === cartId);
-          if (existingIndex > -1) {
-            cart[existingIndex].quantity += 1;
-          } else {
-            cart.push({
-              cartId,
-              productId: prod.id,
-              size: sizeObj.size,
-              price: sizeObj.price,
-              quantity: 1
-            });
-          }
-        }
-      });
+      const cartId = `${combo.id}-${selectedVariant.sizeName}`;
+      const existingIndex = cart.findIndex((item: any) => item.cartId === cartId);
+      if (existingIndex > -1) {
+        cart[existingIndex].quantity += 1;
+      } else {
+        cart.push({
+          cartId,
+          productId: combo.id,
+          size: selectedVariant.sizeName,
+          price: selectedVariant.comboPrice,
+          quantity: 1,
+          isCombo: true
+        });
+      }
 
       localStorage.setItem('smitha_purelife_cart', JSON.stringify(cart));
       localStorage.setItem('smitha_purelife_cart_auto_open', 'true');
@@ -121,152 +115,164 @@ function ComboCard({ combo, index }: { combo: Combo; index: number }) {
       whileInView={{ opacity: 1, y: 0 }}
       transition={{ delay: index * 0.1, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
       viewport={{ once: true }}
-      className="bg-white rounded-[2.5rem] border border-[#2D2A26]/5 shadow-sm hover:shadow-xl transition-all duration-500 flex flex-col md:flex-row overflow-hidden group h-full"
+      className="bg-white rounded-3xl border border-[#2D2A26]/8 shadow-sm hover:shadow-lg transition-all duration-500 flex flex-col sm:flex-row overflow-hidden group"
     >
-      {/* Left Product Photo Column */}
-      <div 
-        className="w-full md:w-[42%] aspect-[4/3] md:aspect-auto min-h-[260px] relative border-b md:border-b-0 md:border-r border-[#2D2A26]/5 overflow-hidden flex-shrink-0 flex items-center justify-center p-4"
+      {/* ── Left: Fixed Image Panel ── */}
+      <Link
+        to={`/combo/${combo.id}`}
+        className="relative w-full sm:w-[45%] flex-shrink-0 flex items-center justify-center p-0 sm:p-6 overflow-hidden cursor-pointer"
         style={{ backgroundColor: combo.bg }}
       >
-        {/* Full combo product photo */}
+        {/* Dynamic Blurred Background (Fills PC gaps seamlessly) */}
+        <div className="absolute inset-0 z-0 hidden sm:block">
+          <img
+            src={combo.image}
+            alt=""
+            className="w-full h-full object-cover opacity-60 blur-2xl scale-125 saturate-150"
+          />
+        </div>
+
+        {/* Foreground Full Image */}
         <img
           src={combo.image}
           alt={combo.title}
-          className="w-full h-full object-contain transition-transform duration-700 group-hover:scale-105"
+          className="relative z-10 w-full h-auto object-contain transition-transform duration-700 group-hover:scale-[1.03] block"
         />
+        {/* Gradient for text legibility */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-black/10 to-transparent pointer-events-none" />
 
-        {/* Subtle dark gradient at bottom for readability */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none" />
+        {/* Badge top-left */}
+        <span className="absolute top-3 left-3 text-[9px] font-bold uppercase tracking-widest px-3 py-1.5 rounded-full bg-white/90 backdrop-blur-sm text-[#2D2A26] shadow-sm">
+          {selectedVariant.badge}
+        </span>
 
-        {/* Top Badges overlay */}
-        <div className="absolute top-4 left-4 right-4 flex justify-between items-center z-10">
-          <span className="text-[9px] font-bold uppercase tracking-widest px-3 py-1.5 rounded-full bg-white/90 backdrop-blur-sm border border-black/5 text-[#2D2A26] shadow-xs">
-            {selectedVariant.badge}
+        {/* Savings badge top-right */}
+        {selectedVariant.savings > 0 && (
+          <span
+            className="absolute top-3 right-3 text-[9px] font-bold uppercase tracking-widest px-3 py-1.5 rounded-full text-white shadow-sm backdrop-blur-sm"
+            style={{ backgroundColor: combo.accent }}
+          >
+            Save ₹{selectedVariant.savings}
           </span>
-          {selectedVariant.savings > 0 && (
-            <span 
-              className="text-[9px] font-bold uppercase tracking-widest px-3 py-1.5 rounded-full text-white shadow-xs backdrop-blur-sm"
-              style={{ backgroundColor: combo.accent }}
-            >
-              Save ₹{selectedVariant.savings}
-            </span>
-          )}
-        </div>
+        )}
 
-        {/* Bottom label overlay */}
-        <div className="absolute bottom-4 left-4 z-10">
-          <span className="text-[8px] font-bold tracking-[0.2em] text-white/80 uppercase block drop-shadow">Includes {combo.includedProducts.length} Clean Formulas</span>
-        </div>
-      </div>
+        {/* Bottom label */}
+        <span className="absolute bottom-3 left-3 text-[9px] font-bold tracking-[0.18em] text-white/80 uppercase drop-shadow">
+          {combo.includedProducts.length} clean formulas
+        </span>
+      </Link>
 
-      {/* Right Content Column */}
-      <div className="p-6 md:p-8 flex-1 flex flex-col justify-between text-left">
-        <div>
+      {/* ── Right: Content Panel ── */}
+      <div className="flex-1 flex flex-col p-5 sm:p-6">
+
+        {/* Header */}
+        <div className="mb-3">
           <span className="text-[9px] tracking-[0.2em] uppercase font-bold text-[#1A4B21] block mb-1">
             {selectedVariant.subtitle}
           </span>
-          <h3 className="font-serif text-2xl text-[#2D2A26] font-bold leading-tight group-hover:text-[#1A4B21] transition-colors mb-3">
-            {combo.title}
+          <h3 className="font-serif text-lg sm:text-xl text-[#2D2A26] font-bold leading-snug mb-1.5 hover:text-[#1A4B21] transition-colors">
+            <Link to={`/combo/${combo.id}`}>
+              {combo.title}
+            </Link>
           </h3>
-          <p className="text-xs text-[#2D2A26]/70 leading-relaxed mb-6">
+          <p className="text-[11px] text-[#2D2A26]/60 leading-relaxed line-clamp-2">
             {combo.description}
           </p>
+        </div>
 
-          {/* Combo Variant Selector */}
-          <div className="mb-6 text-left">
-            <span className="text-[9px] uppercase tracking-wider font-bold text-[#2D2A26]/40 block mb-2">Select Combo Variant</span>
-            <div className="flex gap-2.5">
-              {combo.variants.map((v) => (
-                <button
-                  key={v.sizeName}
-                  onClick={() => setSelectedVariant(v)}
-                  className={`flex-1 py-2.5 px-3 rounded-2xl border text-center text-[10px] font-bold uppercase tracking-wider transition-all duration-300 cursor-pointer ${
-                    selectedVariant.sizeName === v.sizeName
-                      ? 'border-[#1A4B21] bg-[#1A4B21] text-white shadow-xs'
-                      : 'border-black/10 bg-[#FAF9F5]/40 hover:bg-[#FAF9F5] text-[#2D2A26]'
-                  }`}
-                >
-                  {v.sizeName}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          {/* Sliding tab switcher */}
-          <div className="flex border-b border-[#2D2A26]/5 mb-4 relative">
-            <button
-              onClick={() => setActiveTab('included')}
-              className={`flex-1 pb-2 text-[10px] font-bold uppercase tracking-wider transition-colors duration-300 relative ${
-                activeTab === 'included' ? 'text-[#1A4B21]' : 'text-gray-400 hover:text-[#2D2A26]'
-              }`}
-            >
-              Included Items
-              {activeTab === 'included' && (
-                <motion.div layoutId={`${combo.id}-tab`} className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#1A4B21]" />
-              )}
-            </button>
-            <button
-              onClick={() => setActiveTab('ritual')}
-              className={`flex-1 pb-2 text-[10px] font-bold uppercase tracking-wider transition-colors duration-300 relative ${
-                activeTab === 'ritual' ? 'text-[#1A4B21]' : 'text-gray-400 hover:text-[#2D2A26]'
-              }`}
-            >
-              Ritual Routine
-              {activeTab === 'ritual' && (
-                <motion.div layoutId={`${combo.id}-tab`} className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#1A4B21]" />
-              )}
-            </button>
-          </div>
-
-          {/* Tabs panel content */}
-          <div className="min-h-[120px] mb-5">
-            {activeTab === 'included' ? (
-              <div className="grid grid-cols-1 gap-2">
-                {combo.includedProducts.map((prodId, idx) => {
-                  const prod = products.find(p => p.id === prodId);
-                  if (!prod) return null;
-                  const displaySize = selectedVariant.includedSizes[idx];
-
-                  return (
-                    <div key={prodId} className="flex items-center gap-2.5 bg-[#FAF9F5] rounded-xl p-2.5 border border-[#2D2A26]/5 transition-colors hover:bg-neutral-50">
-                      <div className="w-8 h-8 rounded-lg bg-white overflow-hidden flex items-center justify-center p-1 border border-[#2D2A26]/5 flex-shrink-0">
-                        <img src={prod.image} alt={prod.title} className="w-full h-full object-contain mix-blend-multiply" />
-                      </div>
-                      <div className="text-left flex-1 min-w-0">
-                        <h4 className="font-bold text-[11px] sm:text-xs text-[#2D2A26] truncate">{prod.title}</h4>
-                        <p className="text-[9px] text-gray-400 uppercase tracking-widest">{displaySize} • {prod.benefits[0]}</p>
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-            ) : (
-              <div className="space-y-2.5 text-left text-[11px] sm:text-xs text-[#2D2A26]/80 p-1">
-                {combo.includedProducts.map((prodId, sIdx) => {
-                  const prod = products.find(p => p.id === prodId);
-                  if (!prod) return null;
-                  return (
-                    <div key={prodId} className="flex gap-2.5 items-start">
-                      <span className="w-4 h-4 rounded-full bg-[#1A4B21]/10 text-[#1A4B21] font-bold text-[9px] flex items-center justify-center mt-0.5 shrink-0">
-                        {sIdx + 1}
-                      </span>
-                      <p className="leading-normal">
-                        <span className="font-bold text-[#2D2A26]">{prod.title}</span>: {prod.description.split('.')[0]}.
-                      </p>
-                    </div>
-                  );
-                })}
-              </div>
-            )}
+        {/* Variant Picker */}
+        <div className="mb-3">
+          <span className="text-[9px] uppercase tracking-wider font-bold text-[#2D2A26]/40 block mb-1.5">Select Variant</span>
+          <div className="flex gap-2">
+            {combo.variants.map((v) => (
+              <button
+                key={v.sizeName}
+                onClick={() => setSelectedVariant(v)}
+                className={`flex-1 py-2 px-3 rounded-xl border text-center text-[10px] font-bold uppercase tracking-wider transition-all duration-300 cursor-pointer ${
+                  selectedVariant.sizeName === v.sizeName
+                    ? 'border-[#1A4B21] bg-[#1A4B21] text-white shadow-sm'
+                    : 'border-black/10 bg-[#FAF9F5] hover:bg-[#F0EDE8] text-[#2D2A26]'
+                }`}
+              >
+                {v.sizeName}
+              </button>
+            ))}
           </div>
         </div>
 
-        {/* Pricing tag & CTA Checkout */}
-        <div className="flex items-center justify-between border-t border-[#2D2A26]/5 pt-4 mt-auto">
-          <div className="text-left">
-            <span className="text-[8px] font-bold text-gray-400 uppercase tracking-widest block">Special Bundle Price</span>
+        {/* Tabs */}
+        <div className="flex border-b border-[#2D2A26]/8 mb-3">
+          <button
+            onClick={() => setActiveTab('included')}
+            className={`flex-1 pb-2 text-[10px] font-bold uppercase tracking-wider transition-colors duration-300 relative ${
+              activeTab === 'included' ? 'text-[#1A4B21]' : 'text-gray-400 hover:text-[#2D2A26]'
+            }`}
+          >
+            Included Items
+            {activeTab === 'included' && (
+              <motion.div layoutId={`${combo.id}-tab`} className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#1A4B21]" />
+            )}
+          </button>
+          <button
+            onClick={() => setActiveTab('ritual')}
+            className={`flex-1 pb-2 text-[10px] font-bold uppercase tracking-wider transition-colors duration-300 relative ${
+              activeTab === 'ritual' ? 'text-[#1A4B21]' : 'text-gray-400 hover:text-[#2D2A26]'
+            }`}
+          >
+            Ritual Routine
+            {activeTab === 'ritual' && (
+              <motion.div layoutId={`${combo.id}-tab`} className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#1A4B21]" />
+            )}
+          </button>
+        </div>
+
+        {/* Tab Content */}
+        <div className="overflow-y-auto mb-4" style={{ maxHeight: '180px' }}>
+          {activeTab === 'included' ? (
+            <div className="grid grid-cols-1 gap-1.5">
+              {combo.includedProducts.map((prodId, idx) => {
+                const prod = products.find(p => p.id === prodId);
+                if (!prod) return null;
+                const displaySize = selectedVariant.includedSizes[idx];
+                return (
+                  <div key={prodId} className="flex items-center gap-2 bg-[#FAF9F5] rounded-xl p-2 border border-[#2D2A26]/5">
+                    <div className="w-7 h-7 rounded-lg bg-white overflow-hidden flex items-center justify-center p-0.5 border border-[#2D2A26]/5 flex-shrink-0">
+                      <img src={prod.image} alt={prod.title} className="w-full h-full object-contain mix-blend-multiply" />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <p className="font-bold text-[10px] text-[#2D2A26] truncate">{prod.title}</p>
+                      <p className="text-[9px] text-gray-400 uppercase tracking-widest">{displaySize}</p>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          ) : (
+            <div className="space-y-2 text-[11px] text-[#2D2A26]/80">
+              {combo.includedProducts.map((prodId, sIdx) => {
+                const prod = products.find(p => p.id === prodId);
+                if (!prod) return null;
+                return (
+                  <div key={prodId} className="flex gap-2 items-start">
+                    <span className="w-4 h-4 rounded-full bg-[#1A4B21]/10 text-[#1A4B21] font-bold text-[9px] flex items-center justify-center mt-0.5 shrink-0">
+                      {sIdx + 1}
+                    </span>
+                    <p className="leading-normal">
+                      <span className="font-bold text-[#2D2A26]">{prod.title}</span>: {prod.description.split('.')[0]}.
+                    </p>
+                  </div>
+                );
+              })}
+            </div>
+          )}
+        </div>
+
+        {/* Footer: Price + CTA */}
+        <div className="flex items-center justify-between border-t border-[#2D2A26]/8 pt-3 mt-4 gap-3">
+          <div>
+            <span className="text-[8px] font-bold text-gray-400 uppercase tracking-widest block">Bundle Price</span>
             <div className="flex items-baseline gap-1.5">
-              <span className="font-bold text-xl text-[#2D2A26]" style={{ fontFamily: "'Inter', sans-serif" }}>
+              <span className="font-bold text-lg text-[#2D2A26]" style={{ fontFamily: "'Inter', sans-serif" }}>
                 ₹{selectedVariant.comboPrice.toLocaleString()}
               </span>
               {selectedVariant.originalTotal > selectedVariant.comboPrice && (
@@ -276,18 +282,19 @@ function ComboCard({ combo, index }: { combo: Combo; index: number }) {
               )}
             </div>
           </div>
-
-          <button 
+          <button
             onClick={handleAddComboToBag}
-            className="flex items-center gap-1.5 bg-[#1A4B21] text-white px-5 py-2.5 rounded-full text-[9px] font-bold uppercase tracking-widest hover:bg-[#0f2e14] transition-all shadow-xs active:scale-95 shrink-0"
+            className="flex items-center gap-1.5 bg-[#1A4B21] text-white px-5 py-2.5 rounded-full text-[9px] font-bold uppercase tracking-widest hover:bg-[#0f2e14] transition-all shadow-sm active:scale-95 shrink-0"
           >
             Add Bundle <ShoppingBag size={11} />
           </button>
         </div>
+
       </div>
     </motion.div>
   );
 }
+
 
 export default function KBeautyBestsellers() {
   const [searchQuery, setSearchQuery] = useState('');
@@ -526,7 +533,7 @@ export default function KBeautyBestsellers() {
                 const cfg = isCombo
                   ? {
                       shopImage: (product as any).image,
-                      objectFit: 'contain' as const,
+                      objectFit: 'cover' as const,
                       bgColor: (product as any).bg,
                       price: `₹${(product as any).variants[0].comboPrice}`,
                       badge: (product as any).variants[0].badge || 'Bundle',
@@ -554,26 +561,22 @@ export default function KBeautyBestsellers() {
                     try {
                       const existing = localStorage.getItem('smitha_purelife_cart');
                       let cart = existing ? JSON.parse(existing) : [];
-                      (product as any).includedProducts.forEach((prodId: string, idx: number) => {
-                        const prod = products.find(p => p.id === prodId);
-                        if (prod) {
-                          const targetSize = (product as any).variants[0].includedSizes[idx];
-                          const sizeObj = prod.sizes.find(s => s.size === targetSize) || prod.sizes[0];
-                          const cartId = `${prod.id}-${sizeObj.size}`;
-                          const existingIndex = cart.findIndex((item: any) => item.cartId === cartId);
-                          if (existingIndex > -1) {
-                            cart[existingIndex].quantity += 1;
-                          } else {
-                            cart.push({
-                              cartId,
-                              productId: prod.id,
-                              size: sizeObj.size,
-                              price: sizeObj.price,
-                              quantity: 1
-                            });
-                          }
-                        }
-                      });
+                      const combo = product as any;
+                      const variant = combo.variants[0];
+                      const cartId = `${combo.id}-${variant.sizeName}`;
+                      const existingIndex = cart.findIndex((item: any) => item.cartId === cartId);
+                      if (existingIndex > -1) {
+                        cart[existingIndex].quantity += 1;
+                      } else {
+                        cart.push({
+                          cartId,
+                          productId: combo.id,
+                          size: variant.sizeName,
+                          price: variant.comboPrice,
+                          quantity: 1,
+                          isCombo: true
+                        });
+                      }
                       localStorage.setItem('smitha_purelife_cart', JSON.stringify(cart));
                       localStorage.setItem('smitha_purelife_cart_auto_open', 'true');
                       window.dispatchEvent(new Event('cart-updated'));
@@ -595,7 +598,7 @@ export default function KBeautyBestsellers() {
                   >
                     {/* Top Image Box (Fully visible and un-obscured) */}
                     <div 
-                      className="relative w-full aspect-square overflow-hidden flex items-center justify-center p-0 border-b border-[#2D2A26]/5 flex-shrink-0"
+                      className="relative w-full overflow-hidden flex flex-col items-center justify-center p-0 border-b border-[#2D2A26]/5 flex-shrink-0"
                       style={{ backgroundColor: cfg.bgColor || product.bg }}
                     >
                       {/* Badge overlay top left */}
@@ -609,24 +612,24 @@ export default function KBeautyBestsellers() {
                       )}
 
                       {isCombo ? (
-                        <a href="#combos" className="block w-full h-full">
+                        <a href="#combos" className="block w-full">
                           <img
                             src={cfg.shopImage}
                             alt={product.title}
-                            className={`w-full h-full transition-transform duration-700 group-hover:scale-105 ${cfg.objectFit === 'cover' ? 'object-cover p-0' : 'object-contain p-6'}`}
+                            className={`w-full h-auto block transition-transform duration-700 group-hover:scale-105 ${cfg.objectFit === 'cover' ? 'object-cover p-0' : 'object-contain p-0'}`}
                           />
                         </a>
                       ) : (
-                        <Link to={`/product/${product.id}`} className="block w-full h-full">
+                        <Link to={`/product/${product.id}`} className="block w-full">
                           <img
                             src={cfg.shopImage}
                             alt={product.title}
                             onError={(e) => {
                               (e.currentTarget as HTMLImageElement).src = product.image;
                               (e.currentTarget as HTMLImageElement).style.objectFit = 'contain';
-                              (e.currentTarget as HTMLImageElement).style.padding = '24px';
+                              (e.currentTarget as HTMLImageElement).style.padding = '0px';
                             }}
-                            className={`w-full h-full transition-transform duration-700 group-hover:scale-105 ${cfg.objectFit === 'cover' ? 'object-cover p-0' : 'object-contain p-6'}`}
+                            className={`w-full h-auto block transition-transform duration-700 group-hover:scale-105 ${cfg.objectFit === 'cover' ? 'object-cover p-0' : 'object-contain p-0'}`}
                           />
                         </Link>
                       )}

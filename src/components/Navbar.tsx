@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X, ShoppingBag, Plus, Minus, Trash2 } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { products } from '../data/products';
+import { products, comboProducts } from '../data/products';
 
 const navLinks = [
   { name: 'Shop All', href: '/' },
@@ -16,6 +16,7 @@ export interface CartItem {
   size: string;
   price: number;
   quantity: number;
+  isCombo?: boolean;
 }
 
 export default function Navbar() {
@@ -80,10 +81,18 @@ export default function Navbar() {
   const updateSize = (cartId: string, newSize: string) => {
     const updated = cartItems.map(item => {
       if (item.cartId === cartId) {
-        const productDetails = products.find(p => p.id === item.productId);
-        const newSizeObj = productDetails?.sizes?.find(s => s.size === newSize);
-        if (newSizeObj) {
-          return { ...item, size: newSizeObj.size, price: newSizeObj.price };
+        if (item.isCombo) {
+          const combo = comboProducts.find(c => c.id === item.productId);
+          const newVariant = combo?.variants?.find(v => v.sizeName === newSize);
+          if (newVariant) {
+            return { ...item, size: newVariant.sizeName, price: newVariant.comboPrice };
+          }
+        } else {
+          const productDetails = products.find(p => p.id === item.productId);
+          const newSizeObj = productDetails?.sizes?.find(s => s.size === newSize);
+          if (newSizeObj) {
+            return { ...item, size: newSizeObj.size, price: newSizeObj.price };
+          }
         }
       }
       return item;
@@ -132,26 +141,23 @@ export default function Navbar() {
             {/* Logo */}
             <Link
               to="/"
-              className="flex-1 flex items-center justify-start md:justify-center gap-3 transition-all hover:opacity-90 duration-300 py-2"
+              className="flex-1 flex items-center justify-start md:justify-center gap-2.5 transition-all hover:opacity-90 duration-300 py-2"
             >
               {/* S Icon Box */}
-              <div className="w-10 h-10 sm:w-12 sm:h-12 bg-white rounded-xl shadow-sm flex items-center justify-center border border-black/5 flex-shrink-0 overflow-hidden">
+              <div className="w-10 h-10 sm:w-12 sm:h-12 bg-white rounded-xl shadow-sm flex items-center justify-center border border-black/5 flex-shrink-0 p-1">
                 <img 
-                  src="/logo_icon_transparent.png" 
+                  src="/logo_icon_new.png" 
                   alt="S Icon" 
-                  className="w-[85%] h-[85%] object-contain"
+                  className="w-full h-full object-contain"
                 />
               </div>
               
-              {/* Text Layout */}
-              <div className="flex flex-col justify-center">
-                <span className="font-serif font-bold text-xl sm:text-2xl tracking-[0.1em] text-[#052B08] uppercase leading-none mb-1">
-                  SMITHA
-                </span>
-                <span className="font-body font-bold text-[10px] sm:text-[11px] text-[#052B08]/80 whitespace-nowrap leading-none tracking-wide">
-                  Purelife - natural care
-                </span>
-              </div>
+              {/* Clean Text Logo */}
+              <img 
+                src="/logo_text_new.png" 
+                alt="Smitha Purelife - Natural Care" 
+                className="h-10 sm:h-12 w-auto object-contain mix-blend-multiply"
+              />
             </Link>
 
             {/* Right Nav Links & Cart Icon */}
@@ -378,7 +384,7 @@ export default function Navbar() {
               {/* Bottom WhatsApp support strip */}
               <div className="p-5 border-t border-[#2D2A26]/5 bg-[#F5F2EE]/50 text-left">
                 <a 
-                  href="https://wa.me/919999999999" 
+                  href="https://wa.me/916385338676" 
                   target="_blank" 
                   rel="noreferrer"
                   className="w-full flex items-center justify-center gap-2 bg-[#2D7A3A] text-white py-3 rounded-full text-[10px] font-bold uppercase tracking-widest hover:bg-[#1E5C28] transition-colors shadow-xs"
@@ -451,7 +457,8 @@ export default function Navbar() {
                   </div>
                 ) : (
                   cartItems.map((item) => {
-                    const productDetails = products.find(p => p.id === item.productId);
+                    const isCombo = item.isCombo;
+                    const productDetails = isCombo ? comboProducts.find(c => c.id === item.productId) : products.find(p => p.id === item.productId);
                     if (!productDetails) return null;
 
                     return (
@@ -475,16 +482,37 @@ export default function Navbar() {
                         {/* Product Text Details */}
                         <div className="flex-1 flex flex-col justify-between py-0.5">
                           <div>
-                            <span className="text-[9px] font-bold text-gray-400 uppercase tracking-widest block mb-0.5">{productDetails.subtitle}</span>
+                            <span className="text-[9px] font-bold text-gray-400 uppercase tracking-widest block mb-0.5">
+                              {isCombo ? 'Special Bundle' : (productDetails as any).subtitle}
+                            </span>
                             <span className="font-serif text-base text-[#2D2A26] font-bold block leading-tight">{productDetails.title}</span>
-                            {productDetails.sizes && productDetails.sizes.length > 1 ? (
+                            
+                            {isCombo && (
+                              <div className="text-[9px] text-[#2D2A26]/60 mt-1 leading-snug">
+                                {((productDetails as any).variants?.find((v:any) => v.sizeName === item.size)?.subtitle || "Multiple items")}
+                              </div>
+                            )}
+
+                            {isCombo ? (
+                              <div className="mt-2">
+                                <select
+                                  value={item.size}
+                                  onChange={(e) => updateSize(item.cartId, e.target.value)}
+                                  className="bg-[#F5F2EE] text-[#2D2A26] text-[10px] font-semibold px-2 py-0.5 rounded-md border-0 focus:ring-0 cursor-pointer outline-none"
+                                >
+                                  {(productDetails as any).variants?.map((v:any) => (
+                                    <option key={v.sizeName} value={v.sizeName}>{v.sizeName}</option>
+                                  ))}
+                                </select>
+                              </div>
+                            ) : (productDetails as any).sizes && (productDetails as any).sizes.length > 1 ? (
                               <div className="mt-1">
                                 <select
                                   value={item.size}
                                   onChange={(e) => updateSize(item.cartId, e.target.value)}
                                   className="bg-[#F5F2EE] text-[#2D2A26] text-[10px] font-semibold px-2 py-0.5 rounded-md border-0 focus:ring-0 cursor-pointer outline-none"
                                 >
-                                  {productDetails.sizes.map(s => (
+                                  {(productDetails as any).sizes.map((s:any) => (
                                     <option key={s.size} value={s.size}>{s.size}</option>
                                   ))}
                                 </select>
@@ -537,7 +565,23 @@ export default function Navbar() {
               {/* Drawer Footer / Checkout Summary */}
               {cartItems.length > 0 && (
                 <div className="p-6 bg-white border-t border-[#2D2A26]/5 space-y-4 shadow-[0_-8px_30px_rgba(0,0,0,0.02)]">
-                  <div className="flex justify-between items-center text-sm">
+                  
+                  {/* Promo Code Input */}
+                  <div className="flex gap-2">
+                    <input 
+                      type="text" 
+                      placeholder="Enter promo or reward code" 
+                      className="flex-1 bg-[#F5F2EE] border border-transparent focus:border-[#1A4B21]/20 rounded-xl px-4 py-3 text-xs text-[#2D2A26] placeholder-gray-400 focus:outline-none transition-colors font-medium"
+                    />
+                    <button 
+                      onClick={() => alert('Promo code applied successfully!')}
+                      className="bg-[#2D2A26] hover:bg-[#1A4B21] text-white px-5 py-3 rounded-xl text-[10px] font-bold uppercase tracking-widest transition-all active:scale-95 whitespace-nowrap"
+                    >
+                      Apply
+                    </button>
+                  </div>
+
+                  <div className="flex justify-between items-center text-sm pt-2 border-t border-black/5">
                     <span className="text-gray-400 font-medium uppercase tracking-wider">Subtotal</span>
                     <span className="font-bold text-xl text-[#2D2A26]" style={{ fontFamily: "'Inter', sans-serif" }}>
                       ₹{cartSubtotal.toLocaleString()}

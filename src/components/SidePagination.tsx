@@ -85,8 +85,8 @@ export default function SidePagination() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  // Hide SidePagination completely on product pages to avoid overlap with Next/Prev product arrows
-  if (isProductPage) return null;
+  // Hide SidePagination completely on all pages except the homepage to avoid overlap and blocking clicks
+  if (location.pathname !== '/') return null;
 
   const items = sections;
 
