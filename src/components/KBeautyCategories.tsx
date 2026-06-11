@@ -30,9 +30,9 @@ const categories = [
 
 export default function KBeautyCategories() {
   return (
-    <section className="py-8 md:py-10 bg-[#FDF9F6] border-b border-[#2D2A26]/5">
-      <div className="max-w-7xl mx-auto px-4 md:px-6">
-        <div className="flex justify-center items-center gap-4 md:gap-8">
+    <section className="py-6 md:py-10 bg-[#FDF9F6] border-b border-[#2D2A26]/5">
+      <div className="max-w-7xl mx-auto px-3 md:px-6">
+        <div className="flex justify-center items-center gap-2 sm:gap-6 md:gap-8">
           {categories.map((cat, i) => (
             <Link 
               to={cat.href} 
@@ -62,11 +62,11 @@ export default function KBeautyCategories() {
                 initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.1, duration: 0.5 }}
-                className="flex flex-col items-center gap-3 cursor-pointer group"
+                className="flex flex-col items-center gap-2 sm:gap-3 cursor-pointer group"
               >
                 {/* Premium Round Container */}
                 <div 
-                  className="w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 rounded-full flex items-center justify-center overflow-hidden transition-all duration-500 group-hover:scale-105 border border-[#2D2A26]/5 shadow-sm group-hover:shadow-md relative bg-white"
+                  className="w-16 h-16 sm:w-24 sm:h-24 md:w-28 md:h-28 rounded-full flex items-center justify-center overflow-hidden transition-all duration-500 group-hover:scale-105 border border-[#2D2A26]/5 shadow-sm group-hover:shadow-md relative bg-white"
                 >
                   <img 
                     src={cat.image} 
@@ -78,11 +78,11 @@ export default function KBeautyCategories() {
 
                 {/* Styled Badge */}
                 <div className="flex flex-col items-center text-center">
-                  <div className="flex items-center gap-1.5 px-4 py-1.5 bg-white border border-[#2D2A26]/10 rounded-full shadow-xs group-hover:border-[#1A4B21]/45 group-hover:bg-[#EEF7EE]/10 transition-all duration-300">
-                    <span className="text-[12px] md:text-[13px] font-bold tracking-wider text-[#2D2A26] uppercase group-hover:text-[#1A4B21] transition-colors">{cat.name}</span>
-                    <span className="text-[#2D2A26]/40 text-xs group-hover:text-[#1A4B21]/60 transition-colors">›</span>
+                  <div className="flex items-center gap-1 px-2.5 py-1 sm:px-4 sm:py-1.5 sm:gap-1.5 bg-white border border-[#2D2A26]/10 rounded-full shadow-xs group-hover:border-[#1A4B21]/45 group-hover:bg-[#EEF7EE]/10 transition-all duration-300">
+                    <span className="text-[10px] sm:text-[12px] md:text-[13px] font-bold tracking-wider text-[#2D2A26] uppercase group-hover:text-[#1A4B21] transition-colors">{cat.name}</span>
+                    <span className="text-[#2D2A26]/40 text-[10px] sm:text-xs group-hover:text-[#1A4B21]/60 transition-colors">›</span>
                   </div>
-                  <span className="text-[9px] md:text-[10px] text-gray-400 mt-1 font-semibold uppercase tracking-widest">{cat.count}</span>
+                  <span className="text-[8px] sm:text-[9px] md:text-[10px] text-gray-400 mt-0.5 sm:mt-1 font-semibold uppercase tracking-widest">{cat.count}</span>
                 </div>
               </motion.div>
             </Link>
