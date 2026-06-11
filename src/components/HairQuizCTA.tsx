@@ -47,6 +47,10 @@ const quizQuestions: QuizQuestion[] = [
     color: '#DBCDF0',
     options: [
       { value: 'Hair Fall', label: 'Excessive Hair Fall', emoji: '📉' },
+      { value: 'Bald Spot', label: 'Bald Spot / Receding', emoji: '🦲' },
+      { value: 'Thinning Areas', label: 'Thinning Areas', emoji: '🌾' },
+      { value: 'Open Scalp', label: 'Open Scalp', emoji: '🔍' },
+      { value: 'Visible Scalp', label: 'Visible Scalp Areas', emoji: '🔎' },
       { value: 'Frizz', label: 'Dry & Frizzy Hair', emoji: '💨' },
       { value: 'Growth', label: 'Growth & Thickness', emoji: '🚀' },
       { value: 'Dandruff', label: 'Dandruff & Scalp Care', emoji: '❄️' }
@@ -107,10 +111,10 @@ export default function HairQuizCTA() {
         products: ['avosilk-bloom', 'pro-repair-serum', 'satin-scrunchies']
       };
     }
-    if (concern === 'Hair Fall') {
+    if (concern === 'Hair Fall' || concern === 'Bald Spot' || concern === 'Thinning Areas' || concern === 'Open Scalp' || concern === 'Visible Scalp') {
       return {
-        title: 'Hair Fall Rescue Ritual',
-        description: 'An intensive root strengthening routine that prevents breakage, stimulates dormant hair follicles, and balances your scalp environment.',
+        title: 'Hair Fall & Regrowth Rescue Ritual',
+        description: 'An intensive root strengthening and follicle activation routine that prevents breakage, stimulates dormant areas, and balances your scalp environment.',
         products: ['radiance-oil', 'herbal-wash', 'follicra-regrowth']
       };
     }
@@ -286,7 +290,7 @@ export default function HairQuizCTA() {
               {[
                 { label: 'Hair Texture', options: ['Fine', 'Medium', 'Thick', 'Coarse'], color: '#DDF1E9' },
                 { label: 'Scalp Type', options: ['Oily', 'Dry', 'Normal', 'Sensitive'], color: '#F9F3CC' },
-                { label: 'Main Concern', options: ['Hair Fall', 'Frizz', 'Growth', 'Dullness'], color: '#DBCDF0' },
+                { label: 'Main Concern', options: ['Hair Fall', 'Bald Spot', 'Thinning Areas', 'Open Scalp', 'Visible Scalp', 'Frizz', 'Growth', 'Dandruff'], color: '#DBCDF0' },
                 { label: 'Your Goal', options: ['Repair', 'Hydrate', 'Strengthen', 'Shine'], color: '#E9D5CA' },
               ].map((card, i) => (
                 <div key={i} className="rounded-2xl p-4 transition-all duration-300 hover:shadow-md" style={{ backgroundColor: card.color }}>
