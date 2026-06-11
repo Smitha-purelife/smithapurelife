@@ -2,7 +2,7 @@ import { useParams, Link } from 'react-router-dom';
 import { motion, useTransform, useMotionValue, useSpring, AnimatePresence } from 'framer-motion';
 import { useRef, useState, useEffect, memo, useCallback } from 'react';
 import { products } from '../data/products';
-import { ArrowLeft, ArrowRight, Sparkles, Camera, X, Star, Check, ChevronDown, ChevronUp } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Sparkles, Camera, X, Star, Check, ChevronDown, ChevronUp, Maximize2 } from 'lucide-react';
 import ComparisonSection from './ComparisonSection';
 import TransformationsGallery from './TransformationsGallery';
 
@@ -778,6 +778,8 @@ export default function ProductDetailPage() {
   const [selectedSize, setSelectedSize] = useState(product ? product.sizes[0] : null);
   // State for active image index in the product gallery
   const [activeImageIndex, setActiveImageIndex] = useState(0);
+  // State for zoom lightbox view of the product gallery
+  const [galleryLightbox, setGalleryLightbox] = useState<string | null>(null);
 
   // Update selected size when product changes
   useEffect(() => {
@@ -810,42 +812,58 @@ export default function ProductDetailPage() {
   if (!product || !selectedSize) return <div className="h-screen flex items-center justify-center font-display text-2xl">Product not found</div>;
 
   // Dynamic list of gallery images for each product page
-  const getProductGallery = (prod: any) => {
-    const list: { src: string; label: string; isTransparent: boolean }[] = [
-      { src: prod.image, label: 'Main View', isTransparent: true },
+  const getProductGallery = (prod: any): { src: string; label: string; isTransparent: boolean; fitMode?: 'cover' | 'contain' }[] => {
+    if (prod.id === 'avosilk-bloom') {
+      return [
+        { src: '/products/avosilk_bloom_lifestyle.jpg', label: 'Main View', isTransparent: false, fitMode: 'cover' },
+        { src: '/products/avosilk_bloom_ingredients_explosion.png', label: 'Ingredients', isTransparent: false, fitMode: 'contain' },
+        { src: '/products/avosilk_bloom_benefits_swirl.png', label: 'Benefits', isTransparent: false, fitMode: 'contain' },
+        { src: '/products/avosilk_bloom_review.jpg', label: 'Customer Results', isTransparent: false, fitMode: 'contain' },
+      ];
+    }
+
+    if (prod.id === 'radiance-oil') {
+      return [
+        { src: '/products/radiance_oil_new.png', label: 'Main View', isTransparent: true, fitMode: 'contain' },
+        { src: '/products/radiance_oil_ingredients_explosion.png', label: 'Ingredients', isTransparent: false, fitMode: 'contain' },
+        { src: '/products/radiance_oil_benefits_carousel.png', label: 'Benefits', isTransparent: false, fitMode: 'contain' },
+        { src: '/products/radiance_oil_review.jpg', label: 'Customer Results', isTransparent: false, fitMode: 'contain' },
+      ];
+    }
+
+    if (prod.id === 'herbal-wash') {
+      return [
+        { src: '/products/hair_wash_powder_new.jpg', label: 'Main View', isTransparent: false, fitMode: 'contain' },
+        { src: '/products/herbal_wash_benefits_carousel.jpg', label: 'Benefits', isTransparent: false, fitMode: 'contain' },
+        { src: '/products/herbal_wash_benefits_swirl.png', label: 'Detailed Benefits', isTransparent: false, fitMode: 'contain' },
+        { src: '/products/herbal_wash_review.jpg', label: 'Customer Results 1', isTransparent: false, fitMode: 'contain' },
+        { src: '/products/herbal_wash_review_2.png', label: 'Customer Results 2', isTransparent: false, fitMode: 'contain' },
+      ];
+    }
+
+    if (prod.id === 'pro-repair-serum') {
+      return [
+        { src: '/products/pro_repair_serum_new.png', label: 'Main View', isTransparent: true, fitMode: 'contain' },
+        { src: '/products/pro_repair_serum_ingredients_explosion.png', label: 'Ingredients', isTransparent: false, fitMode: 'contain' },
+        { src: '/products/pro_repair_serum_benefits_carousel.png', label: 'Benefits', isTransparent: false, fitMode: 'contain' },
+        { src: '/products/pro_repair_serum_review.jpg', label: 'Customer Results', isTransparent: false, fitMode: 'contain' },
+      ];
+    }
+
+    const list: { src: string; label: string; isTransparent: boolean; fitMode?: 'cover' | 'contain' }[] = [
+      { src: prod.image, label: 'Main View', isTransparent: true, fitMode: 'contain' },
     ];
 
-    if (prod.id === 'avosilk-bloom') {
-      list.push({ src: '/products/avosilk_bloom_new.jpg', label: 'Alternate View', isTransparent: false });
-      list.push({ src: '/products/avosilk_bloom_texture.png', label: 'Texture View', isTransparent: false });
-      list.push({ src: '/products/avosilk_bloom_benefits_carousel.png', label: 'Benefits', isTransparent: false });
-      list.push({ src: '/products/avosilk_bloom_review.jpg', label: 'Customer Results', isTransparent: false });
-    } else if (prod.id === 'radiance-oil') {
-      list.push({ src: '/products/radiance_oil_new.png', label: 'Alternate View', isTransparent: false });
-      list.push({ src: '/products/radiance_oil_texture.png', label: 'Texture View', isTransparent: false });
-      list.push({ src: '/products/radiance_oil_benefits_carousel.png', label: 'Benefits', isTransparent: false });
-      list.push({ src: '/products/radiance_oil_review.jpg', label: 'Customer Results', isTransparent: false });
-    } else if (prod.id === 'herbal-wash') {
-      list.push({ src: '/products/hair_wash_powder_new.jpg', label: 'Alternate View', isTransparent: false });
-      list.push({ src: '/products/herbal_wash_texture_jars.png', label: 'Texture View', isTransparent: false });
-      list.push({ src: '/products/herbal_wash_benefits_carousel.png', label: 'Benefits', isTransparent: false });
-      list.push({ src: '/products/herbal_wash_review.jpg', label: 'Customer Results 1', isTransparent: false });
-      list.push({ src: '/products/herbal_wash_review_2.png', label: 'Customer Results 2', isTransparent: false });
-    } else if (prod.id === 'pro-repair-serum') {
-      list.push({ src: '/products/pro_repair_serum_new.png', label: 'Alternate View', isTransparent: false });
-      list.push({ src: '/products/pro_repair_texture.png', label: 'Texture View', isTransparent: false });
-      list.push({ src: '/products/pro_repair_serum_benefits_carousel.png', label: 'Benefits', isTransparent: false });
-    } else if (prod.id === 'follicra-regrowth') {
-      list.push({ src: '/products/follicra_regrowth_hero_v3.png', label: 'Alternate View', isTransparent: false });
-      list.push({ src: '/products/follicra_regrowth_texture.png', label: 'Texture View', isTransparent: false });
-      list.push({ src: '/products/follicra_benefits_carousel.png', label: 'Benefits', isTransparent: false });
-      list.push({ src: '/products/follicra_review_4.jpg', label: 'Customer Results', isTransparent: false });
+    if (prod.id === 'follicra-regrowth') {
+      list.push({ src: '/products/follicra_ingredients_explosion.png', label: 'Ingredients', isTransparent: false, fitMode: 'contain' });
+      list.push({ src: '/products/follicra_benefits_carousel.png', label: 'Benefits', isTransparent: false, fitMode: 'contain' });
+      list.push({ src: '/products/follicra_review_4.jpg', label: 'Customer Results', isTransparent: false, fitMode: 'contain' });
     } else if (prod.id === 'satin-pillowcase') {
-      list.push({ src: '/products/satin_pillowcase_benefits.png', label: 'Benefits', isTransparent: false });
-      list.push({ src: '/products/pillowcase_review.jpg', label: 'Customer Results', isTransparent: false });
+      list.push({ src: '/products/satin_pillowcase_benefits.png', label: 'Benefits', isTransparent: false, fitMode: 'contain' });
+      list.push({ src: '/products/pillowcase_review.jpg', label: 'Customer Results', isTransparent: false, fitMode: 'contain' });
     } else if (prod.id === 'satin-scrunchies') {
-      list.push({ src: '/products/satin_scrunchies_benefits.png', label: 'Benefits', isTransparent: false });
-      list.push({ src: '/products/scrunchies_review.png', label: 'Customer Results', isTransparent: false });
+      list.push({ src: '/products/satin_scrunchies_benefits.png', label: 'Benefits', isTransparent: false, fitMode: 'contain' });
+      list.push({ src: '/products/scrunchies_review.png', label: 'Customer Results', isTransparent: false, fitMode: 'contain' });
     }
 
     return list;
@@ -978,7 +996,13 @@ export default function ProductDetailPage() {
                 z: 200, 
                 transformStyle: 'preserve-3d',
               }}
-              className="flex-1 h-full relative flex flex-col items-center justify-center perspective-2000 bg-white/20 rounded-[2.5rem] border border-[#052B08]/5 overflow-hidden p-6 md:p-10 select-none group shadow-xs hover:shadow-lg transition-shadow duration-500"
+              className={`flex-1 h-full w-full relative flex flex-col items-center justify-center perspective-2000 rounded-[2.5rem] border border-[#052B08]/5 overflow-hidden select-none group shadow-xs hover:shadow-lg transition-shadow duration-500 ${
+                gallery[activeImageIndex].isTransparent
+                  ? 'p-6 md:p-10 bg-white/20'
+                  : gallery[activeImageIndex].fitMode === 'cover'
+                    ? 'p-0 bg-white/20'
+                    : 'p-0 bg-white'
+              }`}
             >
               {/* Background Decorative Particles (only for transparent product jars) */}
               {gallery[activeImageIndex].isTransparent && (
@@ -987,7 +1011,9 @@ export default function ProductDetailPage() {
                     <FloatingDebris key={i} index={i} />
                   ))}
                 </div>
-              )}              {/* Main Image View */}
+              )}
+              
+              {/* Main Image View */}
               <div className="relative w-full h-full flex items-center justify-center" style={{ transformStyle: 'preserve-3d' }}>
                 {gallery[activeImageIndex].isTransparent ? (
                   <div className="absolute inset-0 bg-gradient-to-tr from-accent/20 to-transparent blur-[80px] lg:blur-[120px] rounded-full pointer-events-none" style={{ transform: 'translateZ(-100px)' }} />
@@ -1013,11 +1039,29 @@ export default function ProductDetailPage() {
                         setActiveImageIndex((prev) => (prev - 1 + gallery.length) % gallery.length);
                       }
                     }}
-                    className={`w-full h-full object-contain cursor-grab active:cursor-grabbing drop-shadow-[0_15px_30px_rgba(5,43,8,0.15)] z-50 ${gallery[activeImageIndex].isTransparent ? 'mix-blend-multiply' : 'rounded-3xl'}`}
+                    className={`w-full h-full cursor-grab active:cursor-grabbing z-50 ${
+                      gallery[activeImageIndex].isTransparent
+                        ? 'object-contain mix-blend-multiply drop-shadow-[0_15px_30px_rgba(5,43,8,0.15)]'
+                        : gallery[activeImageIndex].fitMode === 'cover'
+                          ? 'object-cover rounded-[2.5rem]'
+                          : 'object-contain rounded-[2.5rem] p-4 md:p-6 bg-white'
+                    }`}
                     style={{ transformStyle: 'preserve-3d' }}
                   />
                 </AnimatePresence>
               </div>
+
+              {/* Maximize/Zoom button */}
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setGalleryLightbox(gallery[activeImageIndex].src);
+                }}
+                className="absolute top-4 right-4 z-[60] p-2.5 rounded-full bg-white/80 hover:bg-white text-[#052B08] border border-[#052B08]/10 shadow-md transition-all flex items-center justify-center cursor-pointer active:scale-95"
+                title="Zoom image"
+              >
+                <Maximize2 size={18} />
+              </button>
 
               {/* Left/Right manual click arrows */}
               {gallery.length > 1 && (
@@ -1203,13 +1247,11 @@ export default function ProductDetailPage() {
 
       {/* Comparison / Results Section - same interactive slider, different images per product */}
       {product.category === 'haircare' && (
-        <>
-          <ComparisonSection 
-            beforeImage={product.beforeImage || "/products/before_hair.png"}
-            afterImage={product.afterImage || "/products/after_hair.png"}
-          />
-          <TransformationsGallery productId={product.id} />
-        </>
+        <ComparisonSection 
+          key={product.id}
+          beforeImage={product.beforeImage || "/products/before_hair.png"}
+          afterImage={product.afterImage || "/products/after_hair.png"}
+        />
       )}
 
       {/* 5. Reviews Section */}
@@ -1272,6 +1314,27 @@ export default function ProductDetailPage() {
           />
         </Link>
       </section>
+
+      {/* Gallery Image Lightbox */}
+      {galleryLightbox && (
+        <div 
+          onClick={() => setGalleryLightbox(null)}
+          className="fixed inset-0 bg-black/90 backdrop-blur-md z-[200] flex items-center justify-center p-4 cursor-zoom-out"
+        >
+          <button 
+            onClick={() => setGalleryLightbox(null)}
+            className="absolute top-6 right-6 p-3 rounded-full bg-white/10 hover:bg-white/20 text-white transition-all cursor-pointer z-[210]"
+          >
+            <X size={24} />
+          </button>
+          <img 
+            src={galleryLightbox} 
+            alt="Full size product view" 
+            className="max-w-full max-h-[90vh] rounded-2xl object-contain shadow-2xl z-50" 
+            onClick={(e) => e.stopPropagation()}
+          />
+        </div>
+      )}
     </div>
   );
 }

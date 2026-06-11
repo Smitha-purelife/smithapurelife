@@ -2,6 +2,13 @@ import { Instagram, Facebook, Youtube, Phone, Mail, MessageCircle } from 'lucide
 import { Link } from 'react-router-dom';
 
 export default function Footer() {
+  const ingredients = [
+    'Rosemary', 'Peppermint', 'Avocado', 'Jojoba', 'Cedarwood', 'Amla',
+    'Marshmallow Root', 'Veg Glycerine', 'Papaya', 'Rose', 'Hibiscus',
+    'Almond', 'Orange', 'Grapeseed', 'Broccoli Seed', 'Argan', 'Almond',
+    'Sugarcane', 'Walnut', 'Arappu', 'Green Tea', 'Bhringaraj', 'Neem'
+  ];
+
   const columns = [
     {
       title: 'Shop',
@@ -32,6 +39,29 @@ export default function Footer() {
 
   return (
     <footer id="contact" className="bg-[#052B08] text-white scroll-mt-24">
+      {/* Infinite Ingredients sliding marquee */}
+      <div className="w-full bg-[#031c05] border-b border-white/5 py-4 overflow-hidden select-none relative">
+        <div className="absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-[#031c05] to-transparent z-10 pointer-events-none" />
+        <div className="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-[#031c05] to-transparent z-10 pointer-events-none" />
+        
+        <div className="flex whitespace-nowrap min-w-full animate-[marquee_40s_linear_infinite]">
+          {[...Array(3)].map((_, i) => (
+            <div key={i} className="flex shrink-0 items-center justify-around min-w-full gap-8 px-4">
+              {ingredients.map((ing, idx) => (
+                <div key={idx} className="flex items-center gap-8 text-[11px] font-medium uppercase tracking-[0.2em] text-white/70 hover:text-white transition-colors duration-200">
+                  <span>{ing}</span>
+                  <span className="text-[#F8CD71] font-bold text-sm select-none">•</span>
+                </div>
+              ))}
+              <div className="flex items-center gap-8 text-[11px] font-bold uppercase tracking-[0.2em] text-[#F8CD71]">
+                <span>and more</span>
+                <span className="text-[#F8CD71] font-bold text-sm select-none">•</span>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
       {/* Main Footer */}
       <div className="max-w-7xl mx-auto px-6 py-10">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8">

@@ -71,6 +71,7 @@ export default function ComparisonSection({ beforeImage, afterImage }: Compariso
             {/* After Image (Base) */}
             <div className="absolute inset-0">
               <img 
+                key={afterImage}
                 src={afterImage} 
                 className="w-full h-full object-cover" 
                 alt="After Transformation" 
@@ -89,6 +90,7 @@ export default function ComparisonSection({ beforeImage, afterImage }: Compariso
               className="absolute inset-0 z-10"
             >
               <img 
+                key={beforeImage}
                 src={beforeImage} 
                 className="w-full h-full object-cover grayscale-[0.3]" 
                 alt="Before Transformation" 

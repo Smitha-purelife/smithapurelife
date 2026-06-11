@@ -6,6 +6,7 @@ import { products, comboProducts } from '../data/products';
 
 const navLinks = [
   { name: 'Shop All', href: '/' },
+  { name: 'Reviews', href: '/#proofs' },
   { name: 'Rewards', href: '/rewards' },
   { name: 'About Us', href: '/about' },
 ];
@@ -329,6 +330,11 @@ export default function Navbar() {
                         else element.scrollIntoView({ behavior: 'smooth' });
                       }
                     }
+                  },
+                  {
+                    name: 'Reviews & Proofs',
+                    badge: 'Proof',
+                    href: '/#proofs'
                   },
                   {
                     name: 'Rewards & Offers',

@@ -10,10 +10,13 @@ import {
   ShieldCheck, 
   Star, 
   Play, 
-  Sparkles 
+  Sparkles,
+  X,
+  Maximize2
 } from 'lucide-react';
 import { products, comboProducts, Combo, ComboVariant } from '../data/products';
 import TransformationsGallery from './TransformationsGallery';
+import ComparisonSection from './ComparisonSection';
 import FAQSection from './FAQSection';
 import Footer from './Footer';
 
@@ -26,6 +29,8 @@ export default function ComboDetailPage() {
   const [activeImageIndex, setActiveImageIndex] = useState(0);
   const [activeTab, setActiveTab] = useState<'included' | 'ritual'>('included');
   const [isAdded, setIsAdded] = useState(false);
+  const [galleryLightbox, setGalleryLightbox] = useState<string | null>(null);
+  const [showAllIngredients, setShowAllIngredients] = useState(false);
 
   // Re-initialize state when product ID changes
   useEffect(() => {
@@ -33,6 +38,7 @@ export default function ComboDetailPage() {
       setSelectedVariant(combo.variants[0]);
       setActiveImageIndex(0);
       setIsAdded(false);
+      setShowAllIngredients(false);
       window.scrollTo(0, 0);
     }
   }, [id, combo]);
@@ -41,33 +47,74 @@ export default function ComboDetailPage() {
     return <div className="h-screen flex items-center justify-center font-display text-2xl">Combo page not found</div>;
   }
 
-  // Get gallery list (Package image + individual product images inside combo)
-  const getComboGallery = (c: Combo) => {
-    const list: { src: string; label: string; isTransparent: boolean }[] = [
-      { src: c.image, label: 'Bundle Package', isTransparent: false },
+  // Get gallery list (Package image + combo review/results image)
+  const getComboGallery = (c: Combo): { src: string; label: string; isTransparent: boolean; fitMode?: 'cover' | 'contain' }[] => {
+    const list: { src: string; label: string; isTransparent: boolean; fitMode?: 'cover' | 'contain' }[] = [
+      { src: c.image, label: 'Bundle Package', isTransparent: false, fitMode: 'contain' },
     ];
     if (c.id === 'daily-3step') {
-      list.push({ src: '/products/combo_daily_3step_review.jpg', label: 'Customer Results', isTransparent: false });
+      list.push({ src: '/products/combo_daily_3step_benefits.png', label: 'Why This Combo', isTransparent: false, fitMode: 'contain' });
+      list.push({ src: '/products/combo_daily_3step_review.jpg', label: 'Customer Results', isTransparent: false, fitMode: 'contain' });
     }
     if (c.id === 'complete-haircare') {
-      list.push({ src: '/products/combo_complete_haircare_review.jpg', label: 'Customer Results', isTransparent: false });
+      list.push({ src: '/products/combo_complete_haircare_benefits.png', label: 'Why This Combo', isTransparent: false, fitMode: 'contain' });
+      list.push({ src: '/products/combo_complete_haircare_review.jpg', label: 'Customer Results', isTransparent: false, fitMode: 'contain' });
     }
     if (c.id === 'smooth-silky') {
-      list.push({ src: '/products/combo_smooth_silky_review.jpg', label: 'Customer Results', isTransparent: false });
+      list.push({ src: '/products/combo_smooth_silky_benefits.png', label: 'Why This Combo', isTransparent: false, fitMode: 'contain' });
+      list.push({ src: '/products/combo_smooth_silky_review.jpg', label: 'Customer Results', isTransparent: false, fitMode: 'contain' });
     }
     if (c.id === 'transformation') {
-      list.push({ src: '/products/combo_transformation_review.jpg', label: 'Customer Results', isTransparent: false });
+      list.push({ src: '/products/combo_transformation_benefits.png', label: 'Why This Combo', isTransparent: false, fitMode: 'contain' });
+      list.push({ src: '/products/combo_transformation_review.jpg', label: 'Customer Results', isTransparent: false, fitMode: 'contain' });
     }
-    c.includedProducts.forEach((prodId) => {
-      const prod = products.find((p) => p.id === prodId);
-      if (prod) {
-        list.push({ src: prod.image, label: prod.title, isTransparent: true });
-      }
-    });
     return list;
   };
 
   const gallery = getComboGallery(combo);
+
+  // Find all unique ingredients from included products
+  const comboIngredients: { name: string; effect: string }[] = [];
+  const seenIngs = new Set<string>();
+  combo.includedProducts.forEach((prodId) => {
+    const prod = products.find((p) => p.id === prodId);
+    if (prod && prod.ingredients) {
+      prod.ingredients.forEach((ing) => {
+        if (!seenIngs.has(ing.name.toLowerCase())) {
+          seenIngs.add(ing.name.toLowerCase());
+          comboIngredients.push(ing);
+        }
+      });
+    }
+  });
+
+  const getComboBenefitsImage = (comboId: string): string => {
+    if (comboId === 'daily-3step') return '/products/combo_daily_3step_benefits.png';
+    if (comboId === 'complete-haircare') return '/products/combo_complete_haircare_benefits.png';
+    if (comboId === 'smooth-silky') return '/products/combo_smooth_silky_benefits.png';
+    if (comboId === 'transformation') return '/products/combo_transformation_benefits.png';
+    return '';
+  };
+
+  const benefitsImage = getComboBenefitsImage(combo.id);
+
+  const getComboBeforeAfter = (comboId: string): { before: string; after: string } => {
+    if (comboId === 'daily-3step') {
+      return { before: '/products/before_hair_fall.png', after: '/products/after_hair_fall.png' };
+    }
+    if (comboId === 'complete-haircare') {
+      return { before: '/products/before_hair.png', after: '/products/after_hair.png' };
+    }
+    if (comboId === 'smooth-silky') {
+      return { before: '/products/before_damaged_hair.png', after: '/products/after_repaired_hair.png' };
+    }
+    if (comboId === 'transformation') {
+      return { before: '/products/before_hair_thinning.png', after: '/products/after_hair_regrowth.png' };
+    }
+    return { before: '/products/before_hair.png', after: '/products/after_hair.png' };
+  };
+
+  const { before: beforeImg, after: afterImg } = getComboBeforeAfter(combo.id);
 
   // Add Combo to Cart
   const handleAddToBag = () => {
@@ -153,11 +200,22 @@ export default function ComboDetailPage() {
             </div>
 
             {/* Main Interactive view */}
-            <div className="flex-1 w-full h-full rounded-[2.5rem] p-6 md:p-12 relative flex items-center justify-center overflow-hidden transition-colors duration-500" style={{ backgroundColor: combo.bg }}>
+            <div 
+              className={`flex-1 w-full h-full rounded-[2.5rem] relative flex items-center justify-center overflow-hidden transition-all duration-500 ${
+                activeImageIndex === 0 
+                  ? 'p-6 md:p-12' 
+                  : 'p-0'
+              }`}
+              style={{ backgroundColor: activeImageIndex === 0 ? combo.bg : '#ffffff' }}
+            >
               <img 
                 src={gallery[activeImageIndex].src} 
                 alt={gallery[activeImageIndex].label} 
-                className={`w-[85%] h-[85%] object-contain drop-shadow-xl z-10 transition-transform duration-700 hover:scale-[1.03] ${gallery[activeImageIndex].isTransparent ? 'mix-blend-multiply' : ''}`}
+                className={`z-10 transition-transform duration-700 hover:scale-[1.02] ${
+                  activeImageIndex === 0
+                    ? `w-[85%] h-[85%] object-contain drop-shadow-xl ${gallery[activeImageIndex].isTransparent ? 'mix-blend-multiply' : ''}`
+                    : 'w-full h-full object-contain p-4 md:p-6 bg-white rounded-[2.5rem]'
+                }`}
               />
               
               {/* Variant Badge */}
@@ -171,6 +229,18 @@ export default function ComboDetailPage() {
                   Save ₹{selectedVariant.savings}
                 </span>
               )}
+
+              {/* Maximize/Zoom button */}
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setGalleryLightbox(gallery[activeImageIndex].src);
+                }}
+                className="absolute bottom-6 right-6 z-30 p-2.5 rounded-full bg-white/80 hover:bg-white text-[#052B08] border border-[#052B08]/10 shadow-md transition-all flex items-center justify-center cursor-pointer active:scale-95"
+                title="Zoom image"
+              >
+                <Maximize2 size={18} />
+              </button>
             </div>
           </div>
 
@@ -352,14 +422,103 @@ export default function ComboDetailPage() {
         </div>
       </div>
 
-      {/* Customer review proofs for this combo */}
-      <TransformationsGallery productId={combo.id} />
+      {/* Combo Ingredients Section */}
+      <section id="ingredients" className="py-24 bg-white border-t border-[#052B08]/5 scroll-mt-20">
+        <div className="max-w-7xl mx-auto px-6 text-center">
+          <span className="text-[10px] tracking-[0.3em] uppercase font-bold text-[#FF7B89] block mb-3">Sourced from Nature</span>
+          <h2 className="serif-title text-4xl sm:text-5xl lg:text-6xl text-[#052B08] mb-8">Ingredients Sourced</h2>
+          <p className="text-sm text-[#052B08]/60 max-w-2xl mx-auto mb-16 leading-relaxed">
+            This combo is powered by premium, hand-picked traditional botanical extracts. Zero compromises on purity.
+          </p>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-5xl mx-auto">
+            {(showAllIngredients ? comboIngredients : comboIngredients.slice(0, 4)).map((ing, i) => (
+              <motion.div 
+                key={i}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ delay: i * 0.05 }}
+                viewport={{ once: true }}
+                className="p-6 bg-[#FAF9F5] hover:bg-white backdrop-blur-sm rounded-3xl shadow-xs hover:shadow-md border border-[#052B08]/5 transition-all duration-300 hover:-translate-y-1 text-left"
+              >
+                <Sparkles size={18} className="text-[#FF7B89] mb-4" />
+                <h4 className="font-bold text-[#052B08] mb-1.5 text-lg leading-tight">{ing.name}</h4>
+                <p className="text-xs text-[#052B08]/60 uppercase tracking-wider leading-relaxed">{ing.effect}</p>
+              </motion.div>
+            ))}
+          </div>
+
+          {comboIngredients.length > 4 && (
+            <div className="mt-12 flex justify-center">
+              <button
+                onClick={() => setShowAllIngredients(!showAllIngredients)}
+                className="px-8 py-3.5 rounded-full border border-[#052B08] text-[#052B08] hover:bg-[#052B08] hover:text-white font-bold text-xs uppercase tracking-widest transition-all duration-300 active:scale-95 shadow-xs hover:shadow-md cursor-pointer"
+              >
+                {showAllIngredients ? 'View Less' : `View More (+${comboIngredients.length - 4})`}
+              </button>
+            </div>
+          )}
+        </div>
+      </section>
+
+      {/* Combo Benefits Infographic Section */}
+      {benefitsImage && (
+        <section className="py-24 bg-[#FAF9F5]/80 border-t border-[#052B08]/5 relative overflow-hidden">
+          <div className="max-w-5xl mx-auto px-6 flex flex-col items-center">
+            <span className="text-[10px] tracking-[0.3em] uppercase font-bold text-[#FF7B89] block mb-3">Holistic Results</span>
+            <h2 className="serif-title text-4xl sm:text-5xl lg:text-6xl text-[#052B08] mb-16 text-center">Benefits of this Combo</h2>
+            <div className="w-full max-w-3xl rounded-[2.5rem] overflow-hidden shadow-2xl border border-[#052B08]/5 bg-white p-3 relative group">
+              <img 
+                src={benefitsImage} 
+                alt={`${combo.title} Benefits Infographic`} 
+                className="w-full h-auto object-contain rounded-3xl"
+                loading="lazy"
+              />
+              <button
+                onClick={() => setGalleryLightbox(benefitsImage)}
+                className="absolute bottom-8 right-8 p-3 rounded-full bg-[#052B08] hover:bg-[#09420d] text-white shadow-xl opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center cursor-pointer hover:scale-105 active:scale-95 z-30"
+                title="Zoom image"
+              >
+                <Maximize2 size={20} />
+              </button>
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* Real Results before/after comparison slider */}
+      <ComparisonSection 
+        key={combo.id}
+        beforeImage={beforeImg}
+        afterImage={afterImg}
+      />
 
       {/* FAQs */}
       <FAQSection />
 
       {/* Footer */}
       <Footer />
+
+      {/* Gallery Image Lightbox */}
+      {galleryLightbox && (
+        <div 
+          onClick={() => setGalleryLightbox(null)}
+          className="fixed inset-0 bg-black/90 backdrop-blur-md z-[200] flex items-center justify-center p-4 cursor-zoom-out"
+        >
+          <button 
+            onClick={() => setGalleryLightbox(null)}
+            className="absolute top-6 right-6 p-3 rounded-full bg-white/10 hover:bg-white/20 text-white transition-all cursor-pointer z-[210]"
+          >
+            <X size={24} />
+          </button>
+          <img 
+            src={galleryLightbox} 
+            alt="Full size product view" 
+            className="max-w-full max-h-[90vh] rounded-2xl object-contain shadow-2xl z-50" 
+            onClick={(e) => e.stopPropagation()}
+          />
+        </div>
+      )}
     </div>
   );
 }

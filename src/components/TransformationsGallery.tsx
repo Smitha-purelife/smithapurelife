@@ -103,6 +103,136 @@ const resultsData: ResultCard[] = [
     reviewer: 'Verified Buyer',
     reviewText: 'Actual from the first use itself i feel my hair become so smooth. And how to use that shampoo. I just take some amount and mix with water and applied. And i feel like dandruff also gone. I really liked i will inform my journey. And will stay connect with u',
     targetProducts: ['herbal-wash', 'complete-hair-kit']
+  },
+  {
+    id: 'volume-thickness-growth',
+    title: '2-Month Hair Volume Progress',
+    tag: 'Volume & Thickness',
+    image: '/products/results_hair_growth_2.jpg',
+    description: 'Visible improvements in thickness, volume, and texture showing healthy hair ends after 2 months.',
+    reviewer: 'Volume Transformation Journey',
+    reviewText: 'BEFORE Day 1: Thin Hair, Less Volume, Frizzy & Dry, Uneven Ends. AFTER After 2 Months: Thicker Hair, More Volume, Less Frizz, Healthy Ends. The results speak for themselves with a dramatic change in thickness and overall hair health!',
+    targetProducts: ['radiance-oil', 'avosilk-bloom', 'herbal-wash', 'complete-hair-kit']
+  },
+  {
+    id: 'wndha-serum-glassy',
+    title: 'Glassy Shine & Softness',
+    tag: 'Frizz Control',
+    image: '/products/results_wndha_serum_chat.png',
+    description: 'Customer feedback celebrating the glassy look and superb texture after using the hair serum.',
+    reviewer: 'Tamilselvan SP91',
+    reviewText: 'Wndha serum really super 💥🔥🔥 Glassy look nala eruku',
+    targetProducts: ['pro-repair-serum', 'complete-hair-kit']
+  },
+  {
+    id: 'lalli-conditioner-oil',
+    title: 'Silky Texture & Nourished Roots',
+    tag: 'Softness & Shine',
+    image: '/products/results_conditioner_oil_chat.png',
+    description: 'Detailed review highlighting frizz reduction and root strengthening with Radiance Hair Oil & Avocado Conditioner.',
+    reviewer: 'Lalli',
+    reviewText: 'Smitha Pure Life conditioner makes my hair feel soft and smooth after every wash. It helps reduce frizz and makes my hair more manageable. My hair feels silky and looks healthier after using this conditioner regularly. The hair oil is lightweight and absorbs well into the scalp. After regular use, I can see reduced hair fall and better hair texture. It gives good nourishment and makes my hair feel stronger.',
+    targetProducts: ['radiance-oil', 'avosilk-bloom', 'complete-hair-kit']
+  },
+  {
+    id: 'jency-hair-texture',
+    title: 'Healthy Frizz-Free Texture',
+    tag: 'Anti-Frizz',
+    image: '/products/results_jency_hair_chat.png',
+    description: 'Significant improvement in hair softness, manageability, and frizz reduction.',
+    reviewer: 'Jency SP82',
+    reviewText: 'I\'ve been using this hair product for a while now. My hair fall hasn\'t completely stopped yet, but I can clearly see a big difference in the texture of my hair. It feels much smoother, softer, and silkier than before. Frizz has reduced a lot and my hair looks healthier and more manageable after every wash. Even though I\'m still waiting to see results for hair fall control, I really love how this product makes my hair feel and look. Definitely happy with the shine and softness it gives ❤️',
+    targetProducts: ['radiance-oil', 'avosilk-bloom', 'complete-hair-kit']
+  },
+  {
+    id: 'follicra-bald-spot',
+    title: 'Bald Spot Hair Regrowth',
+    tag: 'Hair Regrowth',
+    image: '/products/results_follicra_baldspot.png',
+    description: 'Amazing progress tracking hair regrowth on hairline/bald spots from March 12 to April 7.',
+    reviewer: 'Follicra Regrowth User',
+    reviewText: 'Follicra Bald Spot Hair Regrowth Serum results showing visible progress: March 12 (initial bald spot), March 30 (new follicle growth), and April 7 (dense hairline regrowth and baby hair emergence).',
+    targetProducts: ['follicra-regrowth', 'complete-hair-kit']
+  },
+  {
+    id: 'farhana-wash-dandruff',
+    title: 'Scalp Relief & Reduced Loss',
+    tag: 'Scalp Detox',
+    image: '/products/results_farhana_wash_chat.png',
+    description: 'Farhana\'s feedback on the hair wash powder reducing dandruff, itching, and hair fall.',
+    reviewer: 'Farhana SP87',
+    reviewText: 'Yeahhh the hair wash powder it\'s sooo good to clean the scalp actually I have dandruff and itching problems but after wash it doesn\'t make itching and it\'s good before that I use shampoo but the hair loss while washing is more but using the powder it\'s less hair loss I felt happy to buy this I\'m damn sure I\'ll buy after finishing it. Thank you girl❤️',
+    targetProducts: ['herbal-wash', 'complete-hair-kit']
+  },
+  {
+    id: 'hairline-baby-growth',
+    title: 'Hairline Baby Hair Growth',
+    tag: 'Hair Regrowth',
+    image: '/products/results_hairline_growth.png',
+    description: 'Close-up photograph showing dense emergence of new baby hair along the hairline.',
+    reviewer: 'Regrowth Progress Photo',
+    reviewText: 'Customer hairline detail showing significant emergence and growth of new baby hairs after consistent serum and oil application.',
+    targetProducts: ['follicra-regrowth', 'radiance-oil', 'complete-hair-kit']
+  },
+  {
+    id: 'follicra-regrowth-feedback',
+    title: 'Scalp Fuller & Baby Hair',
+    tag: 'Hair Regrowth',
+    image: '/products/results_follicra_feedback_chat.png',
+    description: 'Happy customer sharing early results of Follicra Hair Regrowth Serum with new baby hairs.',
+    reviewer: 'Verified Follicra User',
+    reviewText: 'I\'ve been using Follicra Hair Regrowth Serum consistently on my bald spot ..and I\'m genuinely happy with the results. I\'ve noticed visible regrowth, baby hairs coming in, and my scalp looks much fuller than before. I didn\'t expect to see such a positive change with a natural product. I\'ll share my before & after pictures next week',
+    targetProducts: ['follicra-regrowth', 'complete-hair-kit']
+  },
+  {
+    id: 'nafia-engagement-frizz',
+    title: 'Frizz-Free Event Hair',
+    tag: 'Frizz Control',
+    image: '/products/results_nafia_engagement_chat.png',
+    description: 'Nafia\'s engagement experience with hair staying smooth and frizz-free without setting sprays.',
+    reviewer: 'Nafia SP32',
+    reviewText: 'And everyone asked me how ur hair is looking so good without even setting spray for hair because even i everyones hair is becoming frizzy and baby hairs are looking weird my hair still look same',
+    targetProducts: ['avosilk-bloom', 'pro-repair-serum', 'complete-hair-kit']
+  },
+  {
+    id: 'bhavani-3month-review',
+    title: '3-Month Holistic Progress',
+    tag: 'Hair Growth',
+    image: '/products/results_bhavani_3month_chat.png',
+    description: 'Detailed feedback after 3 months of using the wash powder, avocado conditioner, and onion hair oil.',
+    reviewer: 'Bhavani SP13',
+    reviewText: 'Coming to the products, I truly enjoy using the hair wash powder. Every wash feels so refreshing and the smell is lovely. It gives me that traditional, clean, washed-hair feeling that I really love. The avocado conditioner has helped reduce my frizz and my hair feels much softer after using it. I also got the onion hair oil. I\'m still testing it, but so far it\'s been good. I\'ve started noticing quite a lot of baby hair growth, which honestly makes me very happy.',
+    targetProducts: ['radiance-oil', 'herbal-wash', 'avosilk-bloom', 'complete-hair-kit']
+  },
+  {
+    id: 'silk-gloss-chat',
+    title: 'Silk Gloss Frizz Control',
+    tag: 'Frizz Control',
+    image: '/products/results_silk_gloss_chat.png',
+    description: 'Customer review praising the Silk Gloss Serum for controlling frizz and adding shine without grease.',
+    reviewer: 'Verified Buyer',
+    reviewText: 'I\'m been using Silk Gloss Serum regularly, and my hair feels much smoother, softer, and easier to manage. It helps control frizz, adds a healthy shine, and leaves my hair looking silky without feeling greasy. I\'m really loving the results! I\'m in love with this serum and this natural smell , so satisfied',
+    targetProducts: ['pro-repair-serum', 'complete-hair-kit']
+  },
+  {
+    id: 'hair-transformation-3',
+    title: 'Frizz Control & Smoothness',
+    tag: 'Frizz Control',
+    image: '/products/results_hair_transformation_3.jpg',
+    description: 'Amazing before & after hair transformation showing frizz control and smooth texture alignment.',
+    reviewer: 'Smooth Hair Transformation',
+    reviewText: 'BEFORE vs AFTER: Complete frizz removal and silky alignment. Visible shine and smoothness improvement after using the Silk Gloss Serum.',
+    targetProducts: ['pro-repair-serum', 'radiance-oil', 'complete-hair-kit']
+  },
+  {
+    id: 'hair-transformation-4',
+    title: 'Silky Straight Alignment',
+    tag: 'Softness & Shine',
+    image: '/products/results_hair_transformation_4.jpg',
+    description: 'Before & after results showing silky, straight alignment and reduced dryness.',
+    reviewer: 'Silky Alignment Journey',
+    reviewText: 'BEFORE vs AFTER: Frizzy and dry hair transformed to silky, straight, and manageable hair with a healthy shine.',
+    targetProducts: ['pro-repair-serum', 'radiance-oil', 'complete-hair-kit']
   }
 ];
 
@@ -131,7 +261,7 @@ export default function TransformationsGallery({ productId }: { productId?: stri
   if (filteredData.length === 0) return null;
 
   return (
-    <section className="py-20 bg-[#FAF9F5]/70 border-t border-[#052B08]/5 scroll-mt-24">
+    <section id="proofs" className="py-20 bg-[#FAF9F5]/70 border-t border-[#052B08]/5 scroll-mt-24">
       <div className="max-w-7xl mx-auto px-6">
         
         {/* Header */}
