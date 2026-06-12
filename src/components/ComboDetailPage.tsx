@@ -418,7 +418,7 @@ export default function ComboDetailPage() {
             </div>
 
             {/* Action buttons */}
-            <div className="flex gap-4 items-center mb-8 max-w-md w-full">
+            <div className="flex flex-wrap gap-3 items-center mb-8 max-w-xl w-full">
               <button
                 onClick={handleAddToBag}
                 className="flex-1 py-4 bg-[#052B08] hover:bg-[#09420d] text-white text-xs font-bold uppercase tracking-widest rounded-full transition-all duration-300 shadow-md hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 flex items-center justify-center gap-2 cursor-pointer"
@@ -436,15 +436,28 @@ export default function ComboDetailPage() {
                 )}
               </button>
               
-              {/* Like Button */}
+              {/* Reviews Jumplink Button */}
+              <button
+                onClick={(e) => {
+                  e.preventDefault();
+                  document.getElementById('reviews')?.scrollIntoView({ behavior: 'smooth' });
+                }}
+                className="h-14 px-5 rounded-full border border-[#052B08]/10 bg-white shadow-md hover:shadow-lg flex items-center justify-center gap-1.5 text-xs font-bold uppercase tracking-wider text-[#052B08] cursor-pointer hover:border-[#FF7B89] transition-colors shrink-0"
+              >
+                <Star size={16} className="text-amber-500 fill-amber-500 animate-pulse" />
+                <span>Reviews ({allReviews.length})</span>
+              </button>
+
+              {/* Likes Toggle Button */}
               <button
                 onClick={toggleLike}
-                className="w-14 h-14 rounded-full border border-[#052B08]/10 bg-white shadow-md hover:shadow-lg flex items-center justify-center text-gray-400 cursor-pointer hover:border-rose-500/35 transition-colors group/heart-btn shrink-0"
+                className="h-14 px-5 rounded-full border border-[#052B08]/10 bg-white shadow-md hover:shadow-lg flex items-center justify-center gap-1.5 text-xs font-bold uppercase tracking-wider text-[#052B08] cursor-pointer hover:border-rose-500/35 transition-colors group/heart-btn shrink-0"
               >
                 <Heart 
-                  size={20}
+                  size={16}
                   className={`transition-colors duration-300 ${isLiked ? 'fill-rose-500 text-rose-500 scale-110' : 'text-[#2D2A26]/50 group-hover/heart-btn:text-rose-500'}`}
                 />
+                <span>{likesCount} Likes</span>
               </button>
             </div>
 

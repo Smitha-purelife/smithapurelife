@@ -1268,7 +1268,7 @@ export default function ProductDetailPage() {
               </div>
             </motion.div>
 
-            <div className="flex gap-4 items-center mt-6 w-full sm:w-auto self-center lg:self-start">
+            <div className="flex flex-wrap gap-3 items-center mt-6 w-full sm:w-auto self-center lg:self-start">
               <motion.button 
                 onClick={handleAddToBag}
                 initial={{ opacity: 0, y: 20 }}
@@ -1281,7 +1281,24 @@ export default function ProductDetailPage() {
                 Add to Bag • <span className="font-inter">₹{selectedSize.price.toLocaleString()}</span>
               </motion.button>
               
-              {/* Like Button */}
+              {/* Reviews Jumplink Button */}
+              <motion.button
+                onClick={(e) => {
+                  e.preventDefault();
+                  document.getElementById('reviews')?.scrollIntoView({ behavior: 'smooth' });
+                }}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.6 }}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="h-14 px-5 rounded-full border border-[#052B08]/10 bg-white shadow-md hover:shadow-lg flex items-center justify-center gap-1.5 text-xs font-bold uppercase tracking-wider text-[#052B08] cursor-pointer hover:border-[#FF7B89] transition-colors shrink-0"
+              >
+                <Star size={16} className="text-amber-500 fill-amber-500 animate-pulse" />
+                <span>Reviews ({allReviews.length})</span>
+              </motion.button>
+
+              {/* Likes Toggle Button */}
               <motion.button
                 onClick={toggleLike}
                 initial={{ opacity: 0, y: 20 }}
@@ -1289,12 +1306,13 @@ export default function ProductDetailPage() {
                 transition={{ delay: 0.6 }}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="w-14 h-14 rounded-full border border-[#052B08]/10 bg-white shadow-md hover:shadow-lg flex items-center justify-center text-gray-400 cursor-pointer hover:border-rose-500/35 transition-colors group/heart-btn shrink-0"
+                className="h-14 px-5 rounded-full border border-[#052B08]/10 bg-white shadow-md hover:shadow-lg flex items-center justify-center gap-1.5 text-xs font-bold uppercase tracking-wider text-[#052B08] cursor-pointer hover:border-rose-500/35 transition-colors group/heart-btn shrink-0"
               >
                 <Heart 
-                  size={20}
+                  size={16}
                   className={`transition-colors duration-300 ${isLiked ? 'fill-rose-500 text-rose-500 scale-110' : 'text-[#2D2A26]/50 group-hover/heart-btn:text-rose-500'}`}
                 />
+                <span>{likesCount} Likes</span>
               </motion.button>
             </div>
           </motion.div>
