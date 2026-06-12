@@ -322,6 +322,8 @@ function ProductUsageSection({ productId }: { productId: string }) {
   else if (productId === 'avosilk-bloom') activeStepNum = 3;
   else if (productId === 'pro-repair-serum') activeStepNum = 5;
   else if (productId === 'follicra-regrowth') activeStepNum = 6;
+  else if (productId === 'satin-scrunchies') activeStepNum = 7;
+  else if (productId === 'satin-pillowcase') activeStepNum = 8;
 
   const currentStep = ritualSteps.find(s => s.step === activeStepNum) || ritualSteps[3];
 
