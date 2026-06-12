@@ -2,11 +2,11 @@
 @import "tailwindcss";
 
 @theme {
-  --color-bg: #C1CDBF;
+  --color-bg: #CDD5AE;
   --color-text: #2D2A26;
   --color-accent: #FF7B89;
   --color-white: #FFFFFF;
-  --color-cream: #DCE4DA;
+  --color-cream: #F5F7F5;
   --font-display: 'Playfair Display', serif;
   --font-script: 'Dancing Script', cursive;
   --font-body: 'Inter', sans-serif;

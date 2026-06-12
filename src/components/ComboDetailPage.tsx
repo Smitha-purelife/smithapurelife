@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
@@ -12,7 +12,11 @@ import {
   Play, 
   Sparkles,
   X,
-  Maximize2
+  Maximize2,
+  Heart,
+  ChevronDown,
+  ChevronUp,
+  Camera
 } from 'lucide-react';
 import { products, comboProducts, Combo, ComboVariant } from '../data/products';
 import TransformationsGallery from './TransformationsGallery';
@@ -20,10 +24,114 @@ import ComparisonSection from './ComparisonSection';
 import FAQSection from './FAQSection';
 import Footer from './Footer';
 
+export interface CustomerReview {
+  id?: string;
+  name: string;
+  rating: number;
+  text: string;
+  date: string;
+  photos?: string[];
+  verified?: boolean;
+}
+
+const comboDetailData: Record<string, {
+  reviews: CustomerReview[];
+}> = {
+  'daily-3step': {
+    reviews: [
+      { name: 'Kavitha R.', rating: 5, text: 'This 3-step routine completely transformed my dull hair. My hair fall has drastically reduced!', date: '3 weeks ago' },
+      { name: 'Sujith M.', rating: 5, text: 'Best bundle! High quality botanical wash combined with a very nourishing oil. Avosilk conditioner smells amazing.', date: '1 month ago' }
+    ]
+  },
+  'complete-haircare': {
+    reviews: [
+      { name: 'Megha S.', rating: 5, text: 'Everything you need in one box. Serum is lightweight and works wonders on dry ends.', date: '2 weeks ago' },
+      { name: 'Aparna K.', rating: 5, text: 'Visible difference in texture. My hair is much softer and has a natural shine.', date: '1 month ago' }
+    ]
+  },
+  'smooth-silky': {
+    reviews: [
+      { name: 'Sneha P.', rating: 5, text: 'Perfect duo for frizzy hair. The combination of Avosilk conditioner and pro-repair serum works like magic.', date: '1 week ago' },
+      { name: 'Deepika S.', rating: 5, text: 'My hair feels extremely silky. Non-sticky and light weight.', date: '2 months ago' }
+    ]
+  },
+  'transformation': {
+    reviews: [
+      { name: 'Pooja G.', rating: 5, text: 'Ultimate care set! The satin pillowcase and scrunchies make a huge difference in reducing morning frizz and knots.', date: '3 weeks ago' },
+      { name: 'Rohan V.', rating: 5, text: 'Follicra regrowth serum + radiance hair oil is the perfect stack. I see tiny baby hairs on my crown!', date: '1 month ago' }
+    ]
+  }
+};
+
 export default function ComboDetailPage() {
   const { id } = useParams<{ id: string }>();
   const comboIndex = comboProducts.findIndex((c) => c.id === id);
   const combo = comboProducts[comboIndex];
+
+  // Like state logic
+  const [isLiked, setIsLiked] = useState(false);
+  const syncLikes = () => {
+    try {
+      const saved = localStorage.getItem('smitha_purelife_likes');
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        setIsLiked(parsed.includes(id || ''));
+      }
+    } catch {}
+  };
+
+  useEffect(() => {
+    syncLikes();
+    window.addEventListener('likes-updated', syncLikes);
+    return () => window.removeEventListener('likes-updated', syncLikes);
+  }, [id]);
+
+  const toggleLike = () => {
+    if (!id) return;
+    try {
+      const saved = localStorage.getItem('smitha_purelife_likes');
+      let parsed = saved ? JSON.parse(saved) : [];
+      if (parsed.includes(id)) {
+        parsed = parsed.filter((item: string) => item !== id);
+      } else {
+        parsed.push(id);
+      }
+      localStorage.setItem('smitha_purelife_likes', JSON.stringify(parsed));
+      window.dispatchEvent(new Event('likes-updated'));
+    } catch {}
+  };
+
+  // Compute combo rating and reviews dynamically
+  const staticReviews = (id ? comboDetailData[id]?.reviews : null) || [];
+  const storageKey = `smitha_reviews_${id}`;
+  const [customerReviews, setCustomerReviews] = useState<CustomerReview[]>(() => {
+    try {
+      const stored = localStorage.getItem(storageKey);
+      return stored ? JSON.parse(stored) : [];
+    } catch { return []; }
+  });
+
+  // Re-sync reviews when id changes
+  useEffect(() => {
+    try {
+      const stored = localStorage.getItem(storageKey);
+      setCustomerReviews(stored ? JSON.parse(stored) : []);
+    } catch {
+      setCustomerReviews([]);
+    }
+  }, [id, storageKey]);
+
+  const allReviews = [
+    ...customerReviews,
+    ...staticReviews.map(r => ({ ...r, id: r.name + r.date, verified: true }))
+  ];
+
+  const avgRating = allReviews.length > 0
+    ? parseFloat((allReviews.reduce((sum, r) => sum + r.rating, 0) / allReviews.length).toFixed(1))
+    : 5.0;
+
+  const likesCount = (combo?.baseLikes || 100) + (isLiked ? 1 : 0);
+
 
   const [selectedVariant, setSelectedVariant] = useState<ComboVariant | null>(null);
   const [activeImageIndex, setActiveImageIndex] = useState(0);
@@ -149,7 +257,7 @@ export default function ComboDetailPage() {
   };
 
   return (
-    <div className="bg-[#C1CDBF] min-h-screen selection:bg-accent selection:text-bg overflow-x-hidden pt-[76px]">
+    <div className="bg-[#CDD5AE] min-h-screen selection:bg-accent selection:text-bg overflow-x-hidden pt-[76px]">
       
       {/* Prev / Next navigation */}
       {comboIndex > 0 && (
@@ -251,6 +359,28 @@ export default function ComboDetailPage() {
             <div>
               <span className="text-[10px] tracking-[0.3em] uppercase font-bold text-[#FF7B89] block mb-2">{selectedVariant.subtitle}</span>
               <h1 className="font-serif text-4xl sm:text-5xl text-[#052B08] font-bold leading-tight mb-4">{combo.title}</h1>
+              
+              {/* Community Rating & Likes stats */}
+              <div className="flex items-center justify-start gap-4 mb-6">
+                <a 
+                  href="#reviews"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    document.getElementById('reviews')?.scrollIntoView({ behavior: 'smooth' });
+                  }}
+                  className="flex items-center gap-1 text-sm font-bold text-[#052B08]/80 hover:text-[#FF7B89] transition-colors"
+                >
+                  <span className="text-amber-500 text-lg">★</span>
+                  <span>{avgRating}</span>
+                  <span className="text-gray-400 font-normal">({allReviews.length} verified reviews)</span>
+                </a>
+                <span className="text-[#052B08]/20">|</span>
+                <span className="flex items-center gap-1.5 text-sm font-bold text-[#052B08]/80">
+                  <Heart size={16} className="text-rose-500 fill-rose-500" />
+                  <span>{likesCount} community likes</span>
+                </span>
+              </div>
+              
               <p className="text-sm text-[#052B08]/75 leading-relaxed font-medium mb-8 max-w-xl">{combo.description}</p>
             </div>
 
@@ -288,7 +418,7 @@ export default function ComboDetailPage() {
             </div>
 
             {/* Action buttons */}
-            <div className="flex flex-col sm:flex-row gap-4 mb-8 max-w-md">
+            <div className="flex gap-4 items-center mb-8 max-w-md w-full">
               <button
                 onClick={handleAddToBag}
                 className="flex-1 py-4 bg-[#052B08] hover:bg-[#09420d] text-white text-xs font-bold uppercase tracking-widest rounded-full transition-all duration-300 shadow-md hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 flex items-center justify-center gap-2 cursor-pointer"
@@ -304,6 +434,17 @@ export default function ComboDetailPage() {
                     Add Combo to Bag
                   </>
                 )}
+              </button>
+              
+              {/* Like Button */}
+              <button
+                onClick={toggleLike}
+                className="w-14 h-14 rounded-full border border-[#052B08]/10 bg-white shadow-md hover:shadow-lg flex items-center justify-center text-gray-400 cursor-pointer hover:border-rose-500/35 transition-colors group/heart-btn shrink-0"
+              >
+                <Heart 
+                  size={20}
+                  className={`transition-colors duration-300 ${isLiked ? 'fill-rose-500 text-rose-500 scale-110' : 'text-[#2D2A26]/50 group-hover/heart-btn:text-rose-500'}`}
+                />
               </button>
             </div>
 
@@ -493,6 +634,9 @@ export default function ComboDetailPage() {
         afterImage={afterImg}
       />
 
+      {/* Reviews Section */}
+      <ComboReviewsSection comboId={combo.id} />
+
       {/* FAQs */}
       <FAQSection />
 
@@ -520,5 +664,369 @@ export default function ComboDetailPage() {
         </div>
       )}
     </div>
+  );
+}
+
+function StarRatingInput({ value, onChange }: { value: number; onChange: (v: number) => void }) {
+  const [hovered, setHovered] = useState(0);
+  return (
+    <div className="flex gap-1 justify-start">
+      {[1,2,3,4,5].map(star => (
+        <button
+          key={star}
+          type="button"
+          onClick={() => onChange(star)}
+          onMouseEnter={() => setHovered(star)}
+          onMouseLeave={() => setHovered(0)}
+          className="text-2xl transition-transform hover:scale-110 active:scale-95 cursor-pointer"
+          aria-label={`Rate ${star} stars`}
+        >
+          <Star
+            size={28}
+            className="transition-colors duration-150"
+            fill={(hovered || value) >= star ? '#F8CD71' : 'none'}
+            stroke={(hovered || value) >= star ? '#F8CD71' : '#D1D5DB'}
+            strokeWidth={1.5}
+          />
+        </button>
+      ))}
+    </div>
+  );
+}
+
+function ReviewPhotoGrid({ photos }: { photos: string[] }) {
+  const [lightbox, setLightbox] = useState<string | null>(null);
+  if (!photos || photos.length === 0) return null;
+
+  return (
+    <>
+      <div className="flex flex-wrap gap-2 mt-3.5">
+        {photos.map((src, i) => (
+          <div 
+            key={i} 
+            onClick={() => setLightbox(src)}
+            className="w-14 h-14 sm:w-16 sm:h-16 rounded-xl overflow-hidden border border-black/5 hover:border-[#052B08]/30 shadow-2xs hover:shadow-sm cursor-zoom-in transition-all relative group flex-shrink-0"
+          >
+            <img src={src} alt={`Review photo ${i+1}`} className="w-full h-full object-cover" />
+            <div className="absolute inset-0 bg-black/5 opacity-0 group-hover:opacity-100 transition-opacity" />
+          </div>
+        ))}
+      </div>
+
+      <AnimatePresence>
+        {lightbox && (
+          <div 
+            onClick={() => setLightbox(null)}
+            className="fixed inset-0 bg-black/95 backdrop-blur-md z-[999999] flex items-center justify-center p-4 cursor-zoom-out"
+          >
+            <button 
+              onClick={() => setLightbox(null)}
+              className="absolute top-6 right-6 p-3 rounded-full bg-white/10 hover:bg-white/20 text-white transition-all cursor-pointer z-[1000000]"
+            >
+              <X size={24} />
+            </button>
+            <img 
+              src={lightbox} 
+              alt="Full size review photo" 
+              className="max-w-full max-h-[90vh] rounded-2xl object-contain shadow-2xl z-50" 
+              onClick={(e) => e.stopPropagation()}
+            />
+          </div>
+        )}
+      </AnimatePresence>
+    </>
+  );
+}
+
+function ComboReviewsSection({ comboId }: { comboId: string }) {
+  const staticReviews = comboDetailData[comboId]?.reviews || [];
+  const storageKey = `smitha_reviews_${comboId}`;
+
+  const [customerReviews, setCustomerReviews] = useState<CustomerReview[]>(() => {
+    try {
+      const stored = localStorage.getItem(storageKey);
+      return stored ? JSON.parse(stored) : [];
+    } catch { return []; }
+  });
+
+  const [showForm, setShowForm] = useState(false);
+  const [formName, setFormName] = useState('');
+  const [formRating, setFormRating] = useState(0);
+  const [formText, setFormText] = useState('');
+  const [formPhotos, setFormPhotos] = useState<string[]>([]);
+  const [submitted, setSubmitted] = useState(false);
+  const [errors, setErrors] = useState<{rating?: string; text?: string}>({});
+  const fileRef = useRef<HTMLInputElement>(null);
+
+  // Sync reviews when comboId changes
+  useEffect(() => {
+    try {
+      const stored = localStorage.getItem(storageKey);
+      setCustomerReviews(stored ? JSON.parse(stored) : []);
+    } catch {
+      setCustomerReviews([]);
+    }
+  }, [comboId, storageKey]);
+
+  const allReviews = [
+    ...customerReviews,
+    ...staticReviews.map(r => ({ ...r, id: r.name + r.date, verified: true }))
+  ];
+
+  const avgRating = allReviews.length > 0
+    ? parseFloat((allReviews.reduce((sum, r) => sum + r.rating, 0) / allReviews.length).toFixed(1))
+    : 5.0;
+
+  const handlePhotoUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = Array.from(e.target.files || []);
+    files.slice(0, 3 - formPhotos.length).forEach(file => {
+      const reader = new FileReader();
+      reader.onload = (ev) => {
+        if (ev.target?.result) {
+          setFormPhotos(prev => [...prev, ev.target!.result as string]);
+        }
+      };
+      reader.readAsDataURL(file);
+    });
+    if (fileRef.current) fileRef.current.value = '';
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    const newErrors: {rating?: string; text?: string} = {};
+    if (formRating === 0) newErrors.rating = 'Please select a star rating.';
+    if (formText.trim().length < 10) newErrors.text = 'Please write at least 10 characters.';
+    if (Object.keys(newErrors).length > 0) { setErrors(newErrors); return; }
+
+    const newReview: CustomerReview = {
+      name: formName.trim() || 'Anonymous',
+      rating: formRating,
+      text: formText.trim(),
+      date: 'Just now',
+      photos: formPhotos,
+      verified: false,
+    };
+
+    const updated = [newReview, ...customerReviews];
+    setCustomerReviews(updated);
+    try { 
+      localStorage.setItem(storageKey, JSON.stringify(updated));
+      window.dispatchEvent(new Event('reviews-updated'));
+    } catch {}
+
+    setFormName('');
+    setFormRating(0);
+    setFormText('');
+    setFormPhotos([]);
+    setErrors({});
+    setSubmitted(true);
+    setTimeout(() => { setSubmitted(false); setShowForm(false); }, 3000);
+  };
+
+  return (
+    <section id="reviews" className="py-16 md:py-24 bg-[#FAF9F5]/50 border-t border-[#052B08]/5 scroll-mt-20">
+      <div className="max-w-6xl mx-auto px-4 md:px-6">
+        {/* Header */}
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-6 mb-12">
+          <div className="text-left">
+            <span className="text-[10px] tracking-[0.35em] uppercase font-bold text-[#052B08]/40 mb-2 block">Verified Feedback</span>
+            <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl text-[#052B08]">Customer Reviews</h2>
+            {allReviews.length > 0 && (
+              <div className="flex items-center gap-2 mt-2">
+                <div className="flex gap-0.5">
+                  {[1,2,3,4,5].map(s => (
+                    <Star key={s} size={14}
+                      fill={avgRating >= s ? '#F8CD71' : 'none'}
+                      stroke="#F8CD71" strokeWidth={1.5}
+                    />
+                  ))}
+                </div>
+                <span className="text-sm font-bold text-[#052B08]">{avgRating}</span>
+                <span className="text-xs text-gray-400">({allReviews.length} reviews)</span>
+              </div>
+            )}
+          </div>
+          <button
+            onClick={() => setShowForm(v => !v)}
+            className="flex items-center gap-2 bg-[#052B08] text-white px-5 sm:px-6 py-3 rounded-full text-xs font-bold uppercase tracking-widest hover:bg-[#1A4B21] transition-all shadow-sm active:scale-95 shrink-0 cursor-pointer"
+          >
+            Write a Review
+            {showForm ? <ChevronUp size={14} /> : <ChevronDown size={14} />}
+          </button>
+        </div>
+
+        {/* Write a Review Form */}
+        <AnimatePresence>
+          {showForm && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: 'auto' }}
+              exit={{ opacity: 0, height: 0 }}
+              transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+              className="overflow-hidden mb-10 text-left"
+            >
+              <div className="bg-white rounded-[2rem] border border-[#052B08]/8 shadow-sm p-6 sm:p-8">
+                {submitted ? (
+                  <motion.div
+                    initial={{ scale: 0.9, opacity: 0 }}
+                    animate={{ scale: 1, opacity: 1 }}
+                    className="flex flex-col items-center gap-3 py-8 text-center"
+                  >
+                    <div className="w-14 h-14 rounded-full bg-[#EEF7EE] flex items-center justify-center">
+                      <Check size={24} className="text-[#2D7A3A]" />
+                    </div>
+                    <h3 className="font-serif text-xl text-[#052B08]">Thank you for your review!</h3>
+                    <p className="text-sm text-gray-400">Your feedback helps other customers make better choices.</p>
+                  </motion.div>
+                ) : (
+                  <form onSubmit={handleSubmit} className="space-y-6">
+                    <h3 className="font-serif text-xl sm:text-2xl text-[#052B08] font-bold mb-1">Share Your Experience</h3>
+                    <p className="text-xs text-gray-400 -mt-4">Your honest review helps others make informed decisions.</p>
+
+                    {/* Star Rating */}
+                    <div>
+                      <label className="text-[10px] font-bold uppercase tracking-widest text-[#052B08]/60 block mb-2">Your Rating *</label>
+                      <StarRatingInput value={formRating} onChange={v => { setFormRating(v); setErrors(e => ({...e, rating: undefined})); }} />
+                      {errors.rating && <p className="text-red-500 text-xs mt-1">{errors.rating}</p>}
+                    </div>
+
+                    {/* Name */}
+                    <div>
+                      <label className="text-[10px] font-bold uppercase tracking-widest text-[#052B08]/60 block mb-2">Your Name (optional)</label>
+                      <input
+                        type="text"
+                        value={formName}
+                        onChange={e => setFormName(e.target.value)}
+                        placeholder="e.g. Priya S."
+                        maxLength={60}
+                        className="w-full sm:w-72 px-4 py-3 bg-[#FAF9F5] border border-black/8 rounded-full text-sm text-[#052B08] focus:outline-none focus:border-[#052B08]/40 focus:ring-1 focus:ring-[#052B08]/10 placeholder:text-gray-400"
+                      />
+                    </div>
+
+                    {/* Review Text */}
+                    <div>
+                      <label className="text-[10px] font-bold uppercase tracking-widest text-[#052B08]/60 block mb-2">Your Review *</label>
+                      <textarea
+                        value={formText}
+                        onChange={e => { setFormText(e.target.value); setErrors(e2 => ({...e2, text: undefined})); }}
+                        placeholder="Tell us what you love about this combo, any results you noticed, or tips for using it..."
+                        rows={4}
+                        maxLength={800}
+                        className="w-full px-4 py-3 bg-[#FAF9F5] border border-black/8 rounded-2xl text-sm text-[#052B08] focus:outline-none focus:border-[#052B08]/40 focus:ring-1 focus:ring-[#052B08]/10 placeholder:text-gray-400 resize-none"
+                      />
+                      <div className="flex justify-between mt-1">
+                        {errors.text ? <p className="text-red-500 text-xs">{errors.text}</p> : <span />}
+                        <span className="text-[10px] text-gray-300">{formText.length}/800</span>
+                      </div>
+                    </div>
+
+                    {/* Photo Upload */}
+                    <div>
+                      <label className="text-[10px] font-bold uppercase tracking-widest text-[#052B08]/60 block mb-2">Add Photos (optional, max 3)</label>
+                      <div className="flex flex-wrap gap-3 items-center">
+                        {formPhotos.map((src, i) => (
+                          <div key={i} className="relative w-20 h-20 rounded-xl overflow-hidden border border-black/10 group">
+                            <img src={src} alt={`Preview ${i+1}`} className="w-full h-full object-cover" />
+                            <button
+                              type="button"
+                              onClick={() => setFormPhotos(prev => prev.filter((_, j) => j !== i))}
+                              className="absolute top-1 right-1 w-5 h-5 rounded-full bg-black/60 text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
+                            >
+                              <X size={10} />
+                            </button>
+                          </div>
+                        ))}
+                        {formPhotos.length < 3 && (
+                          <button
+                            type="button"
+                            onClick={() => fileRef.current?.click()}
+                            className="w-20 h-20 rounded-xl border-2 border-dashed border-[#052B08]/20 hover:border-[#052B08]/50 flex flex-col items-center justify-center gap-1 text-[#052B08]/40 hover:text-[#052B08]/70 transition-all cursor-pointer"
+                          >
+                            <Camera size={20} />
+                            <span className="text-[9px] font-bold uppercase tracking-wider">Add Photo</span>
+                          </button>
+                        )}
+                      </div>
+                      <input
+                        ref={fileRef}
+                        type="file"
+                        accept="image/*"
+                        multiple
+                        onChange={handlePhotoUpload}
+                        className="hidden"
+                      />
+                      <p className="text-[10px] text-gray-400 mt-1.5">JPG, PNG, WEBP supported. Max 3 photos.</p>
+                    </div>
+
+                    {/* Submit */}
+                    <div className="flex gap-3 pt-2">
+                      <button
+                        type="submit"
+                        className="flex items-center gap-2 bg-[#052B08] text-white px-6 sm:px-8 py-3.5 rounded-full text-xs font-bold uppercase tracking-widest hover:bg-[#1A4B21] transition-all shadow-sm active:scale-95 cursor-pointer"
+                      >
+                        Submit Review
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setShowForm(false)}
+                        className="px-5 sm:px-6 py-3.5 rounded-full text-xs font-bold uppercase tracking-widest text-gray-400 hover:bg-black/5 transition-all cursor-pointer"
+                      >
+                        Cancel
+                      </button>
+                    </div>
+                  </form>
+                )}
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        {/* Reviews Grid */}
+        {allReviews.length === 0 ? (
+          <div className="text-center py-16 bg-white rounded-[2rem] border border-[#052B08]/5">
+            <p className="text-gray-400 font-bold uppercase tracking-widest text-xs mb-2">No reviews yet</p>
+            <p className="text-sm text-[#052B08]/50">Be the first to share your experience!</p>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 xl:gap-6">
+            {allReviews.map((rev, idx) => (
+              <div key={rev.id || idx} className="bg-white rounded-3xl p-5 sm:p-6 border border-black/5 hover:shadow-lg transition-shadow duration-300 flex flex-col justify-between h-full text-left">
+                <div>
+                  <div className="flex items-center justify-between mb-3">
+                    <div className="flex gap-0.5">
+                      {[1,2,3,4,5].map(s => (
+                        <Star key={s} size={14}
+                          fill={rev.rating >= s ? '#F8CD71' : 'none'}
+                          stroke={rev.rating >= s ? '#F8CD71' : '#E5E7EB'}
+                          strokeWidth={1.5}
+                        />
+                      ))}
+                    </div>
+                    <span className="text-[10px] text-gray-400 font-bold uppercase tracking-wider">{rev.date}</span>
+                  </div>
+                  <p className="text-sm text-[#052B08]/80 leading-relaxed italic mb-4">"{rev.text}"</p>
+                  {rev.photos && rev.photos.length > 0 && (
+                    <ReviewPhotoGrid photos={rev.photos} />
+                  )}
+                </div>
+
+                <div className="flex items-center gap-3 border-t border-black/5 pt-4 mt-4">
+                  <div className="w-8 h-8 rounded-full bg-[#052B08] text-white font-bold text-xs flex items-center justify-center flex-shrink-0">
+                    {(rev.name || 'A').charAt(0).toUpperCase()}
+                  </div>
+                  <div>
+                    <h4 className="text-xs font-bold text-[#052B08]">{rev.name || 'Anonymous'}</h4>
+                    <span className="text-[9px] font-bold uppercase tracking-wider flex items-center gap-1" style={{color: rev.verified ? '#2D7A3A' : '#888'}}>
+                      <span className="text-[10px]">{rev.verified ? '✓' : '●'}</span>
+                      {rev.verified ? 'Verified Buyer' : 'Customer Review'}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+    </section>
   );
 }

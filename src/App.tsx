@@ -81,7 +81,7 @@ export default function App() {
       <Navbar />
       <FloatingWhatsApp />
       <SmoothScroll>
-        <div className="bg-[#C1CDBF] min-h-screen selection:bg-[#FF7B89] selection:text-white relative">
+        <div className="bg-[#CDD5AE] min-h-screen selection:bg-[#FF7B89] selection:text-white relative">
           <AnimatePresence mode="wait">
             {loading && <Loader key="loader" />}
           </AnimatePresence>

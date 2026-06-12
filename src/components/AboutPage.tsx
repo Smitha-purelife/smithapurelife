@@ -11,7 +11,7 @@ export default function AboutPage() {
     <div className="bg-[#F5F7F5] min-h-screen pt-24 text-left">
       
       {/* ─── Hero Section ─── */}
-      <section className="relative overflow-hidden py-20 bg-[#C1CDBF]/40 border-b border-black/5">
+      <section className="relative overflow-hidden py-20 bg-[#CDD5AE]/40 border-b border-black/5">
         <div className="absolute inset-0 opacity-[0.03] pointer-events-none"
           style={{
             backgroundImage: 'radial-gradient(circle, #1A4B21 1px, transparent 1px)',

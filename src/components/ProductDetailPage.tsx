@@ -2,7 +2,7 @@ import { useParams, Link } from 'react-router-dom';
 import { motion, useTransform, useMotionValue, useSpring, AnimatePresence } from 'framer-motion';
 import { useRef, useState, useEffect, memo, useCallback } from 'react';
 import { products } from '../data/products';
-import { ArrowLeft, ArrowRight, Sparkles, Camera, X, Star, Check, ChevronDown, ChevronUp, Maximize2 } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Sparkles, Camera, X, Star, Check, ChevronDown, ChevronUp, Maximize2, Heart } from 'lucide-react';
 import ComparisonSection from './ComparisonSection';
 import TransformationsGallery from './TransformationsGallery';
 
@@ -43,7 +43,7 @@ interface CustomerReview {
   verified?: boolean;
 }
 
-const productDetailData: Record<string, {
+export const productDetailData: Record<string, {
   benefits: string[];
   reviews: CustomerReview[];
 }> = {
@@ -769,7 +769,7 @@ function ProductReviewsSection({ productId }: { productId: string }) {
 }
 
 export default function ProductDetailPage() {
-  const { id } = useParams();
+  const { id } = useParams<{ id: string }>();
   const containerRef = useRef<HTMLDivElement>(null);
   const productIndex = products.findIndex(p => p.id === id);
   const product = products[productIndex];
@@ -780,6 +780,71 @@ export default function ProductDetailPage() {
   const [activeImageIndex, setActiveImageIndex] = useState(0);
   // State for zoom lightbox view of the product gallery
   const [galleryLightbox, setGalleryLightbox] = useState<string | null>(null);
+
+  // Like state logic
+  const [isLiked, setIsLiked] = useState(false);
+  const syncLikes = () => {
+    try {
+      const saved = localStorage.getItem('smitha_purelife_likes');
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        setIsLiked(parsed.includes(id || ''));
+      }
+    } catch {}
+  };
+
+  useEffect(() => {
+    syncLikes();
+    window.addEventListener('likes-updated', syncLikes);
+    return () => window.removeEventListener('likes-updated', syncLikes);
+  }, [id]);
+
+  const toggleLike = () => {
+    if (!id) return;
+    try {
+      const saved = localStorage.getItem('smitha_purelife_likes');
+      let parsed = saved ? JSON.parse(saved) : [];
+      if (parsed.includes(id)) {
+        parsed = parsed.filter((item: string) => item !== id);
+      } else {
+        parsed.push(id);
+      }
+      localStorage.setItem('smitha_purelife_likes', JSON.stringify(parsed));
+      window.dispatchEvent(new Event('likes-updated'));
+    } catch {}
+  };
+
+  // Compute rating and reviews
+  const staticData = (id ? productDetailData[id] : null) || { reviews: [] };
+  const storageKey = `smitha_reviews_${id}`;
+  const [customerReviews, setCustomerReviews] = useState<CustomerReview[]>(() => {
+    try {
+      const stored = localStorage.getItem(storageKey);
+      return stored ? JSON.parse(stored) : [];
+    } catch { return []; }
+  });
+
+  // Re-sync reviews when id changes
+  useEffect(() => {
+    try {
+      const stored = localStorage.getItem(storageKey);
+      setCustomerReviews(stored ? JSON.parse(stored) : []);
+    } catch {
+      setCustomerReviews([]);
+    }
+  }, [id, storageKey]);
+
+  const allReviews = [
+    ...customerReviews,
+    ...staticData.reviews.map(r => ({ ...r, id: r.name + r.date, verified: true }))
+  ];
+
+  const avgRating = allReviews.length > 0
+    ? parseFloat((allReviews.reduce((sum, r) => sum + r.rating, 0) / allReviews.length).toFixed(1))
+    : 5.0;
+
+  const likesCount = (product?.baseLikes || 100) + (isLiked ? 1 : 0);
+
 
   // Update selected size when product changes
   useEffect(() => {
@@ -901,7 +966,7 @@ export default function ProductDetailPage() {
   };
 
   return (
-    <div className="bg-[#C1CDBF] min-h-screen selection:bg-accent selection:text-bg overflow-x-hidden pt-[76px]">
+    <div className="bg-[#CDD5AE] min-h-screen selection:bg-accent selection:text-bg overflow-x-hidden pt-[76px]">
       
       {/* Floating Pagination Arrows */}
       {productIndex > 0 && (
@@ -1128,6 +1193,27 @@ export default function ProductDetailPage() {
             >
               {product.title}
             </motion.h1>
+            
+            {/* Community Rating & Likes stats */}
+            <div className="flex items-center justify-center lg:justify-start gap-4 mb-6">
+              <a 
+                href="#reviews"
+                onClick={(e) => {
+                  e.preventDefault();
+                  document.getElementById('reviews')?.scrollIntoView({ behavior: 'smooth' });
+                }}
+                className="flex items-center gap-1 text-sm font-bold text-[#052B08]/80 hover:text-[#FF7B89] transition-colors"
+              >
+                <span className="text-amber-500 text-lg">★</span>
+                <span>{avgRating}</span>
+                <span className="text-gray-400 font-normal">({allReviews.length} verified reviews)</span>
+              </a>
+              <span className="text-[#052B08]/20">|</span>
+              <span className="flex items-center gap-1.5 text-sm font-bold text-[#052B08]/80">
+                <Heart size={16} className="text-rose-500 fill-rose-500" />
+                <span>{likesCount} community likes</span>
+              </span>
+            </div>
             <motion.p 
               initial={{ opacity: 0, y: 10 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -1182,17 +1268,35 @@ export default function ProductDetailPage() {
               </div>
             </motion.div>
 
-            <motion.button 
-              onClick={handleAddToBag}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.6 }}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="bg-[#052B08] text-white py-4 lg:py-5 px-8 lg:px-12 rounded-full font-bold tracking-widest uppercase hover:bg-[#FF7B89] transition-colors duration-300 w-full sm:w-auto text-center shadow-xl hover:shadow-2xl self-center lg:self-start text-sm lg:text-base flex items-center justify-center gap-3"
-            >
-              Add to Bag • <span className="font-inter">₹{selectedSize.price.toLocaleString()}</span>
-            </motion.button>
+            <div className="flex gap-4 items-center mt-6 w-full sm:w-auto self-center lg:self-start">
+              <motion.button 
+                onClick={handleAddToBag}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.6 }}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="bg-[#052B08] text-white py-4 lg:py-5 px-8 lg:px-12 rounded-full font-bold tracking-widest uppercase hover:bg-[#FF7B89] transition-colors duration-300 flex-1 sm:flex-initial text-center shadow-xl hover:shadow-2xl text-sm lg:text-base flex items-center justify-center gap-3 cursor-pointer"
+              >
+                Add to Bag • <span className="font-inter">₹{selectedSize.price.toLocaleString()}</span>
+              </motion.button>
+              
+              {/* Like Button */}
+              <motion.button
+                onClick={toggleLike}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.6 }}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="w-14 h-14 rounded-full border border-[#052B08]/10 bg-white shadow-md hover:shadow-lg flex items-center justify-center text-gray-400 cursor-pointer hover:border-rose-500/35 transition-colors group/heart-btn shrink-0"
+              >
+                <Heart 
+                  size={20}
+                  className={`transition-colors duration-300 ${isLiked ? 'fill-rose-500 text-rose-500 scale-110' : 'text-[#2D2A26]/50 group-hover/heart-btn:text-rose-500'}`}
+                />
+              </motion.button>
+            </div>
           </motion.div>
         </div>
       </div>

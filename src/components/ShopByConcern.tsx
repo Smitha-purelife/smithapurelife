@@ -101,7 +101,7 @@ export default function ShopByConcern() {
   };
 
   return (
-    <section id="concerns" className="py-12 md:py-20 bg-[#C1CDBF] scroll-mt-24">
+    <section id="concerns" className="py-12 md:py-20 bg-[#CDD5AE] scroll-mt-24">
       <div className="max-w-7xl mx-auto px-6">
         <div className="text-center mb-8 md:mb-14">
           <motion.p

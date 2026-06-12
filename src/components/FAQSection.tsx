@@ -50,7 +50,7 @@ export default function FAQSection() {
   const [open, setOpen] = useState<number | null>(null);
 
   return (
-    <section id="faq" className="py-24 bg-[#C1CDBF] scroll-mt-24">
+    <section id="faq" className="py-24 bg-[#CDD5AE] scroll-mt-24">
       <div className="max-w-4xl mx-auto px-6">
         <div className="text-center mb-14">
           <motion.p
@@ -80,7 +80,7 @@ export default function FAQSection() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.05 }}
-              className="bg-white/60 backdrop-blur-sm rounded-2xl overflow-hidden border border-[#1A4B21]/5 hover:border-[#1A4B21]/20 transition-colors"
+              className="bg-white rounded-2xl overflow-hidden border border-black/5 hover:border-[#1A4B21]/25 transition-all shadow-xs"
             >
               <button
                 onClick={() => setOpen(open === i ? null : i)}

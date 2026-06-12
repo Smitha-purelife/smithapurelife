@@ -88,7 +88,7 @@ export default function RewardsPage() {
   ];
 
   return (
-    <div className="bg-[#C1CDBF] min-h-screen pt-[76px] overflow-x-hidden text-[#2D2A26]">
+    <div className="bg-[#CDD5AE] min-h-screen pt-[76px] overflow-x-hidden text-[#2D2A26]">
       
       {/* Hero Banner (Redesigned) */}
       <section className="relative pt-12 pb-20 bg-white overflow-hidden">

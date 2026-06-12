@@ -29,6 +29,7 @@ export interface Product {
   results: string;
   sizes: ProductSize[];
   category: 'haircare' | 'accessories';
+  baseLikes?: number;
 }
 
 export const products: Product[] = [
@@ -58,7 +59,8 @@ export const products: Product[] = [
       { size: "50ml", price: 146, originalPrice: 175 },
       { size: "100ml", price: 288, originalPrice: 349 }
     ],
-    category: 'haircare'
+    category: 'haircare',
+    baseLikes: 245
   },
   {
     id: "radiance-oil",
@@ -89,7 +91,8 @@ export const products: Product[] = [
       { size: "100ml", price: 249, originalPrice: 289 },
       { size: "200ml", price: 499, originalPrice: 560 }
     ],
-    category: 'haircare'
+    category: 'haircare',
+    baseLikes: 412
   },
   {
     id: "herbal-wash",
@@ -120,7 +123,8 @@ export const products: Product[] = [
       { size: "70gm", price: 142, originalPrice: 175 },
       { size: "270gm", price: 539, originalPrice: 569 }
     ],
-    category: 'haircare'
+    category: 'haircare',
+    baseLikes: 356
   },
   {
     id: "pro-repair-serum",
@@ -149,7 +153,8 @@ export const products: Product[] = [
     sizes: [
       { size: "30ml", price: 399, originalPrice: 489 }
     ],
-    category: 'haircare'
+    category: 'haircare',
+    baseLikes: 198
   },
   {
     id: "follicra-regrowth",
@@ -177,7 +182,8 @@ export const products: Product[] = [
     sizes: [
       { size: "30ml", price: 699, originalPrice: 762 }
     ],
-    category: 'haircare'
+    category: 'haircare',
+    baseLikes: 289
   },
   {
     id: "satin-pillowcase",
@@ -200,7 +206,8 @@ export const products: Product[] = [
     sizes: [
       { size: "1 pc", price: 69, originalPrice: 69 }
     ],
-    category: 'accessories'
+    category: 'accessories',
+    baseLikes: 124
   },
   {
     id: "satin-scrunchies",
@@ -222,7 +229,8 @@ export const products: Product[] = [
     sizes: [
       { size: "1 pc", price: 29, originalPrice: 29 }
     ],
-    category: 'accessories'
+    category: 'accessories',
+    baseLikes: 94
   }
 ];
 
@@ -245,6 +253,7 @@ export interface Combo {
   variants: ComboVariant[];
   bg: string;
   accent: string;
+  baseLikes?: number;
 }
 
 export const comboProducts: Combo[] = [
@@ -275,7 +284,8 @@ export const comboProducts: Combo[] = [
         savings: 0,
         badge: "Best Value"
       }
-    ]
+    ],
+    baseLikes: 184
   },
   {
     id: "complete-haircare",
@@ -304,7 +314,8 @@ export const comboProducts: Combo[] = [
         savings: 0,
         badge: "Complete Care Value"
       }
-    ]
+    ],
+    baseLikes: 256
   },
   {
     id: "smooth-silky",
@@ -333,7 +344,8 @@ export const comboProducts: Combo[] = [
         savings: 151,
         badge: "Frizz Defense Value"
       }
-    ]
+    ],
+    baseLikes: 142
   },
   {
     id: "transformation",
@@ -362,6 +374,7 @@ export const comboProducts: Combo[] = [
         savings: 100,
         badge: "Save ₹100 Extra"
       }
-    ]
+    ],
+    baseLikes: 312
   }
 ];

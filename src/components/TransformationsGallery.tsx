@@ -287,7 +287,7 @@ export default function TransformationsGallery({ productId }: { productId?: stri
               {/* Photo Area */}
               <div 
                 onClick={() => setActivePhoto(item)}
-                className="aspect-[4/5] bg-[#C1CDBF]/10 relative overflow-hidden cursor-pointer"
+                className="aspect-[4/5] bg-[#CDD5AE]/10 relative overflow-hidden cursor-pointer"
               >
                 <img 
                   src={item.image} 
@@ -371,7 +371,7 @@ export default function TransformationsGallery({ productId }: { productId?: stri
               className="fixed inset-x-4 top-[8%] bottom-[8%] md:inset-x-auto md:left-1/2 md:-translate-x-1/2 md:w-[850px] md:max-w-full z-[9999999] bg-white rounded-[2.5rem] shadow-2xl overflow-y-auto md:overflow-hidden flex flex-col md:flex-row border border-black/5"
             >
               {/* Left Side: Photo Frame */}
-              <div className="w-full md:w-1/2 bg-[#C1CDBF]/10 relative flex items-center justify-center p-4 min-h-[300px] md:min-h-0 border-b md:border-b-0 md:border-r border-black/5 overflow-hidden">
+              <div className="w-full md:w-1/2 bg-[#CDD5AE]/10 relative flex items-center justify-center p-4 min-h-[300px] md:min-h-0 border-b md:border-b-0 md:border-r border-black/5 overflow-hidden">
                 <img 
                   src={activePhoto.image} 
                   alt={activePhoto.title} 

@@ -1,8 +1,10 @@
 import { products, comboProducts, Combo, ComboVariant } from '../data/products';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ShoppingBag, ArrowRight, Search, SlidersHorizontal, Check, Star } from 'lucide-react';
+import { ShoppingBag, ArrowRight, Search, SlidersHorizontal, Check, Star, Heart } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { productDetailData } from './ProductDetailPage';
+
 
 // ─── Per-product card config ────────────────────────────────────────────────
 const cardConfig: Record<string, {
@@ -300,6 +302,67 @@ export default function KBeautyBestsellers() {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<'all' | 'haircare' | 'accessories' | 'combos'>('all');
   const [selectedConcern, setSelectedConcern] = useState<string>('all');
+  const [likedItems, setLikedItems] = useState<string[]>([]);
+
+  // Sync likes state
+  const syncLikes = () => {
+    try {
+      const saved = localStorage.getItem('smitha_purelife_likes');
+      if (saved) setLikedItems(JSON.parse(saved));
+    } catch {}
+  };
+
+  useEffect(() => {
+    syncLikes();
+    window.addEventListener('likes-updated', syncLikes);
+    return () => window.removeEventListener('likes-updated', syncLikes);
+  }, []);
+
+  const toggleLike = (id: string) => {
+    setLikedItems((prev) => {
+      const updated = prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id];
+      try {
+        localStorage.setItem('smitha_purelife_likes', JSON.stringify(updated));
+        window.dispatchEvent(new Event('likes-updated'));
+      } catch {}
+      return updated;
+    });
+  };
+
+  const getProductRating = (productId: string) => {
+    const staticReviews = productDetailData[productId]?.reviews || [];
+    let userReviews: any[] = [];
+    try {
+      const saved = localStorage.getItem(`smitha_reviews_${productId}`);
+      if (saved) userReviews = JSON.parse(saved);
+    } catch {}
+    const allReviews = [...userReviews, ...staticReviews];
+    const avg = allReviews.length > 0
+      ? parseFloat((allReviews.reduce((sum, r) => sum + r.rating, 0) / allReviews.length).toFixed(1))
+      : 5.0;
+    return { avg, count: allReviews.length };
+  };
+
+  const getComboRating = (comboId: string) => {
+    const baseCountMapping: Record<string, { avg: number, count: number }> = {
+      'daily-3step': { avg: 4.9, count: 18 },
+      'complete-haircare': { avg: 5.0, count: 24 },
+      'smooth-silky': { avg: 4.8, count: 12 },
+      'transformation': { avg: 5.0, count: 32 }
+    };
+    const base = baseCountMapping[comboId] || { avg: 5.0, count: 10 };
+    let userReviews: any[] = [];
+    try {
+      const saved = localStorage.getItem(`smitha_reviews_${comboId}`);
+      if (saved) userReviews = JSON.parse(saved);
+    } catch {}
+    if (userReviews.length === 0) return base;
+    const totalCount = base.count + userReviews.length;
+    const totalSum = (base.avg * base.count) + userReviews.reduce((sum, r) => sum + r.rating, 0);
+    const avg = parseFloat((totalSum / totalCount).toFixed(1));
+    return { avg, count: totalCount };
+  };
+
 
   const handleAddProductToBag = (productId: string) => {
     const prod = products.find(p => p.id === productId);
@@ -585,6 +648,8 @@ export default function KBeautyBestsellers() {
                     }
                   }
                 };
+                const ratingInfo = isCombo ? getComboRating(product.id) : getProductRating(product.id);
+                const likesCount = (product.baseLikes || 100) + (likedItems.includes(product.id) ? 1 : 0);
 
                 return (
                   <motion.div
@@ -610,6 +675,26 @@ export default function KBeautyBestsellers() {
                           {cfg.badge}
                         </div>
                       )}
+
+                      {/* Heart (Like) button overlay top right */}
+                      <button
+                        onClick={(e) => {
+                          e.preventDefault();
+                          e.stopPropagation();
+                          toggleLike(product.id);
+                        }}
+                        className="absolute top-4 right-4 z-20 w-10 h-10 rounded-full bg-white/80 backdrop-blur-md border border-black/5 flex items-center justify-center hover:scale-105 active:scale-95 transition-all duration-300 shadow-sm cursor-pointer group/heart"
+                      >
+                        <motion.div
+                          animate={{ scale: likedItems.includes(product.id) ? [1, 1.3, 1] : 1 }}
+                          transition={{ duration: 0.3 }}
+                        >
+                          <Heart 
+                            size={16} 
+                            className={`transition-colors duration-300 ${likedItems.includes(product.id) ? 'fill-rose-500 text-rose-500' : 'text-[#2D2A26]/40 group-hover/heart:text-rose-500'}`} 
+                          />
+                        </motion.div>
+                      </button>
 
                       {isCombo ? (
                         <a href="#combos" className="block w-full">
@@ -642,6 +727,23 @@ export default function KBeautyBestsellers() {
                         <p className="text-[9px] font-bold text-gray-400 uppercase tracking-widest mb-1.5 text-left">
                           {isCombo ? (product as any).variants[0].subtitle : (product as any).subtitle || 'Smitha Purelife'}
                         </p>
+
+                        {/* Rating & Likes stats */}
+                        <div className="flex items-center gap-2 mb-2">
+                          <Link 
+                            to={isCombo ? `/combo/${product.id}#reviews` : `/product/${product.id}#reviews`}
+                            className="flex items-center gap-0.5 text-[10px] font-bold text-[#2D2A26]/60 hover:text-[#1A4B21] transition-colors"
+                          >
+                            <span className="text-amber-500">★</span>
+                            <span>{ratingInfo.avg}</span>
+                            <span className="text-gray-400 font-normal">({ratingInfo.count})</span>
+                          </Link>
+                          <span className="text-[#2D2A26]/10 text-[10px]">|</span>
+                          <span className="flex items-center gap-0.5 text-[10px] font-bold text-[#2D2A26]/60">
+                            <span className="text-rose-500 font-normal">♥</span>
+                            <span>{likesCount} likes</span>
+                          </span>
+                        </div>
                         
                         {/* Title & Price */}
                         <div className="flex justify-between items-baseline gap-2 mb-3">

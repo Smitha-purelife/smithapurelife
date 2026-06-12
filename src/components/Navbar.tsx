@@ -120,8 +120,8 @@ export default function Navbar() {
       <nav
         className={`fixed top-0 left-0 right-0 z-[999] transition-all duration-700 ${
           isScrolled 
-            ? 'py-2 bg-[#C1CDBF]/90 backdrop-blur-xl border-b border-black/5 shadow-sm' 
-            : 'py-3 bg-[#C1CDBF]/70 backdrop-blur-md border-b border-black/5'
+            ? 'py-2 bg-[#CDD5AE]/90 backdrop-blur-xl border-b border-black/5 shadow-sm' 
+            : 'py-3 bg-[#CDD5AE]/70 backdrop-blur-md border-b border-black/5'
         }`}
       >
         <div className="max-w-7xl mx-auto px-6 md:px-12">
@@ -153,17 +153,16 @@ export default function Navbar() {
                 />
               </div>
               
-              {/* Text Logo — Playfair Display + Dancing Script */}
+              {/* Text Logo — clean sharp type */}
               <div className="flex flex-col items-start leading-none select-none">
                 <span
                   style={{
                     fontFamily: "'Playfair Display', serif",
                     fontWeight: 800,
                     fontSize: 'clamp(15px, 3.5vw, 22px)',
-                    color: '#6B8F5E',
-                    letterSpacing: '0.12em',
+                    color: '#5A7D4A',
+                    letterSpacing: '0.10em',
                     lineHeight: 1,
-                    textShadow: '1px 1px 0px rgba(0,0,0,0.12), 2px 2px 0px rgba(0,0,0,0.06)',
                   }}
                 >
                   SMITHA
@@ -173,10 +172,10 @@ export default function Navbar() {
                     fontFamily: "'Dancing Script', cursive",
                     fontWeight: 600,
                     fontSize: 'clamp(8px, 1.8vw, 11px)',
-                    color: '#B8906A',
+                    color: '#B8844A',
                     letterSpacing: '0.04em',
                     lineHeight: 1.3,
-                    marginTop: '1px',
+                    marginTop: '2px',
                   }}
                 >
                   Purelife · Natural Care
@@ -262,7 +261,7 @@ export default function Navbar() {
               className="fixed inset-y-0 left-0 z-[99999] w-[85%] max-w-[340px] bg-[#FAF8F5] shadow-2xl flex flex-col h-full overflow-hidden md:hidden text-left"
             >
               {/* Promo Banner at the top */}
-              <div className="bg-gradient-to-r from-[#D4E2D4] to-[#C1CDBF] px-5 py-4 flex justify-between items-center relative border-b border-black/5">
+              <div className="bg-gradient-to-r from-[#E3E7D3] to-[#CDD5AE] px-5 py-4 flex justify-between items-center relative border-b border-black/5">
                 <div className="text-left">
                   <span className="text-[10px] font-bold uppercase tracking-widest text-[#1A4B21] block">Welcome Offer</span>
                   <span className="text-[11px] font-bold text-[#2D2A26] block mt-0.5">FLAT 10% OFF | USE CODE: <span className="underline">PURE10</span></span>
