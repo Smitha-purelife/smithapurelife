@@ -15,7 +15,7 @@ const shopConfig: Record<string, {
   bgColor: string;
 }> = {
   'avosilk-bloom': {
-    price: '₹1,200',
+    price: '₹146',
     badge: 'Bestseller',
     badgeColor: '#2D7A3A',
     shopImage: '/products/avosilk_bloom_new.jpg',
@@ -23,7 +23,7 @@ const shopConfig: Record<string, {
     bgColor: '#EEF7EE',
   },
   'radiance-oil': {
-    price: '₹1,450',
+    price: '₹249',
     badge: 'Trending',
     badgeColor: '#B8860B',
     shopImage: '/products/radiance_oil_new.png',
@@ -31,7 +31,7 @@ const shopConfig: Record<string, {
     bgColor: '#FFF8E6',
   },
   'herbal-wash': {
-    price: '₹999',
+    price: '₹142',
     badge: 'Natural',
     badgeColor: '#4A7C59',
     shopImage: '/products/hair_wash_powder_new.jpg',
@@ -39,7 +39,7 @@ const shopConfig: Record<string, {
     bgColor: '#EEF4EE',
   },
   'pro-repair-serum': {
-    price: '₹1,150',
+    price: '₹399',
     badge: 'Must Have',
     badgeColor: '#8B5E8B',
     shopImage: '/products/pro_repair_serum_new.png',
@@ -47,7 +47,7 @@ const shopConfig: Record<string, {
     bgColor: '#FDF0F5',
   },
   'follicra-regrowth': {
-    price: '₹1,800',
+    price: '₹699',
     badge: 'New',
     badgeColor: '#2D6A8B',
     shopImage: '/products/follicra_proper.jpg',
@@ -55,7 +55,7 @@ const shopConfig: Record<string, {
     bgColor: '#FAF6F0',
   },
   'satin-pillowcase': {
-    price: '₹799',
+    price: '₹69',
     badge: 'Silk Slumber',
     badgeColor: '#E5C2C0',
     shopImage: '/products/satin_pillowcase_proper.jpg',
@@ -63,7 +63,7 @@ const shopConfig: Record<string, {
     bgColor: '#FAF3EE',
   },
   'satin-scrunchies': {
-    price: '₹299',
+    price: '₹29',
     badge: 'Anti-Crease',
     badgeColor: '#DCD0C0',
     shopImage: '/products/satin_scrunchies_proper.jpg',
