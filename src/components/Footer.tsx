@@ -68,12 +68,19 @@ export default function Footer() {
           {/* Brand Column */}
           <div className="col-span-2 lg:col-span-2">
             <div className="mb-3 sm:mb-4 flex items-center justify-start">
-              <Link to="/" className="hover:opacity-90 transition-opacity">
-                <img 
-                  src="/logo.jpg" 
-                  alt="Smitha Purelife Logo" 
-                  className="h-9 sm:h-11 w-auto object-contain rounded-lg shadow-sm"
-                />
+              <Link to="/" className="hover:opacity-90 transition-opacity block">
+                <div className="flex items-center gap-2 px-3 py-1.5 bg-white rounded-lg border border-black/5 shadow-sm">
+                  <img 
+                    src="/logo_icon_new.png" 
+                    alt="S Icon" 
+                    className="h-6 w-auto object-contain"
+                  />
+                  <img 
+                    src="/logo_3d_text.png" 
+                    alt="Smitha Purelife Logo" 
+                    className="h-6 w-auto object-contain"
+                  />
+                </div>
               </Link>
             </div>
             <p className="text-white/50 text-[11px] sm:text-xs leading-relaxed mb-3 sm:mb-4 max-w-sm">
