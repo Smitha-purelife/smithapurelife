@@ -75,11 +75,14 @@ export default function Footer() {
                     alt="S Icon" 
                     className="h-6 w-auto object-contain"
                   />
-                  <img 
-                    src="/logo_3d_text.png" 
-                    alt="Smitha Purelife Logo" 
-                    className="h-6 w-auto object-contain"
-                  />
+                  <div className="flex flex-col items-start leading-none select-none">
+                    <span style={{ fontFamily: "'Playfair Display', serif", fontWeight: 800, fontSize: '14px', color: '#6B8F5E', letterSpacing: '0.12em', lineHeight: 1, textShadow: '1px 1px 0px rgba(0,0,0,0.10)' }}>
+                      SMITHA
+                    </span>
+                    <span style={{ fontFamily: "'Dancing Script', cursive", fontWeight: 600, fontSize: '9px', color: '#B8906A', letterSpacing: '0.04em', lineHeight: 1.3, marginTop: '1px' }}>
+                      Purelife · Natural Care
+                    </span>
+                  </div>
                 </div>
               </Link>
             </div>

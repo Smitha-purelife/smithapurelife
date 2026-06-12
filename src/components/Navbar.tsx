@@ -153,12 +153,35 @@ export default function Navbar() {
                 />
               </div>
               
-              {/* Clean Text Logo */}
-              <img 
-                src="/logo_3d_text.png" 
-                alt="Smitha Purelife - Natural Care" 
-                className="h-10 sm:h-12 w-auto object-contain"
-              />
+              {/* Text Logo — Playfair Display + Dancing Script */}
+              <div className="flex flex-col items-start leading-none select-none">
+                <span
+                  style={{
+                    fontFamily: "'Playfair Display', serif",
+                    fontWeight: 800,
+                    fontSize: 'clamp(15px, 3.5vw, 22px)',
+                    color: '#6B8F5E',
+                    letterSpacing: '0.12em',
+                    lineHeight: 1,
+                    textShadow: '1px 1px 0px rgba(0,0,0,0.12), 2px 2px 0px rgba(0,0,0,0.06)',
+                  }}
+                >
+                  SMITHA
+                </span>
+                <span
+                  style={{
+                    fontFamily: "'Dancing Script', cursive",
+                    fontWeight: 600,
+                    fontSize: 'clamp(8px, 1.8vw, 11px)',
+                    color: '#B8906A',
+                    letterSpacing: '0.04em',
+                    lineHeight: 1.3,
+                    marginTop: '1px',
+                  }}
+                >
+                  Purelife · Natural Care
+                </span>
+              </div>
             </Link>
 
             {/* Right Nav Links & Cart Icon */}
