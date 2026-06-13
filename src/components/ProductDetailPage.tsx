@@ -562,7 +562,7 @@ function ProductReviewsSection({ productId }: { productId: string }) {
   };
 
   return (
-    <section className="py-16 md:py-24 bg-[#FAF9F5]/50 border-t border-[#052B08]/5">
+    <section id="reviews" className="py-16 md:py-24 bg-[#FAF9F5]/50 border-t border-[#052B08]/5 scroll-mt-20">
       <div className="max-w-6xl mx-auto px-4 md:px-6">
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-6 mb-12">
@@ -901,7 +901,7 @@ export default function ProductDetailPage() {
     if (prod.id === 'herbal-wash') {
       return [
         { src: '/products/hair_wash_powder_new.jpg', label: 'Main View', isTransparent: false, fitMode: 'contain' },
-        { src: '/products/herbal_wash_benefits_carousel.jpg', label: 'Benefits', isTransparent: false, fitMode: 'contain' },
+        { src: '/products/herbal_wash_ingredients.png', label: 'Ingredients', isTransparent: false, fitMode: 'contain' },
         { src: '/products/herbal_wash_benefits_new.png', label: 'Detailed Benefits', isTransparent: false, fitMode: 'contain' },
         { src: '/products/herbal_wash_review.jpg', label: 'Customer Results 1', isTransparent: false, fitMode: 'contain' },
         { src: '/products/herbal_wash_review_2.png', label: 'Customer Results 2', isTransparent: false, fitMode: 'contain' },
