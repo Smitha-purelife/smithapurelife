@@ -450,10 +450,6 @@ export default function Navbar() {
                   </svg>
                   Chat on WhatsApp
                 </a>
-                <div className="flex justify-between items-center mt-4 text-[9px] font-bold text-[#2D2A26]/50 uppercase tracking-wider">
-                  <span>Earn With Us</span>
-                  <span>Need Help?</span>
-                </div>
               </div>
             </motion.div>
           </>
