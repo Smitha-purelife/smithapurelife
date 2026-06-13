@@ -212,7 +212,7 @@ export default function ComboDetailPage() {
       return { before: '/products/before_hair_fall.png', after: '/products/after_hair_fall.png' };
     }
     if (comboId === 'complete-haircare') {
-      return { before: '/products/before_hair.png', after: '/products/after_hair.png' };
+      return { before: '/products/before_hair_growth.png', after: '/products/after_hair_growth.png' };
     }
     if (comboId === 'smooth-silky') {
       return { before: '/products/before_damaged_hair.png', after: '/products/after_repaired_hair.png' };
