@@ -884,7 +884,7 @@ export default function ProductDetailPage() {
       return [
         { src: '/products/avosilk_bloom_lifestyle.jpg', label: 'Main View', isTransparent: false, fitMode: 'cover' },
         { src: '/products/avosilk_bloom_ingredients_explosion.png', label: 'Ingredients', isTransparent: false, fitMode: 'contain' },
-        { src: '/products/avosilk_bloom_benefits_swirl.png', label: 'Benefits', isTransparent: false, fitMode: 'contain' },
+        { src: '/products/avosilk_bloom_benefits_new.png', label: 'Benefits', isTransparent: false, fitMode: 'contain' },
         { src: '/products/avosilk_bloom_review.jpg', label: 'Customer Results', isTransparent: false, fitMode: 'contain' },
       ];
     }
@@ -902,7 +902,7 @@ export default function ProductDetailPage() {
       return [
         { src: '/products/hair_wash_powder_new.jpg', label: 'Main View', isTransparent: false, fitMode: 'contain' },
         { src: '/products/herbal_wash_benefits_carousel.jpg', label: 'Benefits', isTransparent: false, fitMode: 'contain' },
-        { src: '/products/herbal_wash_benefits_swirl.png', label: 'Detailed Benefits', isTransparent: false, fitMode: 'contain' },
+        { src: '/products/herbal_wash_benefits_new.png', label: 'Detailed Benefits', isTransparent: false, fitMode: 'contain' },
         { src: '/products/herbal_wash_review.jpg', label: 'Customer Results 1', isTransparent: false, fitMode: 'contain' },
         { src: '/products/herbal_wash_review_2.png', label: 'Customer Results 2', isTransparent: false, fitMode: 'contain' },
       ];

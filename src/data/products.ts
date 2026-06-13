@@ -40,7 +40,7 @@ export const products: Product[] = [
     description: "Enriched with avocado goodness to deeply moisturize and nourish dry, rough, and frizzy hair. Helps improve hair softness, smoothness, and manageability while reducing tangles and breakage.",
     image: "/products/avosilk_bloom.png",
     lifestyleImage: "/products/media__1779362724448.png",
-    additionalImage: "/products/avosilk_bloom_benefits_v3.png",
+    additionalImage: "/products/avosilk_bloom_benefits_new.png",
     ingredientsImage: "/products/avosilk_bloom_ingredients.png",
     hasFullBanner: true,
     texture: "/products/avosilk_bloom_texture.png",
