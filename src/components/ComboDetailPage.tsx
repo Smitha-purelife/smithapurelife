@@ -218,7 +218,7 @@ export default function ComboDetailPage() {
       return { before: '/products/before_damaged_hair.png', after: '/products/after_repaired_hair.png' };
     }
     if (comboId === 'transformation') {
-      return { before: '/products/before_hair_thinning.png', after: '/products/after_hair_regrowth.png' };
+      return { before: '/products/before_hair_density.png', after: '/products/after_hair_density.png' };
     }
     return { before: '/products/before_hair.png', after: '/products/after_hair.png' };
   };
