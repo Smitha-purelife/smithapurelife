@@ -5,6 +5,7 @@ import { products } from '../data/products';
 import { ArrowLeft, ArrowRight, Sparkles, Camera, X, Star, Check, ChevronDown, ChevronUp, Maximize2, Heart } from 'lucide-react';
 import ComparisonSection from './ComparisonSection';
 import TransformationsGallery from './TransformationsGallery';
+import HairCareTipsSection from './HairCareTipsSection';
 
 // Interactive Floating Particle Component
 const FloatingDebris = memo(({ index }: { index: number }) => {
@@ -1380,6 +1381,9 @@ export default function ProductDetailPage() {
 
       {/* 5. Reviews Section */}
       <ProductReviewsSection productId={product.id} />
+
+      {/* Hair Care Tips Section */}
+      <HairCareTipsSection />
 
       {/* Bottom Product Navigation */}
       <section className="py-20 lg:py-32 px-6 md:px-12 bg-white/40 backdrop-blur-md border-t border-[#052B08]/5">

@@ -20,6 +20,7 @@ import {
 } from 'lucide-react';
 import { products, comboProducts, Combo, ComboVariant } from '../data/products';
 import TransformationsGallery from './TransformationsGallery';
+import HairCareTipsSection from './HairCareTipsSection';
 import ComparisonSection from './ComparisonSection';
 import FAQSection from './FAQSection';
 import Footer from './Footer';
@@ -649,6 +650,9 @@ export default function ComboDetailPage() {
 
       {/* Reviews Section */}
       <ComboReviewsSection comboId={combo.id} />
+
+      {/* Hair Care Tips Section */}
+      <HairCareTipsSection />
 
       {/* FAQs */}
       <FAQSection />
