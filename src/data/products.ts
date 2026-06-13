@@ -101,7 +101,7 @@ export const products: Product[] = [
     description: "A gentle herbal cleansing powder made with traditional natural ingredients to cleanse the scalp without stripping away natural moisture. Helps reduce dandruff, control excess oil, and leave hair feeling fresh, soft, and healthy.",
     image: "/products/hair_wash_powder_v2.png",
     lifestyleImage: "/products/herbal_wash_lifestyle_grandma.jpg",
-    additionalImage: "/products/herbal_wash_benefits_v3.png",
+    additionalImage: "/products/herbal_wash_benefits_new.png",
     ingredientsImage: "/products/herbal_wash_ingredients.png",
     beforeImage: "/products/before_dandruff.png",
     afterImage: "/products/after_clean_scalp.png",
