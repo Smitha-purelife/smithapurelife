@@ -392,13 +392,6 @@ export default function Navbar() {
                     name: 'Our Story & Philosophy',
                     badge: '',
                     href: '/about'
-                  },
-                  {
-                    name: 'Find a Store Near You',
-                    badge: '',
-                    onClick: () => {
-                      alert("Our premium boutique experience is expanding! Our current physical flagship atelier is based in Coimbatore, TN. New store locations coming soon to Bangalore and Chennai!");
-                    }
                   }
                 ].map((item, i) => (
                   <motion.div
