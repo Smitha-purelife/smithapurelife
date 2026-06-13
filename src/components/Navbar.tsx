@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X, ShoppingBag, Plus, Minus, Trash2 } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { products, comboProducts } from '../data/products';
 
 const navLinks = [
@@ -25,6 +25,29 @@ export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [cartOpen, setCartOpen] = useState(false);
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
+  const location = useLocation();
+
+  const handleLinkClick = (href: string, e?: React.MouseEvent) => {
+    if (href.includes('#')) {
+      const [path, hashPart] = href.split('#');
+      const targetId = hashPart;
+      const isSamePath = location.pathname === path || (path === '/' && location.pathname === '/');
+      
+      if (isSamePath) {
+        if (e) e.preventDefault();
+        const element = document.getElementById(targetId);
+        if (element) {
+          const globalLenis = (window as any).lenis;
+          if (globalLenis) {
+            globalLenis.scrollTo(element, { offset: -96, duration: 1.2 });
+          } else {
+            element.scrollIntoView({ behavior: 'smooth' });
+          }
+        }
+        window.history.pushState(null, '', href);
+      }
+    }
+  };
 
   // Listen to scrolls for styling navbar
   useEffect(() => {
@@ -132,6 +155,7 @@ export default function Navbar() {
                 <Link
                   key={link.name}
                   to={link.href}
+                  onClick={(e) => handleLinkClick(link.href, e)}
                   className="font-body text-[12px] tracking-[0.2em] uppercase text-[#2D2A26] hover:text-[#FF7B89] transition-colors duration-300 font-bold"
                 >
                   {link.name}
@@ -189,6 +213,7 @@ export default function Navbar() {
                 <Link
                   key={link.name}
                   to={link.href}
+                  onClick={(e) => handleLinkClick(link.href, e)}
                   className="font-body text-[12px] tracking-[0.2em] uppercase text-[#2D2A26] hover:text-[#FF7B89] transition-colors duration-300 font-bold"
                 >
                   {link.name}
@@ -385,7 +410,10 @@ export default function Navbar() {
                     {item.href ? (
                       <Link
                         to={item.href}
-                        onClick={() => setIsOpen(false)}
+                        onClick={(e) => {
+                          setIsOpen(false);
+                          handleLinkClick(item.href, e);
+                        }}
                         className="flex justify-between items-center py-4 border-b border-[#2D2A26]/5 text-[#2D2A26] hover:text-[#1A4B21] transition-colors group"
                       >
                         <span className="text-sm font-bold uppercase tracking-wider group-hover:translate-x-1.5 transition-transform duration-300">{item.name}</span>
