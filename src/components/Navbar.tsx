@@ -169,7 +169,7 @@ export default function Navbar() {
               className="flex-1 flex items-center justify-start md:justify-center transition-all hover:opacity-90 duration-300 py-1"
             >
               <img 
-                src="/logo_3d_banner_v2_transparent.png" 
+                src="/logo_3d_banner_v3_transparent.png" 
                 alt="Smitha Purelife" 
                 className="h-10 sm:h-12 w-auto object-contain"
               />
