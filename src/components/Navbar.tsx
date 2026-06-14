@@ -166,47 +166,13 @@ export default function Navbar() {
             {/* Logo */}
             <Link
               to="/"
-              className="flex-1 flex-row flex items-center justify-start md:justify-center gap-3 transition-all hover:opacity-90 duration-300 py-2"
+              className="flex-1 flex items-center justify-start md:justify-center transition-all hover:opacity-90 duration-300 py-1"
             >
-              {/* S Icon Box */}
-              <div className="w-10 h-10 sm:w-12 sm:h-12 bg-white rounded-xl shadow-sm flex items-center justify-center border border-black/5 flex-shrink-0 p-1">
-                <img 
-                  src="/logo_icon_new_v4.png" 
-                  alt="S Icon" 
-                  className="w-full h-full object-contain"
-                />
-              </div>
-              
-              {/* Text Logo with 3D Effect */}
-              <div className="flex flex-col items-start leading-none select-none">
-                <span
-                  style={{
-                    fontFamily: "'Playfair Display', serif",
-                    fontWeight: 900,
-                    fontSize: 'clamp(15px, 3.5vw, 22px)',
-                    color: '#5A7D4A',
-                    letterSpacing: '0.10em',
-                    lineHeight: 1,
-                    textShadow: '-0.5px 0.5px 0px #425D34, -1px 1px 0px #4B6A3D, -1.5px 1.5px 0px #384F2C, -2px 2px 3px rgba(0, 0, 0, 0.15), -3px 3px 6px rgba(0, 0, 0, 0.1)'
-                  }}
-                >
-                  SMITHA
-                </span>
-                <span
-                  style={{
-                    fontFamily: "'Dancing Script', cursive",
-                    fontWeight: 700,
-                    fontSize: 'clamp(8px, 1.8vw, 11px)',
-                    color: '#B8844A',
-                    letterSpacing: '0.04em',
-                    lineHeight: 1.3,
-                    marginTop: '2px',
-                    textShadow: '-0.5px 0.5px 0px #8C6233, -1px 1px 1px rgba(0, 0, 0, 0.1)'
-                  }}
-                >
-                  Purelife · Natural Care
-                </span>
-              </div>
+              <img 
+                src="/logo_3d_banner_v2_transparent.png" 
+                alt="Smitha Purelife" 
+                className="h-10 sm:h-12 w-auto object-contain"
+              />
             </Link>
 
             {/* Right Nav Links & Cart Icon */}

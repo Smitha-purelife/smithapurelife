@@ -41,6 +41,10 @@ const faqs = [
     q: 'How long does delivery take?',
     a: 'Orders are dispatched within 1-2 business days and typically arrive in 3-5 business days across all of India.',
   },
+  {
+    q: 'Why does hair fall temporarily increase during the first 2 weeks for a small number of users (around 2%) when using our natural products?',
+    a: 'Congrats, it\'s a good sign! When you transition to pure botanical treatments, your scalp goes through a natural \"detox\" or shedding phase. The highly active natural nutrients stimulate blood flow and activate dormant follicles, prompting the scalp to shed weaker, damaged hair strands that were already in the telogen (resting) phase. This clears the way for new, stronger, and thicker baby hair to grow from the roots. This phase affects only about 2% of users and typically resolves within 1–2 weeks.',
+  },
 ];
 
 export default function FAQSection() {
