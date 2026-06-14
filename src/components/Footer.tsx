@@ -69,12 +69,37 @@ export default function Footer() {
           <div className="col-span-2 lg:col-span-2">
             <div className="mb-3 sm:mb-4 flex items-center justify-start">
               <Link to="/" className="hover:opacity-90 transition-opacity block">
-                <div className="px-3 py-1.5 bg-white rounded-lg border border-black/5 shadow-sm">
+                <div className="flex items-center gap-2.5 px-3 py-1.5 bg-white rounded-lg border border-black/5 shadow-sm">
                   <img 
-                    src="/logo_3d_navbar_transparent.png" 
-                    alt="Smitha Purelife" 
-                    className="h-8 w-auto object-contain"
+                    src="/logo_icon_new_v4.png" 
+                    alt="S Icon" 
+                    className="h-6 w-auto object-contain"
                   />
+                  <div className="flex flex-col items-start leading-none select-none">
+                    <span style={{
+                      fontFamily: "'Playfair Display', serif",
+                      fontWeight: 900,
+                      fontSize: '14px',
+                      color: '#5A7D4A',
+                      letterSpacing: '0.10em',
+                      lineHeight: 1,
+                      textShadow: '-0.5px 0.5px 0px #425D34, -1px 1px 0px #4B6A3D, -1.5px 1.5px 0px #384F2C, -2px 2px 2px rgba(0, 0, 0, 0.15)'
+                    }}>
+                      SMITHA
+                    </span>
+                    <span style={{
+                      fontFamily: "'Dancing Script', cursive",
+                      fontWeight: 700,
+                      fontSize: '9px',
+                      color: '#B8844A',
+                      letterSpacing: '0.04em',
+                      lineHeight: 1.3,
+                      marginTop: '2px',
+                      textShadow: '-0.5px 0.5px 0px #8C6233, -1px 1px 1px rgba(0, 0, 0, 0.1)'
+                    }}>
+                      Purelife · Natural Care
+                    </span>
+                  </div>
                 </div>
               </Link>
             </div>
