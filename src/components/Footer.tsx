@@ -71,7 +71,7 @@ export default function Footer() {
               <Link to="/" className="hover:opacity-90 transition-opacity block">
                 <div className="flex items-center gap-2 px-3 py-1.5 bg-white rounded-lg border border-black/5 shadow-sm">
                   <img 
-                    src="/logo_icon_new.png?v=3" 
+                    src="/logo_icon_new_v4.png" 
                     alt="S Icon" 
                     className="h-6 w-auto object-contain"
                   />
