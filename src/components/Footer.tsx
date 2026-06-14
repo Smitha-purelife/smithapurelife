@@ -69,35 +69,12 @@ export default function Footer() {
           <div className="col-span-2 lg:col-span-2">
             <div className="mb-3 sm:mb-4 flex items-center justify-start">
               <Link to="/" className="hover:opacity-90 transition-opacity block">
-                <div className="flex items-center gap-2 px-3 py-1.5 bg-white rounded-lg border border-black/5 shadow-sm">
+                <div className="px-3 py-1.5 bg-white rounded-lg border border-black/5 shadow-sm">
                   <img 
-                    src="/logo_icon_new_v4.png" 
-                    alt="S Icon" 
-                    className="h-6 w-auto object-contain"
+                    src="/logo_3d_navbar_transparent.png" 
+                    alt="Smitha Purelife" 
+                    className="h-8 w-auto object-contain"
                   />
-                  <div className="flex flex-col items-start leading-none select-none">
-                    <span style={{
-                      fontFamily: "'Playfair Display', serif",
-                      fontWeight: 800,
-                      fontSize: '14px',
-                      color: '#8FC47E',
-                      letterSpacing: '0.10em',
-                      lineHeight: 1,
-                    }}>
-                      SMITHA
-                    </span>
-                    <span style={{
-                      fontFamily: "'Dancing Script', cursive",
-                      fontWeight: 600,
-                      fontSize: '9px',
-                      color: '#D4A574',
-                      letterSpacing: '0.04em',
-                      lineHeight: 1.3,
-                      marginTop: '2px',
-                    }}>
-                      Purelife · Natural Care
-                    </span>
-                  </div>
                 </div>
               </Link>
             </div>

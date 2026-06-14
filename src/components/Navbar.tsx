@@ -166,45 +166,13 @@ export default function Navbar() {
             {/* Logo */}
             <Link
               to="/"
-              className="flex-1 flex-row flex items-center justify-start md:justify-center gap-2.5 transition-all hover:opacity-90 duration-300 py-2"
+              className="flex-1 flex items-center justify-start md:justify-center transition-all hover:opacity-90 duration-300 py-1"
             >
-              {/* S Icon Box */}
-              <div className="w-10 h-10 sm:w-12 sm:h-12 bg-white rounded-xl shadow-sm flex items-center justify-center border border-black/5 flex-shrink-0 p-1">
-                <img 
-                  src="/logo_icon_new_v4.png" 
-                  alt="S Icon" 
-                  className="w-full h-full object-contain"
-                />
-              </div>
-              
-              {/* Text Logo — clean sharp type */}
-              <div className="flex flex-col items-start leading-none select-none">
-                <span
-                  style={{
-                    fontFamily: "'Playfair Display', serif",
-                    fontWeight: 800,
-                    fontSize: 'clamp(15px, 3.5vw, 22px)',
-                    color: '#5A7D4A',
-                    letterSpacing: '0.10em',
-                    lineHeight: 1,
-                  }}
-                >
-                  SMITHA
-                </span>
-                <span
-                  style={{
-                    fontFamily: "'Dancing Script', cursive",
-                    fontWeight: 600,
-                    fontSize: 'clamp(8px, 1.8vw, 11px)',
-                    color: '#B8844A',
-                    letterSpacing: '0.04em',
-                    lineHeight: 1.3,
-                    marginTop: '2px',
-                  }}
-                >
-                  Purelife · Natural Care
-                </span>
-              </div>
+              <img 
+                src="/logo_3d_navbar_transparent.png" 
+                alt="Smitha Purelife" 
+                className="h-9 sm:h-11 w-auto object-contain"
+              />
             </Link>
 
             {/* Right Nav Links & Cart Icon */}
