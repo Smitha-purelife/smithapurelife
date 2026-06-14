@@ -171,7 +171,7 @@ export default function Navbar() {
               {/* S Icon Box */}
               <div className="w-10 h-10 sm:w-12 sm:h-12 bg-white rounded-xl shadow-sm flex items-center justify-center border border-black/5 flex-shrink-0 p-1">
                 <img 
-                  src="/logo_icon_new.png" 
+                  src="/logo_icon_new.png?v=3" 
                   alt="S Icon" 
                   className="w-full h-full object-contain"
                 />
