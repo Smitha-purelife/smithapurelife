@@ -71,7 +71,7 @@ export default function Footer() {
               <Link to="/" className="hover:opacity-90 transition-opacity block">
                 <div className="px-3 py-1.5 bg-white rounded-lg border border-black/5 shadow-sm flex items-center justify-center">
                   <img 
-                    src="/logo_3d_banner_v3_transparent.png" 
+                    src="/logo_3d_banner_v5_transparent.png" 
                     alt="Smitha Purelife" 
                     className="h-8 w-auto object-contain"
                   />
