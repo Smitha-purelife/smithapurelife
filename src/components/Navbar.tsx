@@ -143,8 +143,8 @@ export default function Navbar() {
       <nav
         className={`fixed top-0 left-0 right-0 z-[999] transition-all duration-700 ${
           isScrolled 
-            ? 'py-2 bg-[#CDD5AE]/90 backdrop-blur-xl border-b border-black/5 shadow-sm' 
-            : 'py-3 bg-[#CDD5AE]/70 backdrop-blur-md border-b border-black/5'
+            ? 'py-1.5 bg-[#CDD5AE]/90 backdrop-blur-xl shadow-sm' 
+            : 'py-2 bg-[#CDD5AE]/80 backdrop-blur-md'
         }`}
       >
         <div className="max-w-7xl mx-auto px-6 md:px-12">
@@ -166,10 +166,10 @@ export default function Navbar() {
             {/* Logo */}
             <Link
               to="/"
-              className="flex-1 flex-row flex items-center justify-start md:justify-center gap-2.5 transition-all hover:opacity-90 duration-300 py-2"
+              className="flex-1 flex-row flex items-center justify-start md:justify-center gap-2.5 transition-all hover:opacity-90 duration-300"
             >
               {/* S Icon Box */}
-              <div className="w-10 h-10 sm:w-12 sm:h-12 bg-white rounded-xl shadow-sm flex items-center justify-center border border-black/5 flex-shrink-0 p-1">
+              <div className="w-8 h-8 sm:w-10 sm:h-10 bg-white rounded-xl shadow-sm flex items-center justify-center border border-black/5 flex-shrink-0 p-1">
                 <img 
                   src="/logo_icon_new_v6.png" 
                   alt="S Icon" 
@@ -181,7 +181,7 @@ export default function Navbar() {
               <img 
                 src="/logo_3d_text_v6.png" 
                 alt="Smitha Purelife - Natural Care" 
-                className="h-10 sm:h-12 w-auto object-contain"
+                className="h-10 sm:h-[46px] w-auto object-contain"
               />
             </Link>
 

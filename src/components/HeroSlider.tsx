@@ -5,15 +5,17 @@ import { products } from '../data/products';
 import { Link } from 'react-router-dom';
 
 // ─── Hero config per product ─────────────────────────────────────────────────
-// objectPos controls which part of the product is kept in frame when the image is cropped
 const heroConfig: Record<string, {
   bgImage: string;
   accentColor: string;
   headlineOverride?: string;
   hideOverlayText?: boolean;
-  objectPos?: string; // CSS object-position value
-  objectFit?: 'cover' | 'contain'; // default cover
-  bgColor?: string; // background color when using contain
+  objectPos?: string;
+  objectFit?: 'cover' | 'contain';
+  bgColor?: string;
+  // splitLayout: show full product image on the right, solid bg on the left
+  splitLayout?: boolean;
+  productImage?: string; // the real product photo shown on right in split mode
 }> = {
   'avosilk-bloom': {
     bgImage: '/products/media__1779362724448.png',
@@ -29,22 +31,22 @@ const heroConfig: Record<string, {
     hideOverlayText: true,
   },
   'herbal-wash': {
-    bgImage: '/products/herbal_wash_hero_wide_final.png',
-    accentColor: '#4A7C59',
-    bgColor: '#241a12',
-    objectPos: 'right top',
+    bgImage: '/products/herbal_wash_hero_wide_v3.png',
+    accentColor: '#C8760A',
+    bgColor: '#1c1208',
+    objectPos: '82% center',
   },
   'pro-repair-serum': {
-    bgImage: '/products/pro_repair_serum_hero_wide_final.png',
-    accentColor: '#8B5E8B',
-    bgColor: '#251b1b',
-    objectPos: 'right top',
+    bgImage: '/products/pro_repair_serum_hero_wide_v3.png',
+    accentColor: '#C07DB8',
+    bgColor: '#1a0e1e',
+    objectPos: '82% center',
   },
   'follicra-regrowth': {
-    bgImage: '/products/follicra_hero_wide_final.png',
-    accentColor: '#2D6A8B',
-    bgColor: '#06130b',
-    objectPos: 'right top',
+    bgImage: '/products/follicra_hero_wide_v3.png',
+    accentColor: '#4EA8C2',
+    bgColor: '#051209',
+    objectPos: '82% center',
   },
   'satin-pillowcase': {
     bgImage: '/products/satin_pillowcase_proper.jpg',
@@ -59,7 +61,7 @@ const heroConfig: Record<string, {
 };
 
 // Navbar height in pixels - used to offset the hero below the fixed navbar
-const NAV_HEIGHT = 76;
+const NAV_HEIGHT = 64;
 
 export default function HeroSlider() {
   const [current, setCurrent] = useState(0);
@@ -132,55 +134,194 @@ export default function HeroSlider() {
                 }}
               />
             </Link>
-          ) : (
+          ) : cfg.splitLayout ? (
+            // ── SPLIT LAYOUT: solid bg left + full product image right ──────
             <>
-              {/* ── Full-bleed Background Image ── */}
-              <motion.img
-                src={cfg.bgImage}
-                alt={product.title}
-                initial={{ scale: cfg.objectFit === 'contain' ? 1 : 1.07 }}
-                animate={{ scale: 1 }}
-                transition={{ duration: 9, ease: 'linear' }}
-                className="absolute inset-0 w-full h-full"
-                style={{
-                  objectFit: cfg.objectFit || 'cover',
-                  objectPosition: cfg.objectPos || 'center center',
-                  backgroundColor: cfg.bgColor || 'transparent',
-                }}
-              />
+              {/* Solid background */}
+              <div className="absolute inset-0 w-full h-full" style={{ backgroundColor: cfg.bgColor || '#111' }} />
 
-              {/* ── Mobile gradient: dark from bottom → transparent at top ── */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/45 to-black/5 md:hidden pointer-events-none" />
+              {/* Right side: full product image — desktop only */}
+              <div className="absolute inset-y-0 right-0 hidden md:block" style={{ width: '52%' }}>
+                <motion.img
+                  src={cfg.productImage}
+                  alt={product.title}
+                  initial={{ scale: 1.04, opacity: 0 }}
+                  animate={{ scale: 1, opacity: 1 }}
+                  transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
+                  className="w-full h-full"
+                  style={{ objectFit: 'contain', objectPosition: 'center center' }}
+                />
+                {/* Fade edge from left so text blends in */}
+                <div
+                  className="absolute inset-y-0 left-0 w-24 pointer-events-none"
+                  style={{ background: `linear-gradient(to right, ${cfg.bgColor || '#111'}, transparent)` }}
+                />
+              </div>
 
-              {/* ── Desktop gradient: dark from left → transparent at right ── */}
-              <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/50 to-transparent hidden md:block pointer-events-none" />
+              {/* Mobile: product image fills top half */}
+              <div className="absolute inset-x-0 top-0 md:hidden" style={{ height: '52%' }}>
+                <motion.img
+                  src={cfg.productImage}
+                  alt={product.title}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 0.8 }}
+                  className="w-full h-full"
+                  style={{ objectFit: 'cover', objectPosition: 'center top' }}
+                />
+                {/* Fade from bottom into the bg */}
+                <div
+                  className="absolute inset-x-0 bottom-0 h-20 pointer-events-none"
+                  style={{ background: `linear-gradient(to top, ${cfg.bgColor || '#111'}, transparent)` }}
+                />
+              </div>
 
-              {/* ── Slide counter badge (top-left) ── */}
+              {/* Slide counter */}
               <div className="absolute top-4 left-4 md:top-6 md:left-8 z-20">
                 <span className="text-white/60 text-[10px] font-bold tracking-[0.25em] uppercase">
                   {String(current + 1).padStart(2, '0')} / {String(products.length).padStart(2, '0')}
                 </span>
               </div>
 
-              {/* ── Text Content ── */}
-              {/* Mobile: anchored to bottom */}
+              {/* Mobile text: anchored to bottom half */}
               <div className="absolute inset-0 flex flex-col md:hidden z-10">
                 <div className="mt-auto px-5 pb-20 sm:pb-24">
-                  {/* Subtitle */}
                   <motion.p
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
+                    initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.2, duration: 0.5 }}
                     className="text-[10px] tracking-[0.28em] uppercase font-bold mb-2.5"
-                    style={{ color: cfg.accentColor === '#C8941A' ? '#F8CD71' : '#86EFAC' }}
+                    style={{ color: cfg.accentColor }}
                   >
                     {product.subtitle}
                   </motion.p>
-
-                  {/* Headline */}
                   <motion.h1
-                    initial={{ opacity: 0, y: 16 }}
-                    animate={{ opacity: 1, y: 0 }}
+                    initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.3, duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+                    className="font-serif text-white leading-[1.1] mb-4"
+                    style={{ fontSize: 'clamp(1.75rem, 8vw, 2.8rem)' }}
+                  >
+                    {headline.map((line, i) => (
+                      <span key={i} className="block">{line}</span>
+                    ))}
+                  </motion.h1>
+                  <motion.div
+                    initial={{ opacity: 0 }} animate={{ opacity: 1 }}
+                    transition={{ delay: 0.45, duration: 0.5 }}
+                    className="flex gap-2 mb-5 overflow-x-auto pb-1 hide-scrollbar"
+                  >
+                    {product.benefits.slice(0, 3).map((b) => (
+                      <span key={b} className="flex-shrink-0 text-[9px] font-bold uppercase tracking-wider px-3 py-1.5 rounded-full whitespace-nowrap bg-white/15 text-white border border-white/20">
+                        {b}
+                      </span>
+                    ))}
+                  </motion.div>
+                  <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.55, duration: 0.5 }}>
+                    <Link to={`/product/${product.id}`}>
+                      <button
+                        className="flex items-center gap-2 px-6 py-3 rounded-full font-bold text-xs tracking-widest uppercase shadow-xl active:scale-95 transition-all"
+                        style={{ backgroundColor: cfg.accentColor, color: '#fff' }}
+                      >
+                        Shop Now <ArrowRight size={14} />
+                      </button>
+                    </Link>
+                  </motion.div>
+                </div>
+              </div>
+
+              {/* Desktop text: left side */}
+              <div className="absolute inset-y-0 left-0 hidden md:flex flex-col justify-center z-10 px-10 lg:px-16 xl:px-24" style={{ width: '50%' }}>
+                <motion.p
+                  initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.2, duration: 0.5 }}
+                  className="text-[11px] tracking-[0.3em] uppercase font-bold mb-3"
+                  style={{ color: cfg.accentColor }}
+                >
+                  {product.subtitle}
+                </motion.p>
+                <motion.h1
+                  initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.3, duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+                  className="font-serif text-white leading-[1.05] mb-4"
+                  style={{ fontSize: 'clamp(2rem, 3.5vw, 4rem)' }}
+                >
+                  {headline.map((line, i) => (
+                    <span key={i} className="block">{line}</span>
+                  ))}
+                </motion.h1>
+                <motion.p
+                  initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.42, duration: 0.6 }}
+                  className="text-white/75 text-sm md:text-base leading-relaxed mb-6 max-w-md"
+                >
+                  {product.description.split('.')[0]}.
+                </motion.p>
+                <motion.div
+                  initial={{ opacity: 0 }} animate={{ opacity: 1 }}
+                  transition={{ delay: 0.52, duration: 0.5 }}
+                  className="flex flex-wrap gap-2 mb-7"
+                >
+                  {product.benefits.slice(0, 4).map((b) => (
+                    <span key={b} className="text-[10px] font-bold uppercase tracking-wider px-3 py-1.5 rounded-full bg-white/10 text-white border border-white/20">
+                      {b}
+                    </span>
+                  ))}
+                </motion.div>
+                <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.62, duration: 0.5 }}>
+                  <Link to={`/product/${product.id}`}>
+                    <motion.button
+                      whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.97 }}
+                      className="flex items-center gap-2 px-8 py-4 rounded-full font-bold text-xs tracking-widest uppercase shadow-2xl transition-all duration-300"
+                      style={{ backgroundColor: cfg.accentColor, color: '#fff' }}
+                    >
+                      Shop Now <ArrowRight size={15} />
+                    </motion.button>
+                  </Link>
+                </motion.div>
+              </div>
+            </>
+          ) : (
+            // ── FULL-BLEED LAYOUT (default) ─────────────────────────────────
+            <>
+              {/* Full-bleed Background Image */}
+              <motion.img
+                src={cfg.bgImage}
+                alt={product.title}
+                initial={{ scale: 1.07 }}
+                animate={{ scale: 1 }}
+                transition={{ duration: 9, ease: 'linear' }}
+                className="absolute inset-0 w-full h-full"
+                style={{
+                  objectFit: 'cover',
+                  objectPosition: cfg.objectPos || 'center center',
+                  backgroundColor: cfg.bgColor || 'transparent',
+                }}
+              />
+
+              {/* Mobile gradient */}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent md:hidden pointer-events-none" />
+              {/* Desktop subtle overlay */}
+              <div className="absolute inset-0 bg-black/10 hidden md:block pointer-events-none" />
+
+              {/* Slide counter */}
+              <div className="absolute top-4 left-4 md:top-6 md:left-8 z-20">
+                <span className="text-white/80 drop-shadow-md text-[10px] font-bold tracking-[0.25em] uppercase">
+                  {String(current + 1).padStart(2, '0')} / {String(products.length).padStart(2, '0')}
+                </span>
+              </div>
+
+              {/* Mobile text */}
+              <div className="absolute inset-0 flex flex-col md:hidden z-10">
+                <div className="mt-auto px-5 pb-20 sm:pb-24">
+                  <motion.p
+                    initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.2, duration: 0.5 }}
+                    className="text-[10px] tracking-[0.28em] uppercase font-bold mb-2.5"
+                    style={{ color: '#86EFAC', textShadow: '0 1px 3px rgba(0,0,0,0.4)' }}
+                  >
+                    {product.subtitle}
+                  </motion.p>
+                  <motion.h1
+                    initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.3, duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
                     className="font-serif text-white leading-[1.1] mb-4"
                     style={{ fontSize: 'clamp(1.75rem, 8vw, 3rem)' }}
@@ -191,65 +332,47 @@ export default function HeroSlider() {
                       </span>
                     ))}
                   </motion.h1>
-
-                  {/* Benefit pills — horizontal scroll */}
                   <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
+                    initial={{ opacity: 0 }} animate={{ opacity: 1 }}
                     transition={{ delay: 0.45, duration: 0.5 }}
                     className="flex gap-2 mb-5 overflow-x-auto pb-1 hide-scrollbar"
                     style={{ WebkitOverflowScrolling: 'touch' }}
                   >
                     {product.benefits.slice(0, 4).map((b) => (
-                      <span
-                        key={b}
-                        className="flex-shrink-0 text-[9px] font-bold uppercase tracking-wider px-3 py-1.5 rounded-full whitespace-nowrap bg-white/15 text-white border border-white/25 backdrop-blur-sm"
-                      >
+                      <span key={b} className="flex-shrink-0 text-[9px] font-bold uppercase tracking-wider px-3 py-1.5 rounded-full whitespace-nowrap bg-white/15 text-white border border-white/25 backdrop-blur-sm">
                         {b}
                       </span>
                     ))}
                   </motion.div>
-
-                  {/* CTA Button */}
-                  <motion.div
-                    initial={{ opacity: 0, y: 8 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.55, duration: 0.5 }}
-                  >
+                  <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.55, duration: 0.5 }}>
                     <Link to={`/product/${product.id}`}>
                       <button
                         className="flex items-center gap-2 px-6 py-3 rounded-full font-bold text-xs tracking-widest uppercase shadow-xl active:scale-95 transition-all duration-200"
-                        style={{ backgroundColor: cfg.accentColor === '#C8941A' ? '#F8CD71' : 'white', color: '#1A2E00' }}
+                        style={{ backgroundColor: 'white', color: '#1A2E00' }}
                       >
-                        Shop Now
-                        <ArrowRight size={14} />
+                        Shop Now <ArrowRight size={14} />
                       </button>
                     </Link>
                   </motion.div>
                 </div>
               </div>
 
-              {/* Desktop: anchored center-left */}
+              {/* Desktop text */}
               <div className="absolute inset-0 hidden md:flex flex-col justify-center z-10 px-10 lg:px-16 xl:px-24 2xl:px-32">
                 <div className="max-w-xl 2xl:max-w-2xl">
-                  {/* Subtitle */}
                   <motion.p
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
+                    initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.2, duration: 0.5 }}
-                    className="text-[11px] tracking-[0.3em] uppercase font-bold mb-3"
-                    style={{ color: cfg.accentColor === '#C8941A' ? '#F8CD71' : '#86EFAC' }}
+                    className="text-[11px] tracking-[0.3em] uppercase font-bold mb-3 drop-shadow-md"
+                    style={{ color: '#86EFAC', textShadow: '0 2px 4px rgba(0,0,0,0.4)' }}
                   >
                     {product.subtitle}
                   </motion.p>
-
-                  {/* Headline */}
                   <motion.h1
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
+                    initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.3, duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-                    className="font-serif text-white leading-[1.05] mb-4"
-                    style={{ fontSize: 'clamp(2.5rem, 4.5vw, 5rem)' }}
+                    className="font-serif text-white leading-[1.05] mb-4 drop-shadow-xl"
+                    style={{ fontSize: 'clamp(2.5rem, 4.5vw, 5rem)', textShadow: '0 4px 12px rgba(0,0,0,0.4)' }}
                   >
                     {headline.map((line, i) => (
                       <span key={i} className={`block ${i === headline.length - 1 && headline.length > 1 ? 'italic text-yellow-300' : ''}`}>
@@ -257,49 +380,33 @@ export default function HeroSlider() {
                       </span>
                     ))}
                   </motion.h1>
-
-                  {/* Description */}
                   <motion.p
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
+                    initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.42, duration: 0.6 }}
-                    className="text-white/75 text-sm md:text-base leading-relaxed mb-6 max-w-md 2xl:max-w-lg"
+                    className="text-white/90 drop-shadow-md text-sm md:text-base leading-relaxed mb-6 max-w-md 2xl:max-w-lg"
+                    style={{ textShadow: '0 2px 6px rgba(0,0,0,0.5)' }}
                   >
                     {product.description.split('.')[0]}.
                   </motion.p>
-
-                  {/* Benefit pills */}
                   <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
+                    initial={{ opacity: 0 }} animate={{ opacity: 1 }}
                     transition={{ delay: 0.52, duration: 0.5 }}
                     className="flex flex-wrap gap-2 mb-7"
                   >
                     {product.benefits.slice(0, 4).map((b) => (
-                      <span
-                        key={b}
-                        className="text-[10px] font-bold uppercase tracking-wider px-3 py-1.5 rounded-full bg-white/15 text-white border border-white/25 backdrop-blur-sm"
-                      >
+                      <span key={b} className="text-[10px] font-bold uppercase tracking-wider px-3 py-1.5 rounded-full bg-white/15 text-white border border-white/25 backdrop-blur-sm">
                         {b}
                       </span>
                     ))}
                   </motion.div>
-
-                  {/* CTA */}
-                  <motion.div
-                    initial={{ opacity: 0, y: 8 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.62, duration: 0.5 }}
-                  >
+                  <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.62, duration: 0.5 }}>
                     <Link to={`/product/${product.id}`}>
                       <motion.button
-                        whileHover={{ scale: 1.04 }}
-                        whileTap={{ scale: 0.97 }}
+                        whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.97 }}
                         className="flex items-center gap-2 px-8 py-4 rounded-full font-bold text-xs tracking-widest uppercase shadow-2xl transition-all duration-300"
-                        style={{ backgroundColor: cfg.accentColor === '#C8941A' ? '#F8CD71' : 'white', color: '#1A2E00' }}
+                        style={{ backgroundColor: 'white', color: '#1A2E00' }}
                       >
-                        Shop Now
-                        <ArrowRight size={15} />
+                        Shop Now <ArrowRight size={15} />
                       </motion.button>
                     </Link>
                   </motion.div>

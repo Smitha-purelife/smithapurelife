@@ -73,12 +73,12 @@ export default function Footer() {
                   <img 
                     src="/logo_icon_new_v6.png" 
                     alt="S Icon" 
-                    className="h-6 w-auto object-contain"
+                    className="h-8 w-auto object-contain"
                   />
                   <img 
                     src="/logo_3d_text_v6.png" 
                     alt="Smitha Purelife Logo" 
-                    className="h-6 w-auto object-contain"
+                    className="h-8 w-auto object-contain"
                   />
                 </div>
               </Link>
