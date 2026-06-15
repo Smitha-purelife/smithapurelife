@@ -166,11 +166,21 @@ export default function Navbar() {
             {/* Logo */}
             <Link
               to="/"
-              className="flex-1 flex items-center justify-start md:justify-center transition-all hover:opacity-90 duration-300 py-1"
+              className="flex-1 flex-row flex items-center justify-start md:justify-center gap-2.5 transition-all hover:opacity-90 duration-300 py-2"
             >
+              {/* S Icon Box */}
+              <div className="w-10 h-10 sm:w-12 sm:h-12 bg-white rounded-xl shadow-sm flex items-center justify-center border border-black/5 flex-shrink-0 p-1">
+                <img 
+                  src="/logo_icon_new_v6.png" 
+                  alt="S Icon" 
+                  className="w-full h-full object-contain"
+                />
+              </div>
+              
+              {/* Clean Text Logo */}
               <img 
-                src="/logo_3d_banner_v5_transparent.png" 
-                alt="Smitha Purelife" 
+                src="/logo_3d_text_v6.png" 
+                alt="Smitha Purelife - Natural Care" 
                 className="h-10 sm:h-12 w-auto object-contain"
               />
             </Link>

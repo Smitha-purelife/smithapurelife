@@ -69,11 +69,16 @@ export default function Footer() {
           <div className="col-span-2 lg:col-span-2">
             <div className="mb-3 sm:mb-4 flex items-center justify-start">
               <Link to="/" className="hover:opacity-90 transition-opacity block">
-                <div className="px-3 py-1.5 bg-white rounded-lg border border-black/5 shadow-sm flex items-center justify-center">
+                <div className="flex items-center gap-2 px-3 py-1.5 bg-white rounded-lg border border-black/5 shadow-sm">
                   <img 
-                    src="/logo_3d_banner_v5_transparent.png" 
-                    alt="Smitha Purelife" 
-                    className="h-8 w-auto object-contain"
+                    src="/logo_icon_new_v6.png" 
+                    alt="S Icon" 
+                    className="h-6 w-auto object-contain"
+                  />
+                  <img 
+                    src="/logo_3d_text_v6.png" 
+                    alt="Smitha Purelife Logo" 
+                    className="h-6 w-auto object-contain"
                   />
                 </div>
               </Link>
