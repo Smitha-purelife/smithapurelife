@@ -166,12 +166,12 @@ export default function Navbar() {
             {/* Logo */}
             <Link
               to="/"
-              className="flex-1 flex-row flex items-center justify-start md:justify-center gap-2.5 transition-all hover:opacity-90 duration-300"
+              className="flex-1 flex-row flex items-center justify-start md:justify-center gap-2 transition-all hover:opacity-90 duration-300"
             >
               {/* S Icon Box */}
-              <div className="w-8 h-8 sm:w-10 sm:h-10 bg-white rounded-xl shadow-sm flex items-center justify-center border border-black/5 flex-shrink-0 p-1">
+              <div className="w-8 h-8 sm:w-9 sm:h-9 bg-white rounded-xl shadow-sm flex items-center justify-center border border-black/5 flex-shrink-0 p-1">
                 <img 
-                  src="/logo_icon_new_v6.png" 
+                  src="/logo_icon_new_v7.png?v=2" 
                   alt="S Icon" 
                   className="w-full h-full object-contain"
                 />
@@ -179,9 +179,9 @@ export default function Navbar() {
               
               {/* Clean Text Logo */}
               <img 
-                src="/logo_3d_text_v6.png" 
+                src="/logo_text_new_transparent.png?v=2" 
                 alt="Smitha Purelife - Natural Care" 
-                className="h-10 sm:h-[46px] w-auto object-contain"
+                className="h-8 sm:h-[38px] w-auto object-contain"
               />
             </Link>
 

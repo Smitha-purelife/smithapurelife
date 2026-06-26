@@ -71,12 +71,12 @@ export default function Footer() {
               <Link to="/" className="hover:opacity-90 transition-opacity block">
                 <div className="flex items-center gap-2 px-3 py-1.5 bg-white rounded-lg border border-black/5 shadow-sm">
                   <img 
-                    src="/logo_icon_new_v6.png" 
+                    src="/logo_icon_new_v7.png?v=2" 
                     alt="S Icon" 
                     className="h-8 w-auto object-contain"
                   />
                   <img 
-                    src="/logo_3d_text_v6.png" 
+                    src="/logo_text_new_transparent.png?v=2" 
                     alt="Smitha Purelife Logo" 
                     className="h-8 w-auto object-contain"
                   />
