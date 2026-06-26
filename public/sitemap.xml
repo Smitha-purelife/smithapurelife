@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <!-- Main Pages -->
+  <url>
+    <loc>https://smithapurelife.in/</loc>
+    <priority>1.0</priority>
+    <changefreq>daily</changefreq>
+  </url>
+  <url>
+    <loc>https://smithapurelife.in/about</loc>
+    <priority>0.8</priority>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
+    <loc>https://smithapurelife.in/rewards</loc>
+    <priority>0.8</priority>
+    <changefreq>weekly</changefreq>
+  </url>
+
+  <!-- Individual Products -->
+  <url>
+    <loc>https://smithapurelife.in/product/avosilk-bloom</loc>
+    <priority>0.9</priority>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
+    <loc>https://smithapurelife.in/product/radiance-oil</loc>
+    <priority>0.9</priority>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
+    <loc>https://smithapurelife.in/product/herbal-wash</loc>
+    <priority>0.9</priority>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
+    <loc>https://smithapurelife.in/product/pro-repair-serum</loc>
+    <priority>0.9</priority>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
+    <loc>https://smithapurelife.in/product/follicra-regrowth</loc>
+    <priority>0.9</priority>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
+    <loc>https://smithapurelife.in/product/satin-pillowcase</loc>
+    <priority>0.9</priority>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
+    <loc>https://smithapurelife.in/product/satin-scrunchies</loc>
+    <priority>0.9</priority>
+    <changefreq>weekly</changefreq>
+  </url>
+
+  <!-- Combos -->
+  <url>
+    <loc>https://smithapurelife.in/combo/daily-3step</loc>
+    <priority>0.9</priority>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
+    <loc>https://smithapurelife.in/combo/complete-haircare</loc>
+    <priority>0.9</priority>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
+    <loc>https://smithapurelife.in/combo/smooth-silky</loc>
+    <priority>0.9</priority>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
+    <loc>https://smithapurelife.in/combo/transformation</loc>
+    <priority>0.9</priority>
+    <changefreq>weekly</changefreq>
+  </url>
+</urlset>
