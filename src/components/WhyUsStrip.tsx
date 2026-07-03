@@ -6,7 +6,7 @@ const pillars = [
   { icon: FlaskConical, label: 'Clinically Tested', desc: 'Every formula verified for efficacy and safety.' },
   { icon: ShieldCheck, label: 'Dermatologist Approved', desc: 'Recommended for all scalp types including sensitive.' },
   { icon: Star, label: '50,000+ Happy Customers', desc: 'India\'s growing community of natural hair believers.' },
-  { icon: Truck, label: 'Free Shipping ₹499+', desc: 'Pan-India delivery within 3–5 business days.' },
+  { icon: Truck, label: 'Delivery: UPI ₹70 | COD ₹110', desc: 'Pan-India delivery within 3–5 business days.' },
   { icon: RotateCcw, label: 'Easy 30-Day Returns', desc: 'Not happy? Return with zero questions asked.' },
 ];
 

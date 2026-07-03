@@ -190,7 +190,6 @@ export default function Navbar() {
 
     setFormErrors({});
 
-    const shippingCharge = cartSubtotal >= 799 ? 0 : 60;
     const grandTotal = cartSubtotal + shippingCharge;
 
     let message = `*SMITHA PURELIFE - NEW ORDER*\n`;
@@ -215,7 +214,7 @@ export default function Navbar() {
 
     message += `\n💵 *Order Summary:*\n`;
     message += `• *Subtotal:* ₹${cartSubtotal.toLocaleString()}\n`;
-    message += `• *Shipping:* ${shippingCharge === 0 ? 'FREE' : `₹${shippingCharge}`}\n`;
+    message += `• *Shipping:* ₹${shippingCharge}\n`;
     message += `• *Grand Total:* *₹${grandTotal.toLocaleString()}*\n`;
     message += `----------------------------------\n`;
     message += `Please confirm my order. Thank you!`;
@@ -246,6 +245,7 @@ export default function Navbar() {
   // Calculate cart metrics
   const totalItemsCount = cartItems.reduce((acc, item) => acc + item.quantity, 0);
   const cartSubtotal = cartItems.reduce((acc, item) => acc + (item.price * item.quantity), 0);
+  const shippingCharge = checkoutForm.paymentMethod === 'UPI' ? 70 : 110;
 
   return (
     <>
@@ -677,7 +677,7 @@ export default function Navbar() {
                           }`}
                         >
                           <span className="text-xs block">Cash on Delivery</span>
-                          <span className="text-[8px] opacity-75 block mt-0.5">Pay at doorstep</span>
+                          <span className="text-[8px] opacity-75 block mt-0.5">Pay at doorstep (+₹110)</span>
                         </button>
                         <button
                           type="button"
@@ -689,7 +689,7 @@ export default function Navbar() {
                           }`}
                         >
                           <span className="text-xs block">UPI / Online Pay</span>
-                          <span className="text-[8px] opacity-75 block mt-0.5">Fast transfer</span>
+                          <span className="text-[8px] opacity-75 block mt-0.5">Fast transfer (+₹70)</span>
                         </button>
                       </div>
                     </div>
@@ -843,25 +843,23 @@ export default function Navbar() {
                         ₹{cartSubtotal.toLocaleString()}
                       </span>
                     </div>
-                    {isCheckoutMode && (
-                      <div className="flex justify-between items-center text-xs text-gray-500">
-                        <span>Shipping</span>
-                        <span className="font-semibold text-[#2D2A26]">
-                          {cartSubtotal >= 799 ? 'FREE' : '₹60'}
-                        </span>
-                      </div>
-                    )}
+                    <div className="flex justify-between items-center text-xs text-gray-500">
+                      <span>Shipping ({checkoutForm.paymentMethod})</span>
+                      <span className="font-semibold text-[#2D2A26]">
+                        ₹{shippingCharge}
+                      </span>
+                    </div>
                     <div className="flex justify-between items-center text-sm pt-2 border-t border-black/5">
                       <span className="text-gray-400 font-medium uppercase tracking-wider">Total</span>
                       <span className="font-bold text-xl text-[#2D2A26]" style={{ fontFamily: "'Inter', sans-serif" }}>
-                        ₹{(cartSubtotal + (cartSubtotal >= 799 ? 0 : 60)).toLocaleString()}
+                        ₹{(cartSubtotal + shippingCharge).toLocaleString()}
                       </span>
                     </div>
                   </div>
 
                   {!isCheckoutMode ? (
                     <>
-                      <p className="text-[11px] text-gray-400 leading-normal">Shipping, taxes, and discounts calculated at checkout. Free shipping on orders above ₹799.</p>
+                      <p className="text-[11px] text-gray-400 leading-normal">Shipping: UPI ₹70 / COD ₹110. Taxes and discounts calculated at checkout.</p>
                       
                       <div className="flex flex-col gap-2 pt-1">
                         <button

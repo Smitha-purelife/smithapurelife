@@ -473,7 +473,7 @@ export default function HairQuizCTA() {
                         <span className="font-bold text-2xl text-[#2D2A26]" style={{ fontFamily: "'Inter', sans-serif" }}>
                           ₹{ritualPrice.toLocaleString()}
                         </span>
-                        <span className="text-[9px] text-[#1A4B21] font-semibold block uppercase tracking-wider mt-0.5">Includes Free Botanical Shipping</span>
+                        <span className="text-[9px] text-[#1A4B21] font-semibold block uppercase tracking-wider mt-0.5">Shipping: UPI ₹70 | COD ₹110</span>
                       </div>
 
                       <button

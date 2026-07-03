@@ -246,10 +246,10 @@ export default function ProductShowcase() {
         >
           <div>
             <p className="text-white/60 text-[11px] uppercase tracking-widest font-semibold mb-1">
-              Free Delivery
+              Standard Delivery
             </p>
             <p className="text-white font-serif text-lg leading-snug">
-              On all orders above <span className="font-bold">₹799</span>
+              UPI: <span className="font-bold">₹70</span> | COD: <span className="font-bold">₹110</span>
             </p>
           </div>
           <div className="flex flex-wrap items-center gap-4 text-white/80 text-xs font-medium">
