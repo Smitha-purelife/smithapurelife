@@ -154,17 +154,50 @@ export default function Footer() {
 
       {/* Copyright */}
       <div className="border-t border-white/5">
-        <div className="max-w-7xl mx-auto px-4 py-3 sm:py-4 flex flex-col sm:flex-row justify-between items-center gap-2 sm:gap-4 text-center sm:text-left">
-          <p className="text-white/30 text-[11px] sm:text-xs">
-            © 2026 Smitha Purelife Natural Care Pvt. Ltd. All rights reserved.
-          </p>
-          <div className="flex flex-wrap justify-center gap-4 sm:gap-6">
-            {['Privacy Policy', 'Terms of Service', 'Cookie Policy'].map((link) => (
-              <a key={link} href="#" className="text-white/30 hover:text-[#F8CD71] text-[11px] sm:text-xs transition-colors">
-                {link}
-              </a>
-            ))}
+        <div className="max-w-7xl mx-auto px-4 py-4 sm:py-6 flex flex-col md:flex-row justify-between items-center gap-4 text-center md:text-left">
+          <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-4">
+            <p className="text-white/30 text-[11px] sm:text-xs">
+              © 2026 Smitha Purelife Natural Care Pvt. Ltd. All rights reserved.
+            </p>
+            <div className="flex flex-wrap justify-center gap-3 sm:gap-4">
+              {['Privacy Policy', 'Terms of Service', 'Cookie Policy'].map((link) => (
+                <a key={link} href="#" className="text-white/30 hover:text-[#F8CD71] text-[10px] sm:text-[11px] transition-colors">
+                  {link}
+                </a>
+              ))}
+            </div>
           </div>
+          
+          <a 
+            href="https://creinx.com" 
+            target="_blank" 
+            rel="noopener noreferrer" 
+            className="flex items-center gap-2 group/crienx transition-all duration-300 hover:scale-[1.02] shrink-0"
+          >
+            <span className="text-[10px] tracking-[0.2em] uppercase font-bold text-white/40 group-hover/crienx:text-white/60 transition-colors">
+              Designed By
+            </span>
+            <div className="flex items-center gap-1.5">
+              {/* Yellow music note icon */}
+              <svg className="w-3.5 h-4.5 text-[#F8CD71] fill-current drop-shadow-[0_0_8px_rgba(248,205,113,0.3)]" viewBox="0 0 16 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="8" cy="3" r="2" />
+                <path d="M8 7v6.5c0 1.38-1.12 2.5-2.5 2.5S3 14.88 3 13.5s1.12-2.5 2.5-2.5c.5 0 .96.15 1.35.4V8.5C6.85 7.6 7.6 7 8.5 7H11v2H8.5c-.28 0-.5.22-.5.5z" />
+              </svg>
+              {/* Rounded box with CRIENX and wave bars */}
+              <div className="border border-white/20 hover:border-white/40 px-2.5 py-1 rounded-md bg-black/10 backdrop-blur-xs flex items-center gap-1.5 transition-colors">
+                <span className="text-[10px] font-sans font-extrabold tracking-[0.2em] text-white/70 group-hover/crienx:text-white transition-colors uppercase">
+                  Crienx
+                </span>
+                <div className="flex items-end gap-[1.5px] h-3 pb-[1px]">
+                  <span className="w-[1.5px] h-1.5 bg-[#F8CD71]/60 rounded-full animate-pulse" />
+                  <span className="w-[1.5px] h-2.5 bg-[#F8CD71]/80 rounded-full animate-pulse [animation-delay:0.15s]" />
+                  <span className="w-[1.5px] h-3 bg-[#F8CD71] rounded-full animate-pulse [animation-delay:0.3s]" />
+                  <span className="w-[1.5px] h-2 bg-[#F8CD71]/80 rounded-full animate-pulse [animation-delay:0.45s]" />
+                  <span className="w-[1.5px] h-1 bg-[#F8CD71]/60 rounded-full animate-pulse [animation-delay:0.6s]" />
+                </div>
+              </div>
+            </div>
+          </a>
         </div>
       </div>
     </footer>
