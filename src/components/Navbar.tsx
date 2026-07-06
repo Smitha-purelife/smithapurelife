@@ -237,7 +237,7 @@ export default function Navbar() {
     message += `\n💵 *Order Summary:*\n`;
     message += `• *Subtotal:* ₹${cartSubtotal.toLocaleString()}\n`;
     if (appliedPromo) {
-      message += `• *Promo Applied:* ${appliedPromo.code} (-${appliedPromo.discountPercent}%)\n`;
+      message += `• *Coupon Code:* ${appliedPromo.code} (${appliedPromo.discountPercent}% OFF)\n`;
       message += `• *Discount Amount:* -₹${discountAmount.toLocaleString()}\n`;
     }
     message += `• *Shipping:* ₹${shippingCharge}\n`;
