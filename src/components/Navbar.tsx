@@ -20,6 +20,14 @@ export interface CartItem {
   isCombo?: boolean;
 }
 
+const PROMO_CODES: Record<string, number> = {
+  'PURE10': 10,
+  'SMITHA15': 15,
+  'PURELIFE15': 15,
+  'SMITHA20': 20,
+  'REVIEWS5': 5
+};
+
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
@@ -34,6 +42,22 @@ export default function Navbar() {
     pincode: '',
     paymentMethod: 'COD' as 'COD' | 'UPI'
   });
+  const [promoCodeInput, setPromoCodeInput] = useState('');
+  const [appliedPromo, setAppliedPromo] = useState<{ code: string; discountPercent: number } | null>(null);
+  const [promoError, setPromoError] = useState('');
+
+  const handleApplyPromo = () => {
+    const code = promoCodeInput.trim().toUpperCase();
+    if (!code) return;
+    if (PROMO_CODES[code] !== undefined) {
+      setAppliedPromo({ code, discountPercent: PROMO_CODES[code] });
+      setPromoError('');
+    } else {
+      setPromoError('Invalid promo code');
+      setAppliedPromo(null);
+    }
+  };
+
   const location = useLocation();
 
   const handleLinkClick = (href: string, e?: React.MouseEvent) => {
@@ -190,8 +214,6 @@ export default function Navbar() {
 
     setFormErrors({});
 
-    const grandTotal = cartSubtotal + shippingCharge;
-
     let message = `*SMITHA PURELIFE - NEW ORDER*\n`;
     message += `----------------------------------\n`;
     message += `👤 *Customer Details:*\n`;
@@ -214,6 +236,10 @@ export default function Navbar() {
 
     message += `\n💵 *Order Summary:*\n`;
     message += `• *Subtotal:* ₹${cartSubtotal.toLocaleString()}\n`;
+    if (appliedPromo) {
+      message += `• *Promo Applied:* ${appliedPromo.code} (-${appliedPromo.discountPercent}%)\n`;
+      message += `• *Discount Amount:* -₹${discountAmount.toLocaleString()}\n`;
+    }
     message += `• *Shipping:* ₹${shippingCharge}\n`;
     message += `• *Grand Total:* *₹${grandTotal.toLocaleString()}*\n`;
     message += `----------------------------------\n`;
@@ -238,6 +264,9 @@ export default function Navbar() {
       pincode: '',
       paymentMethod: 'COD'
     });
+    setPromoCodeInput('');
+    setAppliedPromo(null);
+    setPromoError('');
     
     window.dispatchEvent(new Event('cart-updated'));
   };
@@ -245,7 +274,10 @@ export default function Navbar() {
   // Calculate cart metrics
   const totalItemsCount = cartItems.reduce((acc, item) => acc + item.quantity, 0);
   const cartSubtotal = cartItems.reduce((acc, item) => acc + (item.price * item.quantity), 0);
-  const shippingCharge = checkoutForm.paymentMethod === 'UPI' ? 70 : 110;
+  const discountAmount = appliedPromo ? Math.round((cartSubtotal * appliedPromo.discountPercent) / 100) : 0;
+  const cartSubtotalAfterDiscount = cartSubtotal - discountAmount;
+  const shippingCharge = isCheckoutMode ? (checkoutForm.paymentMethod === 'UPI' ? 70 : 110) : 0;
+  const grandTotal = cartSubtotalAfterDiscount + shippingCharge;
 
   return (
     <>
@@ -821,19 +853,47 @@ export default function Navbar() {
                   
                   {!isCheckoutMode && (
                     /* Promo Code Input */
-                    <div className="flex gap-2">
-                      <input 
-                        type="text" 
-                        placeholder="Enter promo or reward code" 
-                        className="flex-1 bg-[#F5F2EE] border border-transparent focus:border-[#1A4B21]/20 rounded-xl px-4 py-3 text-xs text-[#2D2A26] placeholder-gray-400 focus:outline-none transition-colors font-medium"
-                      />
-                      <button 
-                        onClick={() => alert('Promo code applied successfully!')}
-                        className="bg-[#2D2A26] hover:bg-[#1A4B21] text-white px-5 py-3 rounded-xl text-[10px] font-bold uppercase tracking-widest transition-all active:scale-95 whitespace-nowrap"
-                      >
-                        Apply
-                      </button>
-                    </div>
+                    appliedPromo ? (
+                      <div className="flex justify-between items-center bg-[#1A4B21]/5 px-4 py-3 rounded-xl border border-[#1A4B21]/10">
+                        <div>
+                          <span className="text-xs font-bold text-[#1A4B21] tracking-wider font-mono">{appliedPromo.code}</span>
+                          <span className="text-[10px] text-[#1A4B21] ml-2">({appliedPromo.discountPercent}% off applied)</span>
+                        </div>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setAppliedPromo(null);
+                            setPromoCodeInput('');
+                          }}
+                          className="text-[10px] font-bold text-red-500 uppercase hover:underline cursor-pointer"
+                        >
+                          Remove
+                        </button>
+                      </div>
+                    ) : (
+                      <div className="flex flex-col gap-1.5">
+                        <div className="flex gap-2">
+                          <input 
+                            type="text" 
+                            placeholder="Enter promo or reward code" 
+                            value={promoCodeInput}
+                            onChange={(e) => {
+                              setPromoCodeInput(e.target.value);
+                              setPromoError('');
+                            }}
+                            className="flex-1 bg-[#F5F2EE] border border-transparent focus:border-[#1A4B21]/20 rounded-xl px-4 py-3 text-xs text-[#2D2A26] placeholder-gray-400 focus:outline-none transition-colors font-medium uppercase"
+                          />
+                          <button 
+                            type="button"
+                            onClick={handleApplyPromo}
+                            className="bg-[#2D2A26] hover:bg-[#1A4B21] text-white px-5 py-3 rounded-xl text-[10px] font-bold uppercase tracking-widest transition-all active:scale-95 whitespace-nowrap"
+                          >
+                            Apply
+                          </button>
+                        </div>
+                        {promoError && <span className="text-red-500 text-[10px] font-medium block pl-1">{promoError}</span>}
+                      </div>
+                    )
                   )}
 
                   <div className="space-y-1.5 pt-1">
@@ -843,16 +903,33 @@ export default function Navbar() {
                         ₹{cartSubtotal.toLocaleString()}
                       </span>
                     </div>
+                    {appliedPromo && (
+                      <div className="flex justify-between items-center text-xs text-emerald-600 font-medium">
+                        <span>Discount ({appliedPromo.code})</span>
+                        <span>-₹{discountAmount.toLocaleString()}</span>
+                      </div>
+                    )}
                     <div className="flex justify-between items-center text-xs text-gray-500">
-                      <span>Shipping ({checkoutForm.paymentMethod})</span>
-                      <span className="font-semibold text-[#2D2A26]">
-                        ₹{shippingCharge}
-                      </span>
+                      {isCheckoutMode ? (
+                        <>
+                          <span>Shipping ({checkoutForm.paymentMethod})</span>
+                          <span className="font-semibold text-[#2D2A26]">
+                            ₹{shippingCharge}
+                          </span>
+                        </>
+                      ) : (
+                        <>
+                          <span>Shipping</span>
+                          <span className="font-medium text-gray-400">
+                            Calculated at next step
+                          </span>
+                        </>
+                      )}
                     </div>
                     <div className="flex justify-between items-center text-sm pt-2 border-t border-black/5">
                       <span className="text-gray-400 font-medium uppercase tracking-wider">Total</span>
                       <span className="font-bold text-xl text-[#2D2A26]" style={{ fontFamily: "'Inter', sans-serif" }}>
-                        ₹{(cartSubtotal + shippingCharge).toLocaleString()}
+                        ₹{grandTotal.toLocaleString()}
                       </span>
                     </div>
                   </div>
